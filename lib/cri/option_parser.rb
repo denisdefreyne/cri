@@ -123,6 +123,7 @@ module Cri
                 if definition[:argument] == :required
                   raise OptionRequiresAnArgumentError.new(option_key)
                 else
+                  unprocessed_arguments_and_options.unshift(option_value)
                   option_value = true
                 end
               end
@@ -155,6 +156,7 @@ module Cri
                 if definition[:argument] == :required
                   raise OptionRequiresAnArgumentError.new(option_key)
                 else
+                  unprocessed_arguments_and_options.unshift(option_value)
                   option_value = true
                 end
               end

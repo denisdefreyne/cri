@@ -119,6 +119,22 @@ class Cri::OptionParserTest < MiniTest::Unit::TestCase
     assert_equal([ 'foo' ], result[:arguments])
   end
 
+  def test_parse_with_long_valueless_option_with_optional_value_and_more_options
+    input       = %w( foo --aaa -b -c )
+    definitions = [
+      { :long => 'aaa', :short => 'a', :argument => :optional  },
+      { :long => 'bbb', :short => 'b', :argument => :forbidden },
+      { :long => 'ccc', :short => 'c', :argument => :forbidden }
+    ]
+
+    result = Cri::OptionParser.parse(input, definitions)
+
+    assert(result[:options][:aaa])
+    assert(result[:options][:bbb])
+    assert(result[:options][:ccc])
+    assert_equal([ 'foo' ], result[:arguments])
+  end
+
   def test_parse_with_short_valueless_options
     input       = %w( foo -a bar )
     definitions = [
@@ -210,6 +226,22 @@ class Cri::OptionParserTest < MiniTest::Unit::TestCase
     result = Cri::OptionParser.parse(input, definitions)
 
     assert_equal({ :aaa => 'xxx' },  result[:options])
+    assert_equal([ 'foo' ], result[:arguments])
+  end
+
+  def test_parse_with_short_valueless_option_with_optional_value_and_more_options
+    input       = %w( foo -a -b -c )
+    definitions = [
+      { :long => 'aaa', :short => 'a', :argument => :optional  },
+      { :long => 'bbb', :short => 'b', :argument => :forbidden },
+      { :long => 'ccc', :short => 'c', :argument => :forbidden }
+    ]
+
+    result = Cri::OptionParser.parse(input, definitions)
+
+    assert(result[:options][:aaa])
+    assert(result[:options][:bbb])
+    assert(result[:options][:ccc])
     assert_equal([ 'foo' ], result[:arguments])
   end
 
