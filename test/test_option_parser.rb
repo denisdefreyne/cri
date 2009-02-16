@@ -173,4 +173,15 @@ class Cri::OptionParserTest < MiniTest::Unit::TestCase
     assert_equal([ 'foo', 'bar', '-x', '--yyy', '-abc' ], result[:arguments])
   end
 
+  def test_parse_with_end_marker_between_option_key_and_value
+    input       = %w( foo --aaa -- zzz )
+    definitions = [
+      { :long => 'aaa', :short => 'a', :argument => :required }
+    ]
+
+    assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
+      result = Cri::OptionParser.parse(input, definitions)
+    end
+  end
+
 end
