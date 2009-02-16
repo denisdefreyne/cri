@@ -25,8 +25,8 @@ module Cri
     # :long:: The long name of the option, e.g. +all+. Do not include the '--'
     #         prefix.
     #
-    # :argument:: Whether this option's argument is required (:required) or
-    #             forbidden (:forbidden).
+    # :argument:: Whether this option's argument is required (:required),
+    #             optional (:optional) or forbidden (:forbidden).
     #
     # A sample array of definition hashes could look like this:
     #
@@ -53,7 +53,7 @@ module Cri
     # For example, the following commandline options (which should not be
     # passed as a string, but as an array of strings):
     #
-    #     foo bar -xyz -a hiss --level 50 --father=ani -n luke squeak
+    #     foo -xyz -a hiss -s -m please --level 50 --father=ani -n luke squeak
     #
     # with the following option definitions:
     #
@@ -62,6 +62,8 @@ module Cri
     #       { :short => 'y', :long => 'yyy',    :argument => :forbidden },
     #       { :short => 'z', :long => 'zzz',    :argument => :forbidden },
     #       { :short => 'a', :long => 'all',    :argument => :forbidden },
+    #       { :short => 's', :long => 'stuff',  :argument => :optional  },
+    #       { :short => 'm', :long => 'more',   :argument => :optional  },
     #       { :short => 'l', :long => 'level',  :argument => :required  },
     #       { :short => 'f', :long => 'father', :argument => :required  },
     #       { :short => 'n', :long => 'name',   :argument => :required  }
@@ -70,12 +72,14 @@ module Cri
     # will be translated into:
     #
     #     {
-    #       :arguments => [ 'foo', 'bar', 'hiss', 'squeak' ],
+    #       :arguments => [ 'foo', 'hiss', 'squeak' ],
     #       :options => {
-    #         :xxx    => nil,
-    #         :yyy    => nil,
-    #         :zzz    => nil,
-    #         :all    => nil,
+    #         :xxx    => true,
+    #         :yyy    => true,
+    #         :zzz    => true,
+    #         :all    => true,
+    #         :stuff  => true,
+    #         :more   => 'please',
     #         :level  => '50',
     #         :father => 'ani',
     #         :name   => 'luke'
