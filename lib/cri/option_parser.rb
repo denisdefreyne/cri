@@ -115,12 +115,16 @@ module Cri
           definition = definitions.find { |d| d[:long] == option_key }
           raise IllegalOptionError.new(option_key) if definition.nil?
 
-          if definition[:argument] == :required
+          if [ :required, :optional ].include?(definition[:argument])
             # Get option value if necessary
             if option_value.nil?
               option_value = unprocessed_arguments_and_options.shift
               if option_value.nil? || option_value =~ /^-/
-                raise OptionRequiresAnArgumentError.new(option_key)
+                if definition[:argument] == :required
+                  raise OptionRequiresAnArgumentError.new(option_key)
+                else
+                  option_value = true
+                end
               end
             end
 
@@ -144,11 +148,15 @@ module Cri
             if option_keys.length > 1 and definition[:argument] == :required
               # This is a combined option and it requires an argument, so complain
               raise OptionRequiresAnArgumentError.new(option_key)
-            elsif definition[:argument] == :required
+            elsif [ :required, :optional ].include?(definition[:argument])
               # Get option value
               option_value = unprocessed_arguments_and_options.shift
               if option_value.nil? || option_value =~ /^-/
-                raise OptionRequiresAnArgumentError.new(option_key)
+                if definition[:argument] == :required
+                  raise OptionRequiresAnArgumentError.new(option_key)
+                else
+                  option_value = true
+                end
               end
 
               # Store option

@@ -95,6 +95,30 @@ class Cri::OptionParserTest < MiniTest::Unit::TestCase
     end
   end
 
+  def test_parse_with_long_valueless_option_with_optional_value
+    input       = %w( foo --aaa )
+    definitions = [
+      { :long => 'aaa', :short => 'a', :argument => :optional }
+    ]
+
+    result = Cri::OptionParser.parse(input, definitions)
+
+    assert(result[:options][:aaa])
+    assert_equal([ 'foo' ], result[:arguments])
+  end
+
+  def test_parse_with_long_valueful_option_with_optional_value
+    input       = %w( foo --aaa xxx )
+    definitions = [
+      { :long => 'aaa', :short => 'a', :argument => :optional }
+    ]
+
+    result = Cri::OptionParser.parse(input, definitions)
+
+    assert_equal({ :aaa => 'xxx' },  result[:options])
+    assert_equal([ 'foo' ], result[:arguments])
+  end
+
   def test_parse_with_short_valueless_options
     input       = %w( foo -a bar )
     definitions = [
@@ -161,6 +185,30 @@ class Cri::OptionParserTest < MiniTest::Unit::TestCase
     assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
       result = Cri::OptionParser.parse(input, definitions)
     end
+  end
+
+  def test_parse_with_short_valueless_option_with_optional_value
+    input       = %w( foo -a )
+    definitions = [
+      { :long => 'aaa', :short => 'a', :argument => :optional }
+    ]
+
+    result = Cri::OptionParser.parse(input, definitions)
+
+    assert(result[:options][:aaa])
+    assert_equal([ 'foo' ], result[:arguments])
+  end
+
+  def test_parse_with_short_valueful_option_with_optional_value
+    input       = %w( foo -a xxx )
+    definitions = [
+      { :long => 'aaa', :short => 'a', :argument => :optional }
+    ]
+
+    result = Cri::OptionParser.parse(input, definitions)
+
+    assert_equal({ :aaa => 'xxx' },  result[:options])
+    assert_equal([ 'foo' ], result[:arguments])
   end
 
   def test_parse_with_end_marker
