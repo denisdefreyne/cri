@@ -4,8 +4,6 @@ class Cri::OptionParserTest < MiniTest::Unit::TestCase
     input       = %w( foo bar baz )
     definitions = []
 
-    result = nil
-
     result = Cri::OptionParser.parse(input, definitions)
 
     assert_equal({},                      result[:options])
@@ -29,8 +27,6 @@ class Cri::OptionParserTest < MiniTest::Unit::TestCase
       { :long => 'aaa', :short => 'a', :argument => :forbidden }
     ]
 
-    result = nil
-
     result = Cri::OptionParser.parse(input, definitions)
 
     assert(!result[:options][:aaa])
@@ -41,8 +37,6 @@ class Cri::OptionParserTest < MiniTest::Unit::TestCase
     definitions = [
       { :long => 'aaa', :short => 'a', :argument => :forbidden }
     ]
-
-    result = nil
 
     result = Cri::OptionParser.parse(input, definitions)
 
@@ -56,8 +50,6 @@ class Cri::OptionParserTest < MiniTest::Unit::TestCase
       { :long => 'aaa', :short => 'a', :argument => :required }
     ]
 
-    result = nil
-
     result = Cri::OptionParser.parse(input, definitions)
 
     assert_equal({ :aaa => 'xxx' },  result[:options])
@@ -69,8 +61,6 @@ class Cri::OptionParserTest < MiniTest::Unit::TestCase
     definitions = [
       { :long => 'aaa', :short => 'a', :argument => :required }
     ]
-
-    result = nil
 
     result = Cri::OptionParser.parse(input, definitions)
 
@@ -111,8 +101,6 @@ class Cri::OptionParserTest < MiniTest::Unit::TestCase
       { :long => 'aaa', :short => 'a', :argument => :forbidden }
     ]
 
-    result = nil
-
     result = Cri::OptionParser.parse(input, definitions)
 
     assert_equal({ :aaa => nil },  result[:options])
@@ -139,8 +127,6 @@ class Cri::OptionParserTest < MiniTest::Unit::TestCase
       { :long => 'bbb', :short => 'b', :argument => :forbidden },
       { :long => 'ccc', :short => 'c', :argument => :forbidden }
     ]
-
-    result = nil
 
     result = Cri::OptionParser.parse(input, definitions)
 
@@ -180,8 +166,6 @@ class Cri::OptionParserTest < MiniTest::Unit::TestCase
   def test_parse_with_end_marker
     input       = %w( foo bar -- -x --yyy -abc )
     definitions = []
-
-    result = nil
 
     result = Cri::OptionParser.parse(input, definitions)
 
