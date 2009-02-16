@@ -163,7 +163,7 @@ module Cri
               options[definition[:long].to_sym] = option_value
             else
               # Store option
-              options[definition[:long].to_sym] = nil
+              options[definition[:long].to_sym] = true
             end
           end
         # Handle normal arguments

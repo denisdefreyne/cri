@@ -127,7 +127,7 @@ class Cri::OptionParserTest < MiniTest::Unit::TestCase
 
     result = Cri::OptionParser.parse(input, definitions)
 
-    assert_equal({ :aaa => nil },  result[:options])
+    assert(result[:options][:aaa])
     assert_equal([ 'foo', 'bar' ], result[:arguments])
   end
 
@@ -154,7 +154,9 @@ class Cri::OptionParserTest < MiniTest::Unit::TestCase
 
     result = Cri::OptionParser.parse(input, definitions)
 
-    assert_equal({ :aaa => nil, :bbb => nil, :ccc => nil },  result[:options])
+    assert(result[:options][:aaa])
+    assert(result[:options][:bbb])
+    assert(result[:options][:ccc])
     assert_equal([ 'foo', 'bar' ], result[:arguments])
   end
 
