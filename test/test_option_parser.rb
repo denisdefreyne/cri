@@ -91,6 +91,20 @@ class Cri::OptionParserTest < MiniTest::Unit::TestCase
     end
   end
 
+  def test_parse_with_two_long_valueful_options
+    input       = %w( foo --all --port 2 )
+    definitions = [
+      { :long => 'all',  :short => 'a', :argument => :required  },
+      { :long => 'port', :short => 'p', :argument => :required }
+    ]
+
+    result = nil
+
+    assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
+      result = Cri::OptionParser.parse(input, definitions)
+    end
+  end
+
   def test_parse_with_short_valueless_options
     input       = %w( foo -a bar )
     definitions = [
@@ -140,6 +154,20 @@ class Cri::OptionParserTest < MiniTest::Unit::TestCase
       { :long => 'aaa', :short => 'a', :argument => :required  },
       { :long => 'bbb', :short => 'b', :argument => :forbidden },
       { :long => 'ccc', :short => 'c', :argument => :forbidden }
+    ]
+
+    result = nil
+
+    assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
+      result = Cri::OptionParser.parse(input, definitions)
+    end
+  end
+
+  def test_parse_with_two_short_valueful_options
+    input       = %w( foo -a -p 2 )
+    definitions = [
+      { :long => 'all',  :short => 'a', :argument => :required  },
+      { :long => 'port', :short => 'p', :argument => :required }
     ]
 
     result = nil

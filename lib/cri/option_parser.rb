@@ -119,7 +119,9 @@ module Cri
             # Get option value if necessary
             if option_value.nil?
               option_value = unprocessed_arguments_and_options.shift
-              raise OptionRequiresAnArgumentError.new(option_key) if option_value.nil?
+              if option_value.nil? || option_value =~ /^-/
+                raise OptionRequiresAnArgumentError.new(option_key)
+              end
             end
 
             # Store option
@@ -141,11 +143,13 @@ module Cri
 
             if option_keys.length > 1 and definition[:argument] == :required
               # This is a combined option and it requires an argument, so complain
-              raise OptionRequiresAnArgumentError.new(option_key) if option_value.nil?
+              raise OptionRequiresAnArgumentError.new(option_key)
             elsif definition[:argument] == :required
               # Get option value
               option_value = unprocessed_arguments_and_options.shift
-              raise OptionRequiresAnArgumentError.new(option_key) if option_value.nil?
+              if option_value.nil? || option_value =~ /^-/
+                raise OptionRequiresAnArgumentError.new(option_key)
+              end
 
               # Store option
               options[definition[:long].to_sym] = option_value
