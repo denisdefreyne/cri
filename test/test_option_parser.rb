@@ -245,6 +245,16 @@ class Cri::OptionParserTest < MiniTest::Unit::TestCase
     assert_equal([ 'foo' ], result[:arguments])
   end
 
+  def test_parse_with_single_hyphen
+    input       = %w( foo - bar )
+    definitions = []
+
+    result = Cri::OptionParser.parse(input, definitions)
+
+    assert_equal({},                    result[:options])
+    assert_equal([ 'foo', '-', 'bar' ], result[:arguments])
+  end
+
   def test_parse_with_end_marker
     input       = %w( foo bar -- -x --yyy -abc )
     definitions = []
