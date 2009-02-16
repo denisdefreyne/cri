@@ -12,7 +12,7 @@ class Cri::OptionParserTest < MiniTest::Unit::TestCase
     assert_equal([ 'foo', 'bar', 'baz' ], result[:arguments])
   end
 
-  def test_parse_without_options
+  def test_parse_with_invalid_option
     input       = %w( foo -x )
     definitions = []
 
@@ -21,6 +21,19 @@ class Cri::OptionParserTest < MiniTest::Unit::TestCase
     assert_raises(Cri::OptionParser::IllegalOptionError) do
       result = Cri::OptionParser.parse(input, definitions)
     end
+  end
+
+  def test_parse_without_options
+    input       = %w( foo )
+    definitions = [
+      { :long => 'aaa', :short => 'a', :argument => :forbidden }
+    ]
+
+    result = nil
+
+    result = Cri::OptionParser.parse(input, definitions)
+
+    assert(!result[:options][:aaa])
   end
 
   def test_parse_with_long_valueless_option
@@ -33,7 +46,7 @@ class Cri::OptionParserTest < MiniTest::Unit::TestCase
 
     result = Cri::OptionParser.parse(input, definitions)
 
-    assert_equal({ :aaa => true },  result[:options])
+    assert(result[:options][:aaa])
     assert_equal([ 'foo', 'bar' ], result[:arguments])
   end
 
