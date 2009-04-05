@@ -78,6 +78,11 @@ module Cri
         exit 1
       end
 
+      # Handle global options
+      global_options = global_option_definitions.map { |o| o[:long] }
+      global_options.delete_if { |o| !parsed_arguments[:options].keys.include?(o.to_sym) }
+      global_options.each { |o| handle_option(o.to_sym) }
+
       if parsed_arguments[:options].has_key?(:help)
         # Show help for this command
         show_help(command)
