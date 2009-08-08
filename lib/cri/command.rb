@@ -81,11 +81,12 @@ module Cri
       text << long_desc.wrap_and_indent(78, 4) + "\n"
 
       # Append options
-      unless option_definitions.empty?
+      all_option_definitions = base.global_option_definitions + option_definitions
+      unless all_option_definitions.empty?
         text << "\n"
         text << "options:\n"
         text << "\n"
-        option_definitions.sort { |x,y| x[:long] <=> y[:long] }.each do |opt_def|
+        all_option_definitions.sort { |x,y| x[:long] <=> y[:long] }.each do |opt_def|
           text << sprintf("    -%1s --%-10s %s\n", opt_def[:short], opt_def[:long], opt_def[:desc])
         end
       end
