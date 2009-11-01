@@ -123,7 +123,7 @@ module Cri
       end
     end
 
-    # Returns the list of global option definitionss.
+    # Returns the list of global option definitions.
     def global_option_definitions
       []
     end
@@ -135,7 +135,7 @@ module Cri
       command.base = self
     end
 
-    # Handles the given optio
+    # Handles the given option.
     def handle_option(option)
       false
     end
