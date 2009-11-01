@@ -19,6 +19,8 @@ begin
 
     s.authors     = [ 'Denis Defreyne' ]
     s.email       = "denis.defreyne@stoneship.org"
+
+    s.files       = FileList['[A-Z]*', 'lib/**/*']
   end
 rescue LoadError
   warn "Jeweler (or a dependency) is not available. Install it with `gem install jeweler`"
