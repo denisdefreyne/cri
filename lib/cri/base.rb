@@ -125,7 +125,12 @@ module Cri
 
     # Returns the list of global option definitions.
     def global_option_definitions
-      []
+      [
+        {
+          :long => 'help', :short => 'h', :argument => :forbidden,
+          :desc => 'show this help message and quit'
+        }
+      ]
     end
 
     # Adds the given command to the list of commands. Adding a command will
