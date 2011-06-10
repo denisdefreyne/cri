@@ -119,7 +119,7 @@ module Cri
       if command.nil?
         @help_command.run([], [])
       else
-        @help_command.run([], [ command.name ])
+        puts command.help
       end
     end
 
