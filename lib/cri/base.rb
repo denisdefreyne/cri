@@ -69,7 +69,7 @@ module Cri
     #
     # @return [Cri::Command] The help command
     def help_command
-      @help_command || command_named('help')
+      @help_command ||= command_named('help')
     end
 
     # Sets the help command.
@@ -98,16 +98,8 @@ module Cri
       opts_before_command, command_name, opts_and_args_after_command = *partition(args)
 
       # Handle options before command
-      begin
-        parsed_arguments = Cri::OptionParser.parse(
-          opts_before_command,
-          global_option_definitions)
-      rescue Cri::OptionParser::IllegalOptionError => e
-        $stderr.puts "illegal option -- #{e}"
-        exit 1
-      end
-      parsed_arguments[:options].keys.each do |option|
-        handle_option(option)
+      opts_before_command.each_pair do |key, value|
+        handle_option(key, value)
       end
 
       # Get command
@@ -132,9 +124,10 @@ module Cri
       end
 
       # Handle global options
+      # FIXME THIS IS WRONG!!!!!
       global_options = global_option_definitions.map { |o| o[:long] }
       global_options.delete_if { |o| !parsed_arguments[:options].keys.include?(o.to_sym) }
-      global_options.each { |o| handle_option(o.to_sym) }
+      global_options.each { |o| handle_option(o.to_sym, true) }
 
       if parsed_arguments[:options].has_key?(:help)
         # Show help for this command
@@ -203,8 +196,12 @@ module Cri
     end
 
     # Handles the given option.
-    def handle_option(option)
-      false
+    def handle_option(key, value)
+      case key
+        when :help
+          show_help
+          exit 0
+      end
     end
 
   private
