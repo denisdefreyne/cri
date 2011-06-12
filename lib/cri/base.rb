@@ -99,7 +99,7 @@ module Cri
 
       # Handle options before command
       opts_before_command.each_pair do |key, value|
-        handle_option(key, value)
+        safe_handle_option(key, value)
       end
 
       # Get command
@@ -126,7 +126,7 @@ module Cri
       # Handle global options
       opts_after_command = parsed_arguments[:options].dup
       opts_after_command.delete_if { |k,v| opts_before_command.keys.include?(k) }
-      opts_after_command.each_pair { |k,v| handle_option(k, v, command) }
+      opts_after_command.each_pair { |k,v| safe_handle_option(k, v, command) }
 
       # Run command
       command.run(
@@ -192,13 +192,20 @@ module Cri
     end
 
     # Handles the given option.
-    def handle_option(*args)
-      key, value, command = *args # for backwards compatibility
-
+    def handle_option(key, value, command)
       case key
         when :help
           show_help(command)
           exit 0
+      end
+    end
+
+    # TODO document
+    def safe_handle_option(key, value, command=nil)
+      if self.method(:handle_option).arity == 1
+        handle_option(key)
+      else
+        handle_option(key, value, command)
       end
     end
 
