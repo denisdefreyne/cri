@@ -61,10 +61,6 @@ module Cri
         exit 1
       end
       command = command_named(command_name)
-      if command.nil?
-        $stderr.puts "no such command: #{command_name}"
-        exit 1
-      end
 
       # Parse arguments
       option_definitions = command.option_definitions + global_option_definitions
