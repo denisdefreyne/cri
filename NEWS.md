@@ -1,9 +1,12 @@
-= Cri News
+Cri News
+========
 
-== 1.0.1
+1.0.1
+-----
 
 * Made gem actually include code. D'oh.
 
-== 1.0.0
+1.0.0
+-----
 
 * Initial release!
