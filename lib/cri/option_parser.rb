@@ -13,17 +13,34 @@ module Cri
     # The delegate to which events will be sent. The following methods will
     # be send to the delegate:
     #
-    # * `option_found(key, value, base)`
-    # * `argument_found(argument)`
+    # * `option_added(key, value, base)`
+    # * `argument_added(argument, base)`
+    #
+    # @return [#option_added, #argument_added] The delegate
     attr_accessor :delegate
 
-    # The options
+    # The options that have already been parsed.
+    #
+    # If the parser was stopped before it finished, this will not contain all
+    # options and `unprocessed_arguments_and_options` will contain what is
+    # left to be processed.
+    #
+    # @return [Hash] The already parsed options.
     attr_reader :options
 
-    # The arguments
+    # The arguments that have already been parsed.
+    #
+    # If the parser was stopped before it finished, this will not contain all
+    # options and `unprocessed_arguments_and_options` will contain what is
+    # left to be processed.
+    #
+    # @return [Array] The already parsed arguments.
     attr_reader :arguments
 
-    # TODO document
+    # The options and arguments that have not yet been processed. If the
+    # parser wasn’t stopped (using {#stop}), this list will be empty.
+    #
+    # @return [Array] The not yet parsed options and arguments.
     attr_reader :unprocessed_arguments_and_options
 
     # Parses the commandline arguments. See the instance `parse` method for
@@ -32,7 +49,7 @@ module Cri
       self.new(arguments_and_options, definitions).run
     end
 
-    # TODO document
+    # Creates a new parser with the given options/arguments and definitions.
     def initialize(arguments_and_options, definitions)
       @unprocessed_arguments_and_options = arguments_and_options.dup
       @definitions = definitions
@@ -40,20 +57,19 @@ module Cri
       @options   = {}
       @arguments = []
 
+      @running = false
       @no_more_options = false
     end
 
-    # TODO document
+    # @return [Boolean] true if the parser is running, false otherwise.
     def running?
       @running
     end
 
-    # TODO document
-    def running=(running)
-      @running = running
-    end
-
-    # TODO document
+    # Stops the parser. The parser will finish its current parse cycle but
+    # will not start parsing new options and/or arguments.
+    #
+    # @return [void]
     def stop
       @running = false
     end
@@ -134,7 +150,8 @@ module Cri
     #       }
     #     }
     def run
-      self.running = true
+      @running = true
+
       while running?
         # Get next item
         e = @unprocessed_arguments_and_options.shift
@@ -218,6 +235,8 @@ module Cri
       end
 
       { :options => options, :arguments => arguments }
+    ensure
+      @running = false
     end
 
   private

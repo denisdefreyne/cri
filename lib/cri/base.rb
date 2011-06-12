@@ -4,17 +4,38 @@ module Cri
   # list of commands.
   class Base
 
-    # TODO document
-    class OptionParserDelegate
+    # Delegate used for partitioning the list of arguments and options. This
+    # delegate will stop the parser as soon as the first argument, i.e. the
+    # command, is found.
+    #
+    # @api private
+    class OptionParserPartitioningDelegate
 
-      # TODO document
+      # Returns the last parsed argument, which, in this case, will be the
+      # first argument, which will be either nil or the command name.
+      #
+      # @return [String] The last parsed argument.
       attr_reader :last_argument
 
-      # TODO document
+      # Called when an option is parsed.
+      #
+      # @param [Symbol] key The option key (derived from the long format)
+      #
+      # @param value The option value
+      #
+      # @param [Cri::OptionParser] option_parser The option parser
+      #
+      # @return [void]
       def option_added(key, value, option_parser)
       end
 
-      # TODO document
+      # Called when an argument is parsed.
+      #
+      # @param [String] argument The argument
+      #
+      # @param [Cri::OptionParser] option_parser The option parser
+      #
+      # @return [void]
       def argument_added(argument, option_parser)
         @last_argument = argument
         option_parser.stop
@@ -22,28 +43,40 @@ module Cri
 
     end
 
-    # The CLI's list of commands (should also contain the help command)
+    # @return [Array<Cri::Command>] The list of loaded commands
     attr_reader :commands
 
-    # Creates a new instance of the commandline tool.
+    # @param [String] tool_name The name of the commandline tool
     def initialize(tool_name)
       @tool_name = tool_name
 
       @commands = []
     end
 
-    # TODO document
+    # Returns the help command. If the help command was set using
+    # {#help_command=}, this one will be returned. Otherwise, the command with
+    # name `"help"` will be returned.
+    #
+    # @return [Cri::Command] The help command
     def help_command
       @help_command || command_named('help')
     end
 
-    # TODO document
+    # Sets the help command.
+    #
+    # @param [Cri::Command] command The command to use for help
+    #
+    # @return [void]
     def help_command=(command)
       @help_command = command
     end
 
     # Parses the given commandline arguments and executes the requested
     # command.
+    #
+    # @param [Array<String>] args The list of options and arguments
+    #
+    # @return [void]
     def run(args)
       # Check arguments
       if args.length == 0
@@ -172,9 +205,12 @@ module Cri
       string =~ /^-/
     end
 
+    # Partitions the list of options and arguments into a list of options
+    # before the command name, the command name itself, and the remaining
+    # options and arguments.
     def partition(args)
       # Parse
-      delegate = Cri::Base::OptionParserDelegate.new
+      delegate = Cri::Base::OptionParserPartitioningDelegate.new
       parser = Cri::OptionParser.new(args, global_option_definitions)
       parser.delegate = delegate
       parser.run
