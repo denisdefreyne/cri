@@ -8,6 +8,20 @@ require 'minitest/unit'
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + '/lib'))
 require 'cri'
 
+##### Documentation
+
+require 'yard'
+
+YARD::Rake::YardocTask.new(:doc) do |yard|
+  yard.files   = Dir['lib/**/*.rb']
+  yard.options = [
+    '--markup',        'markdown',
+    '--readme',        'README.md',
+    '--files',         'NEWS.md,LICENSE',
+    '--output-dir',    'doc/yardoc',
+  ]
+end
+
 ##### Testing
 
 desc 'Runs all tests'
