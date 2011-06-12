@@ -161,8 +161,8 @@ module Cri
     # @todo document
     def add_option(short, long, desc, argument)
       option_definitions << {
-        :short    => short,
-        :long     => long,
+        :short    => short.to_s,
+        :long     => long.to_s,
         :desc     => desc,
         :argument => argument }
     end
