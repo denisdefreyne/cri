@@ -7,9 +7,6 @@ module Cri
     # The CLI's list of commands (should also contain the help command)
     attr_reader :commands
 
-    # The CLI's help command (required)
-    attr_accessor :help_command
-
     # Creates a new instance of the commandline tool.
     def initialize(tool_name)
       @tool_name = tool_name
@@ -17,12 +14,22 @@ module Cri
       @commands = []
     end
 
+    # Returns the command with name 'help'.
+    def help_command
+      command_named('help')
+    end
+
+    # Deprecated; does nothing. The help command cannot be assigned; the
+    # command with name 'help' will be used instead.
+    def help_command=(command)
+    end
+
     # Parses the given commandline arguments and executes the requested
     # command.
     def run(args)
       # Check arguments
       if args.length == 0
-        @help_command.run([], [])
+        help_command.run([], [])
         exit 1
       end
 
@@ -114,8 +121,8 @@ module Cri
     def show_help(command=nil)
       if command
         puts command.help
-      elsif @help_command
-        @help_command.run([], [])
+      elsif help_command
+        help_command.run([], [])
       else
         puts "No help available."
       end
