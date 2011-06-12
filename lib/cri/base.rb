@@ -116,10 +116,12 @@ module Cri
     # Shows the help text for the given command, or shows the general help
     # text if no command is given.
     def show_help(command=nil)
-      if command.nil?
+      if command
+        puts command.help
+      elsif @help_command
         @help_command.run([], [])
       else
-        puts command.help
+        puts "No help available."
       end
     end
 
