@@ -124,18 +124,14 @@ module Cri
       end
 
       # Handle global options
-      # FIXME THIS IS WRONG!!!!!
-      global_options = global_option_definitions.map { |o| o[:long] }
-      global_options.delete_if { |o| !parsed_arguments[:options].keys.include?(o.to_sym) }
-      global_options.each { |o| handle_option(o.to_sym, true) }
+      opts_after_command = parsed_arguments[:options].dup
+      opts_after_command.delete_if { |k,v| opts_before_command.keys.include?(k) }
+      opts_after_command.each_pair { |k,v| handle_option(k, v, command) }
 
-      if parsed_arguments[:options].has_key?(:help)
-        # Show help for this command
-        show_help(command)
-      else
-        # Run command
-        command.run(parsed_arguments[:options], parsed_arguments[:arguments])
-      end
+      # Run command
+      command.run(
+        parsed_arguments[:options],
+        parsed_arguments[:arguments])
     end
 
     # Returns the commands that could be referred to with the given name. If
@@ -196,10 +192,12 @@ module Cri
     end
 
     # Handles the given option.
-    def handle_option(key, value)
+    def handle_option(*args)
+      key, value, command = *args # for backwards compatibility
+
       case key
         when :help
-          show_help
+          show_help(command)
           exit 0
       end
     end
