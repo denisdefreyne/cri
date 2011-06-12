@@ -53,6 +53,16 @@ module Cri
       @commands = []
     end
 
+    # @todo document
+    def define_command(name=nil, &block)
+      command = Cri::Command.new
+      command.name name unless name.nil?
+      command.instance_eval(&block)
+      command.verify
+      add_command(command)
+      command
+    end
+
     # Returns the help command. If the help command was set using
     # {#help_command=}, this one will be returned. Otherwise, the command with
     # name `"help"` will be returned.

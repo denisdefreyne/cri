@@ -6,60 +6,116 @@ module Cri
 
     attr_accessor :base
 
-    # Returns a string containing the name of thi command. Subclasses must
-    # implement this method.
-    def name
-      raise NotImplementedError.new("Command subclasses should override #name")
+    # @todo document
+    def verify
+      # TODO implement
+      errors = []
+      errors << "name is nil" if @name.nil?
+      errors
     end
 
-    # Returns an array of strings containing the aliases for this command.
-    # Subclasses must implement this method.
-    def aliases
-      raise NotImplementedError.new("Command subclasses should override #aliases")
+    # @todo document
+    def name(arg=nil)
+      if arg.nil?
+        @name or raise NotImplementedError,
+          "This command does not have a name"
+      else
+        @name = arg
+      end
     end
 
-    # Returns a string containing this command's short description, which
-    # should not be longer than 50 characters. Subclasses must implement this
-    # method.
-    def short_desc
-      raise NotImplementedError.new("Command subclasses should override #short_desc")
+    # @todo document
+    def aliases(*args)
+      if args.empty?
+        @aliases ||= []
+      else
+        @aliases = args
+      end
     end
 
-    # Returns a string containing this command's complete description, which
-    # should explain what this command does and how it works in detail.
-    # Subclasses must implement this method.
-    def long_desc
-      raise NotImplementedError.new("Command subclasses should override #long_desc")
+    # @todo document
+    def short_desc(arg=nil)
+      if arg.nil?
+        @short_desc or raise NotImplementedError,
+          "This command does not have a short description"
+      else
+        @short_desc = arg
+      end
     end
 
-    # Returns a string containing this command's usage. Subclasses must
-    # implement this method.
-    def usage
-      raise NotImplementedError.new("Command subclasses should override #usage")
+    # @todo document
+    def long_desc(arg=nil)
+      if arg.nil?
+        @long_desc
+      else
+        @long_desc = arg
+      end
     end
 
-    # Returns an array containing this command's option definitions. See the
-    # documentation for Cri::OptionParser for details on what option
-    # definitions look like. Subclasses may implement this method if the
-    # command has options.
+    # @todo document
+    def usage(arg=nil)
+      if arg.nil?
+        @usage or raise NotImplementedError,
+          "This command does not have a usage"
+      else
+        @usage = arg
+      end
+    end
+
+    # @todo document
     def option_definitions
-      []
+      @option_definitions ||= []
     end
 
-    # Executes the command. Subclasses must implement this method
-    # (obviously... what's the point of a command that can't be run?).
-    #
-    # +options+:: A hash containing the parsed commandline options. For
-    #             example, '--foo=bar' will be converted into { :foo => 'bar'
-    #             }. See the Cri::OptionParser documentation for details.
-    #
-    # +arguments+:: An array of strings representing the commandline arguments
-    #               given to this command.
-    def run(options, arguments)
-      raise NotImplementedError.new("Command subclasses should override #run")
+    # @todo document
+    def option(short, long, desc, params={})
+      requiredness = params.fetch(:argument) do
+        raise ArgumentError,
+          "Expected an :argument parameter (:required, :forbidden, :optional)"
+      end
+
+      add_option(short, long, desc, requiredness)
     end
 
-    # Returns the help text for this command.
+    # @todo document
+    def required(short, long, desc)
+      add_option(short, long, desc, :required)
+    end
+
+    # @todo document
+    def flag(short, long, desc)
+      add_option(short, long, desc, :forbidden)
+    end
+    alias_method :forbidden, :flag
+
+    # @todo document
+    def optional(short, long, desc)
+      add_option(short, long, desc, :optional)
+    end
+
+    # @todo document
+    def run(*args, &block)
+      if args.empty? && block
+        # set block
+        if block.arity != 2
+          raise ArgumentError,
+            "The block given to Cri::Command#run expects exactly two args"
+        end
+        @block = block
+      elsif args.size == 2
+        # run
+        if @block.nil?
+          raise RuntimeError,
+            "This command does not have anything to execute"
+        end
+        @block.call(*args)
+      else
+        raise ArgumentError,
+          "You are calling Cri::Command#run in a weird way. Kittens cry. :("
+      end
+    end
+
+    # @return [String] The help text for this command
     def help
       text = ''
 
@@ -98,6 +154,17 @@ module Cri
     # Compares this command's name to the other given command's name.
     def <=>(other)
       self.name <=> other.name
+    end
+
+  private
+
+    # @todo document
+    def add_option(short, long, desc, argument)
+      option_definitions << {
+        :short    => short,
+        :long     => long,
+        :desc     => desc,
+        :argument => argument }
     end
 
   end
