@@ -4,6 +4,24 @@ module Cri
   # list of commands.
   class Base
 
+    # TODO document
+    class OptionParserDelegate
+
+      # TODO document
+      attr_reader :last_argument
+
+      # TODO document
+      def option_added(key, value, option_parser)
+      end
+
+      # TODO document
+      def argument_added(argument, option_parser)
+        @last_argument = argument
+        option_parser.stop
+      end
+
+    end
+
     # The CLI's list of commands (should also contain the help command)
     attr_reader :commands
 
@@ -14,14 +32,14 @@ module Cri
       @commands = []
     end
 
-    # Returns the command with name 'help'.
+    # TODO document
     def help_command
-      command_named('help')
+      @help_command || command_named('help')
     end
 
-    # Deprecated; does nothing. The help command cannot be assigned; the
-    # command with name 'help' will be used instead.
+    # TODO document
     def help_command=(command)
+      @help_command = command
     end
 
     # Parses the given commandline arguments and executes the requested
@@ -33,27 +51,14 @@ module Cri
         exit 1
       end
 
-      # Partition options
-      opts_before_command         = []
-      command_name                = nil
-      opts_and_args_after_command = []
-      stage = 0
-      args.each do |arg|
-        # Update stage if necessary
-        stage = 1 if stage == 0 && !is_option?(arg)
-
-        # Add
-        opts_before_command << arg         if stage == 0
-        command_name = arg                 if stage == 1
-        opts_and_args_after_command << arg if stage == 2
-
-        # Update stage if necessary
-        stage = 2 if stage == 1
-      end
+      # Partition
+      opts_before_command, command_name, opts_and_args_after_command = *partition(args)
 
       # Handle options before command
       begin
-        parsed_arguments = Cri::OptionParser.parse(opts_before_command, global_option_definitions)
+        parsed_arguments = Cri::OptionParser.parse(
+          opts_before_command,
+          global_option_definitions)
       rescue Cri::OptionParser::IllegalOptionError => e
         $stderr.puts "illegal option -- #{e}"
         exit 1
@@ -72,7 +77,9 @@ module Cri
       # Parse arguments
       option_definitions = command.option_definitions + global_option_definitions
       begin
-        parsed_arguments = Cri::OptionParser.parse(opts_and_args_after_command, option_definitions)
+        parsed_arguments = Cri::OptionParser.parse(
+          opts_and_args_after_command,
+          option_definitions)
       rescue Cri::OptionParser::IllegalOptionError => e
         $stderr.puts "illegal option -- #{e}"
         exit 1
@@ -95,24 +102,31 @@ module Cri
       end
     end
 
-    # Returns the command with the given name.
-    def command_named(name)
+    # Returns the commands that could be referred to with the given name. If
+    # the result contains more than one command, the name is ambiguous.
+    def commands_named(name)
       # Find by exact name or alias
       command = @commands.find { |c| c.name == name or c.aliases.include?(name) }
-      return command unless command.nil?
+      return [ command ] unless command.nil?
 
       # Find by approximation
-      commands = @commands.select { |c| c.name[0, name.length] == name }
-      if commands.length > 1
+      @commands.select { |c| c.name[0, name.length] == name }
+    end
+
+    # Returns the command with the given name.
+    def command_named(name)
+      commands = commands_named(name)
+
+      if commands.empty?
+        $stderr.puts "#{@tool_name}: unknown command '#{name}'\n"
+        show_help unless name == 'help' # ugly
+        exit 1
+      elsif commands.size > 1
         $stderr.puts "#{@tool_name}: '#{name}' is ambiguous:"
         $stderr.puts "  #{commands.map { |c| c.name }.join(' ') }"
         exit 1
-      elsif commands.length == 0
-        $stderr.puts "#{@tool_name}: unknown command '#{name}'\n"
-        show_help
-        exit 1
       else
-        return commands[0]
+        commands[0]
       end
     end
 
@@ -156,6 +170,21 @@ module Cri
     # false otherwise.
     def is_option?(string)
       string =~ /^-/
+    end
+
+    def partition(args)
+      # Parse
+      delegate = Cri::Base::OptionParserDelegate.new
+      parser = Cri::OptionParser.new(args, global_option_definitions)
+      parser.delegate = delegate
+      parser.run
+
+      # Extract
+      [
+        parser.options,
+        delegate.last_argument,
+        parser.unprocessed_arguments_and_options
+      ]
     end
 
   end

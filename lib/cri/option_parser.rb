@@ -10,6 +10,54 @@ module Cri
     # encountered.
     class OptionRequiresAnArgumentError < RuntimeError ; end
 
+    # The delegate to which events will be sent. The following methods will
+    # be send to the delegate:
+    #
+    # * `option_found(key, value, base)`
+    # * `argument_found(argument)`
+    attr_accessor :delegate
+
+    # The options
+    attr_reader :options
+
+    # The arguments
+    attr_reader :arguments
+
+    # TODO document
+    attr_reader :unprocessed_arguments_and_options
+
+    # Parses the commandline arguments. See the instance `parse` method for
+    # details.
+    def self.parse(arguments_and_options, definitions)
+      self.new(arguments_and_options, definitions).run
+    end
+
+    # TODO document
+    def initialize(arguments_and_options, definitions)
+      @unprocessed_arguments_and_options = arguments_and_options.dup
+      @definitions = definitions
+
+      @options   = {}
+      @arguments = []
+
+      @no_more_options = false
+    end
+
+    # TODO document
+    def running?
+      @running
+    end
+
+    # TODO document
+    def running=(running)
+      @running = running
+    end
+
+    # TODO document
+    def stop
+      @running = false
+    end
+
     # Parses the commandline arguments in +arguments_and_options+, using the
     # commandline option definitions in +definitions+.
     #
@@ -85,27 +133,18 @@ module Cri
     #         :name   => 'luke'
     #       }
     #     }
-    def self.parse(arguments_and_options, definitions)
-      # Don't touch original argument
-      unprocessed_arguments_and_options = arguments_and_options.dup
-
-      # Initialize
-      arguments = []
-      options   = {}
-
-      # Determines whether we've passed the '--' marker or not
-      no_more_options = false
-
-      loop do
+    def run
+      self.running = true
+      while running?
         # Get next item
-        e = unprocessed_arguments_and_options.shift
+        e = @unprocessed_arguments_and_options.shift
         break if e.nil?
 
         # Handle end-of-options marker
         if e == '--'
-          no_more_options = true
+          @no_more_options = true
         # Handle incomplete options
-        elsif e =~ /^--./ and !no_more_options
+        elsif e =~ /^--./ and !@no_more_options
           # Get option key, and option value if included
           if e =~ /^--([^=]+)=(.+)$/
             option_key   = $1
@@ -116,38 +155,38 @@ module Cri
           end
 
           # Find definition
-          definition = definitions.find { |d| d[:long] == option_key }
+          definition = @definitions.find { |d| d[:long] == option_key }
           raise IllegalOptionError.new(option_key) if definition.nil?
 
           if [ :required, :optional ].include?(definition[:argument])
             # Get option value if necessary
             if option_value.nil?
-              option_value = unprocessed_arguments_and_options.shift
+              option_value = @unprocessed_arguments_and_options.shift
               if option_value.nil? || option_value =~ /^-/
                 if definition[:argument] == :required
                   raise OptionRequiresAnArgumentError.new(option_key)
                 else
-                  unprocessed_arguments_and_options.unshift(option_value)
+                  @unprocessed_arguments_and_options.unshift(option_value)
                   option_value = true
                 end
               end
             end
 
             # Store option
-            options[definition[:long].to_sym] = option_value
+            add_option(definition[:long].to_sym, option_value)
           else
             # Store option
-            options[definition[:long].to_sym] = true
+            add_option(definition[:long].to_sym, true)
           end
         # Handle -xyz options
-        elsif e =~ /^-./ and !no_more_options
+        elsif e =~ /^-./ and !@no_more_options
           # Get option keys
           option_keys = e[1..-1].scan(/./)
 
           # For each key
           option_keys.each do |option_key|
             # Find definition
-            definition = definitions.find { |d| d[:short] == option_key }
+            definition = @definitions.find { |d| d[:short] == option_key }
             raise IllegalOptionError.new(option_key) if definition.nil?
 
             if option_keys.length > 1 and definition[:argument] == :required
@@ -155,30 +194,42 @@ module Cri
               raise OptionRequiresAnArgumentError.new(option_key)
             elsif [ :required, :optional ].include?(definition[:argument])
               # Get option value
-              option_value = unprocessed_arguments_and_options.shift
+              option_value = @unprocessed_arguments_and_options.shift
               if option_value.nil? || option_value =~ /^-/
                 if definition[:argument] == :required
                   raise OptionRequiresAnArgumentError.new(option_key)
                 else
-                  unprocessed_arguments_and_options.unshift(option_value)
+                  @unprocessed_arguments_and_options.unshift(option_value)
                   option_value = true
                 end
               end
 
               # Store option
-              options[definition[:long].to_sym] = option_value
+              add_option(definition[:long].to_sym, option_value)
             else
               # Store option
-              options[definition[:long].to_sym] = true
+              add_option(definition[:long].to_sym, true)
             end
           end
         # Handle normal arguments
         else
-          arguments << e
+          add_argument(e)
         end
       end
 
       { :options => options, :arguments => arguments }
+    end
+
+  private
+
+    def add_option(key, value)
+      options[key] = value
+      delegate.option_added(key, value, self) unless delegate.nil?
+    end
+
+    def add_argument(value)
+      arguments << value
+      delegate.argument_added(value, self) unless delegate.nil?
     end
 
   end
