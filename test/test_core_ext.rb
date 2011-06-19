@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-class Cri::CoreExtTest < MiniTest::Unit::TestCase
+class Cri::CoreExtTestCase < Cri::TestCase
 
   def test_string_wrap_and_indent
     assert_equal(

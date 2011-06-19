@@ -1,3 +1,5 @@
+# encoing: utf-8
+
 ##### Requirements
 
 # Rake etc
@@ -31,6 +33,8 @@ task :test do
   $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
 
   MiniTest::Unit.autorun
+
+  require 'test/helper.rb'
 
   test_files = Dir['test/test_*.rb']
   test_files.each { |f| require f }

@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-class Cri::OptionParserTest < MiniTest::Unit::TestCase
+class Cri::OptionParserTestCase < Cri::TestCase
 
   def test_parse_without_options
     input       = %w( foo bar baz )

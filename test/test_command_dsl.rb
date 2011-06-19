@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-class Cri::CommandDSLTest < MiniTest::Unit::TestCase
+class Cri::CommandDSLTestCase < Cri::TestCase
 
   def test_create_command
     # Define
@@ -17,7 +17,7 @@ class Cri::CommandDSLTest < MiniTest::Unit::TestCase
       flag      :d, :ddd, 'opt d'
       forbidden :e, :eee, 'opt e'
 
-      run do |args, definitions|
+      run do |opts, args|
         $did_it_work = :probably
       end
     end
