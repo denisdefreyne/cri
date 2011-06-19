@@ -32,7 +32,7 @@ class Cri2::CommandTestCase < Cri2::TestCase
   def nested_cmd
     super_cmd = Cri2::Command.define do
       name        'super'
-      usage       'does something super'
+      usage       'super [command] [options] [arguments]'
       summary     'does super stuff'
       description 'This command does super stuff.'
 
@@ -48,7 +48,7 @@ class Cri2::CommandTestCase < Cri2::TestCase
     super_cmd.define_command do
       name        'sub'
       aliases     'sup'
-      usage       'does something subby'
+      usage       'sub [options]'
       summary     'does subby stuff'
       description 'This command does subby stuff.'
 
@@ -199,6 +199,12 @@ class Cri2::CommandTestCase < Cri2::TestCase
 
     assert_equal [ 'super:666', 'Sub-awesome!', '', 'aaa=666' ], lines(out)
     assert_equal [ ], lines(err)
+  end
+
+  def test_help_nested
+    help = nested_cmd.subcommands.to_a[0].help
+
+    assert_match /^usage: super sub \[options\]/, help
   end
 
   def test_modify

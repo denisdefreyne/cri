@@ -215,7 +215,10 @@ module Cri2
       text = ''
 
       # Append usage
-      text << usage + "\n"
+      path = [ self.supercommand ]
+      path.unshift(path[0].supercommand) until path[0].nil?
+      full_usage = path[1..-1].map { |c| c.name + ' ' }.join + usage
+      text << "usage: #{full_usage}\n"
 
       # Append aliases
       unless aliases.empty?
