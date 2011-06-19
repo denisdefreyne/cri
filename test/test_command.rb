@@ -29,6 +29,15 @@ class Cri2::CommandTestCase < Cri2::TestCase
     end
   end
 
+  def bare_cmd
+    Cri2::Command.define do
+      name        'moo'
+
+      run do |opts, args|
+      end
+    end
+  end
+
   def nested_cmd
     super_cmd = Cri2::Command.define do
       name        'super'
@@ -205,6 +214,10 @@ class Cri2::CommandTestCase < Cri2::TestCase
     help = nested_cmd.subcommands.to_a[0].help
 
     assert_match /^usage: super sub \[options\]/, help
+  end
+
+  def test_help_for_bare_cmd
+    bare_cmd.help
   end
 
   def test_modify
