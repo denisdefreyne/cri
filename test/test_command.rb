@@ -214,4 +214,19 @@ class Cri::CommandTestCase < Cri::TestCase
     assert_equal 'compile', cmd.name
   end
 
+  def test_new_basic_root
+    cmd = Cri::Command.new_basic_root.modify do
+      name 'mytool'
+    end
+
+    # Check option definitions
+    assert_equal 1, cmd.option_definitions.size
+    opt_def = cmd.option_definitions.to_a[0]
+    assert_equal 'help', opt_def[:long]
+
+    # Check subcommand
+    assert_equal 1,      cmd.subcommands.size
+    assert_equal 'help', cmd.subcommands.to_a[0].name
+  end
+
 end
