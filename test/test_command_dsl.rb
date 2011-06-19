@@ -46,4 +46,21 @@ class Cri::CommandDSLTestCase < Cri::TestCase
     assert_equal expected_option_definitions, actual_option_definitions
   end
 
+  def test_subcommand
+    # Define
+    dsl = Cri::CommandDSL.new
+    dsl.instance_eval do
+      name 'super'
+      subcommand do
+        name 'sub'
+      end
+    end
+    command = dsl.command
+
+    # Check
+    assert_equal 'super', command.name
+    assert_equal 1,       command.subcommands.size
+    assert_equal 'sub',   command.subcommands.to_a[0].name
+  end
+
 end

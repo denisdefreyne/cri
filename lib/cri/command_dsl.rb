@@ -15,6 +15,15 @@ module Cri
     end
 
     # @todo Document
+    def subcommand(cmd=nil, &block)
+      if cmd.nil?
+        cmd = Cri::Command.define(&block)
+      end
+
+      @command.add_command(cmd)
+    end
+
+    # @todo Document
     def name(arg)
       @command.name = arg
     end
