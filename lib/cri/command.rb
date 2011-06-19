@@ -170,6 +170,9 @@ module Cri
         handle_options(local_opts)
 
         # Execute
+        if @block.nil?
+          raise "No implementation available for '#{self.name}'"
+        end
         @block.call(global_opts, args)
       else
         # Parse up to command name
