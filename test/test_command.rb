@@ -43,6 +43,7 @@ class Cri::CommandTestCase < Cri::TestCase
 
     super_cmd.define_command do
       name        'sub'
+      aliases     'sup'
       usage       'does something subby'
       summary     'does subby stuff'
       description 'This command does subby stuff.'
@@ -167,6 +168,15 @@ class Cri::CommandTestCase < Cri::TestCase
 
     assert_equal [ ], lines(out)
     assert_equal [ "super: 's' is ambiguous:", "  sub sink" ], lines(err)
+  end
+
+  def test_invoke_nested_with_alias
+    out, err = capture_io_while do
+      nested_cmd.run(%w( sup ))
+    end
+
+    assert_equal [ 'Sub-awesome!', '', '' ], lines(out)
+    assert_equal [ ], lines(err)
   end
 
 end
