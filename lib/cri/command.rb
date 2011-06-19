@@ -73,6 +73,13 @@ module Cri
     # @todo Document
     attr_accessor :block
 
+    # @todo Document
+    def self.define(&block)
+      dsl = Cri::CommandDSL.new
+      dsl.instance_eval(&block)
+      dsl.build_command
+    end
+
     def initialize
       @aliases            = Set.new
       @commands           = Set.new # TODO make this a hash (name -> cmd)
