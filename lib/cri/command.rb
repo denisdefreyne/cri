@@ -231,6 +231,19 @@ module Cri
       text << "\n"
       text << long_desc.wrap_and_indent(78, 4) + "\n"
 
+      # Append subcommands
+      unless self.commands.empty?
+        text << "\n"
+        text << (self.supercommand ? 'subcommands' : 'commands') << ":\n"
+        text << "\n"
+        length = self.commands.inject(0) { |m,c| [ m, c.name.size ].max }
+        self.commands.each do |cmd|
+          text << sprintf("    %-#{length+4}s %s\n",
+            cmd.name,
+            cmd.short_desc)
+        end
+      end
+
       # Append options
       defs = global_option_definitions.sort { |x,y| x[:long] <=> y[:long] }
       unless defs.empty?
