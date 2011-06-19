@@ -149,21 +149,22 @@ module Cri
         parser = Cri::OptionParser.new(
           opts_and_args, global_option_definitions)
         self.handle_parser_errors_while { parser.run }
+        local_opts  = parser.options
+        global_opts = parent_opts.merge(parser.options)
+        args = parser.arguments
+
+        # Handle options
+        handle_options(local_opts)
 
         # Execute
-        @block.call(
-          parent_opts.merge(parser.options),
-          parser.arguments)
+        @block.call(global_opts, args)
       else
         # Parse up to command name
         stuff = partition(opts_and_args)
         opts_before_cmd, cmd_name, opts_and_args_after_cmd = *stuff
 
-        # Handle options before command
-        opts_before_cmd.each_pair do |key, value|
-          # TODO add definition here (for block)
-          handle_option(key, value)
-        end
+        # Handle options
+        handle_options(opts_before_cmd)
 
         # Get command
         if cmd_name.nil?
@@ -227,6 +228,14 @@ module Cri
     def add_command(command)
       @commands << command
       command.supercommand = self
+    end
+
+    def handle_options(opts)
+      opts.each_pair do |key, value|
+        opt_def = global_option_definitions.find { |o| o[:long] == key.to_s }
+        block = opt_def[:block]
+        block.call(value, self) if block
+      end
     end
 
     def partition(opts_and_args)

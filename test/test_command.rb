@@ -9,7 +9,9 @@ class Cri::CommandTestCase < Cri::TestCase
       summary     'does stuff'
       description 'This command does a lot of stuff.'
 
-      option    :a, :aaa, 'opt a', :argument => :optional
+      option    :a, :aaa, 'opt a', :argument => :optional do |value, cmd|
+        $stdout.puts "#{cmd.name}:#{value}"
+      end
       required  :b, :bbb, 'opt b'
       optional  :c, :ccc, 'opt c'
       flag      :d, :ddd, 'opt d'
@@ -34,7 +36,9 @@ class Cri::CommandTestCase < Cri::TestCase
       summary     'does super stuff'
       description 'This command does super stuff.'
 
-      option    :a, :aaa, 'opt a', :argument => :optional
+      option    :a, :aaa, 'opt a', :argument => :optional do |value, cmd|
+        $stdout.puts "#{cmd.name}:#{value}"
+      end
       required  :b, :bbb, 'opt b'
       optional  :c, :ccc, 'opt c'
       flag      :d, :ddd, 'opt d'
@@ -99,10 +103,10 @@ class Cri::CommandTestCase < Cri::TestCase
 
   def test_invoke_simple_with_opts
     out, err = capture_io_while do
-      simple_cmd.run(%w(-a -b x))
+      simple_cmd.run(%w(-c -b x))
     end
 
-    assert_equal [ 'Awesome!', '', 'aaa=true,bbb=x' ], lines(out)
+    assert_equal [ 'Awesome!', '', 'ccc=true,bbb=x' ], lines(out)
     assert_equal [], lines(err)
   end
 
@@ -126,6 +130,15 @@ class Cri::CommandTestCase < Cri::TestCase
 
     assert_equal [], lines(out)
     assert_equal [ "moo: illegal option -- z" ], lines(err)
+  end
+
+  def test_invoke_simple_with_opt_with_block
+    out, err = capture_io_while do
+      simple_cmd.run(%w( -a 123 ))
+    end
+
+    assert_equal [ 'moo:123', 'Awesome!', '', 'aaa=123' ], lines(out)
+    assert_equal [], lines(err)
   end
 
   def test_invoke_nested_without_opts_or_args
@@ -176,6 +189,15 @@ class Cri::CommandTestCase < Cri::TestCase
     end
 
     assert_equal [ 'Sub-awesome!', '', '' ], lines(out)
+    assert_equal [ ], lines(err)
+  end
+
+  def test_invoke_nested_with_options_before_command
+    out, err = capture_io_while do
+      nested_cmd.run(%w( -a 666 sub ))
+    end
+
+    assert_equal [ 'super:666', 'Sub-awesome!', '', 'aaa=666' ], lines(out)
     assert_equal [ ], lines(err)
   end
 

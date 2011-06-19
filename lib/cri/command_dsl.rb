@@ -40,26 +40,26 @@ module Cri
     end
 
     # @todo Document
-    def option(short, long, desc, params={})
+    def option(short, long, desc, params={}, &block)
       requiredness = params[:argument] || :forbidden
-      self.add_option(short, long, desc, requiredness)
+      self.add_option(short, long, desc, requiredness, block)
     end
     alias_method :opt, :option
 
     # @todo Document
-    def required(short, long, desc)
-      self.add_option(short, long, desc, :required)
+    def required(short, long, desc, &block)
+      self.add_option(short, long, desc, :required, block)
     end
 
     # @todo Document
-    def flag(short, long, desc)
-      self.add_option(short, long, desc, :forbidden)
+    def flag(short, long, desc, &block)
+      self.add_option(short, long, desc, :forbidden, block)
     end
     alias_method :forbidden, :flag
 
     # @todo Document
-    def optional(short, long, desc)
-      self.add_option(short, long, desc, :optional)
+    def optional(short, long, desc, &block)
+      self.add_option(short, long, desc, :optional, block)
     end
 
     # @todo Document
@@ -75,12 +75,13 @@ module Cri
   protected
 
     # @todo Document
-    def add_option(short, long, desc, argument)
+    def add_option(short, long, desc, argument, block)
       @command.option_definitions << {
         :short    => short.to_s,
         :long     => long.to_s,
         :desc     => desc,
-        :argument => argument }
+        :argument => argument,
+        :block    => block }
     end
 
   end
