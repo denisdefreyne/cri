@@ -77,13 +77,20 @@ module Cri
     def self.define(&block)
       dsl = Cri::CommandDSL.new
       dsl.instance_eval(&block)
-      dsl.build_command
+      dsl.command
     end
 
     def initialize
       @aliases            = Set.new
       @commands           = Set.new # TODO make this a hash (name -> cmd)
       @option_definitions = Set.new
+    end
+
+    # @todo Document
+    def modify(&block)
+      dsl = Cri::CommandDSL.new(self)
+      dsl.instance_eval(&block)
+      self
     end
 
     # @todo Document
@@ -95,6 +102,12 @@ module Cri
     end
 
     # @todo Document
+    def add_command(command)
+      @commands << command
+      command.supercommand = self
+    end
+
+    # @todo Document
     def define_command(name=nil, &block)
       # Execute DSL
       dsl = Cri::CommandDSL.new
@@ -102,7 +115,7 @@ module Cri
       dsl.instance_eval(&block)
 
       # Create command
-      cmd = dsl.build_command
+      cmd = dsl.command
       self.add_command(cmd)
       cmd
     end
@@ -224,11 +237,6 @@ module Cri
     end
 
   protected
-
-    def add_command(command)
-      @commands << command
-      command.supercommand = self
-    end
 
     def handle_options(opts)
       opts.each_pair do |key, value|

@@ -201,4 +201,17 @@ class Cri::CommandTestCase < Cri::TestCase
     assert_equal [ ], lines(err)
   end
 
+  def test_modify
+    cmd = Cri::Command.define do
+      name 'build'
+    end
+    assert_equal 'build', cmd.name
+
+    cmd.modify do
+      name 'compile'
+    end
+
+    assert_equal 'compile', cmd.name
+  end
+
 end

@@ -5,12 +5,12 @@ module Cri
   # @todo Document
   class CommandDSL
 
-    def initialize
-      @command = Cri::Command.new
+    def initialize(command=nil)
+      @command = command || Cri::Command.new
     end
 
     # @todo Document
-    def build_command
+    def command
       @command
     end
 

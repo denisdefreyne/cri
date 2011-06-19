@@ -21,7 +21,7 @@ class Cri::CommandDSLTestCase < Cri::TestCase
         $did_it_work = :probably
       end
     end
-    command = dsl.build_command
+    command = dsl.command
 
     # Run
     $did_it_work = :sadly_not
