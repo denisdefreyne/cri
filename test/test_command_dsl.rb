@@ -1,10 +1,10 @@
 # encoding: utf-8
 
-class Cri2::CommandDSLTestCase < Cri2::TestCase
+class Cri::CommandDSLTestCase < Cri::TestCase
 
   def test_create_command
     # Define
-    dsl = Cri2::CommandDSL.new
+    dsl = Cri::CommandDSL.new
     dsl.instance_eval do
       name        'moo'
       usage       'dunno whatever'
@@ -48,7 +48,7 @@ class Cri2::CommandDSLTestCase < Cri2::TestCase
 
   def test_subcommand
     # Define
-    dsl = Cri2::CommandDSL.new
+    dsl = Cri::CommandDSL.new
     dsl.instance_eval do
       name 'super'
       subcommand do

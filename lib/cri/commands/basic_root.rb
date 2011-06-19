@@ -5,4 +5,4 @@ option :h, :help, 'show help for this command' do |value|
   exit 0
 end
 
-subcommand Cri2::Command.new_basic_help
+subcommand Cri::Command.new_basic_help

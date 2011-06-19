@@ -1,8 +1,8 @@
 # encoding: utf-8
 
-module Cri2
+module Cri
 
-  # Cri2::Command represents a command that can be executed on the commandline.
+  # Cri::Command represents a command that can be executed on the commandline.
   # It is also used for the commandline tool itself.
   class Command
 
@@ -25,7 +25,7 @@ module Cri2
       #
       # @param value The option value
       #
-      # @param [Cri2::OptionParser] option_parser The option parser
+      # @param [Cri::OptionParser] option_parser The option parser
       #
       # @return [void]
       def option_added(key, value, option_parser)
@@ -35,7 +35,7 @@ module Cri2
       #
       # @param [String] argument The argument
       #
-      # @param [Cri2::OptionParser] option_parser The option parser
+      # @param [Cri::OptionParser] option_parser The option parser
       #
       # @return [void]
       def argument_added(argument, option_parser)
@@ -75,7 +75,7 @@ module Cri2
 
     # @todo Document
     def self.define(string=nil, &block)
-      dsl = Cri2::CommandDSL.new
+      dsl = Cri::CommandDSL.new
       if block
         dsl.instance_eval(&block)
       else
@@ -104,7 +104,7 @@ module Cri2
 
     # @todo Document
     def modify(&block)
-      dsl = Cri2::CommandDSL.new(self)
+      dsl = Cri::CommandDSL.new(self)
       dsl.instance_eval(&block)
       self
     end
@@ -126,7 +126,7 @@ module Cri2
     # @todo Document
     def define_command(name=nil, &block)
       # Execute DSL
-      dsl = Cri2::CommandDSL.new
+      dsl = Cri::CommandDSL.new
       dsl.name name unless name.nil?
       dsl.instance_eval(&block)
 
@@ -175,7 +175,7 @@ module Cri2
     def run(opts_and_args, parent_opts={})
       if subcommands.empty?
         # Parse
-        parser = Cri2::OptionParser.new(
+        parser = Cri::OptionParser.new(
           opts_and_args, global_option_definitions)
         self.handle_parser_errors_while { parser.run }
         local_opts  = parser.options
@@ -290,8 +290,8 @@ module Cri2
 
     def partition(opts_and_args)
       # Parse
-      delegate = Cri2::Command::OptionParserPartitioningDelegate.new
-      parser = Cri2::OptionParser.new(opts_and_args, global_option_definitions)
+      delegate = Cri::Command::OptionParserPartitioningDelegate.new
+      parser = Cri::OptionParser.new(opts_and_args, global_option_definitions)
       parser.delegate = delegate
       self.handle_parser_errors_while { parser.run }
       parser
@@ -307,10 +307,10 @@ module Cri2
     def handle_parser_errors_while(&block)
       begin
         block.call
-      rescue Cri2::OptionParser::IllegalOptionError => e
+      rescue Cri::OptionParser::IllegalOptionError => e
         $stderr.puts "#{name}: illegal option -- #{e}"
         exit 1
-      rescue Cri2::OptionParser::OptionRequiresAnArgumentError => e
+      rescue Cri::OptionParser::OptionRequiresAnArgumentError => e
         $stderr.puts "#{name}: option requires an argument -- #{e}"
         exit 1
       end

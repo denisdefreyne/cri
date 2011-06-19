@@ -1,12 +1,12 @@
 # encoding: utf-8
 
-module Cri2
+module Cri
 
   # @todo Document
   class CommandDSL
 
     def initialize(command=nil)
-      @command = command || Cri2::Command.new
+      @command = command || Cri::Command.new
     end
 
     # @todo Document
@@ -17,7 +17,7 @@ module Cri2
     # @todo Document
     def subcommand(cmd=nil, &block)
       if cmd.nil?
-        cmd = Cri2::Command.define(&block)
+        cmd = Cri::Command.define(&block)
       end
 
       @command.add_command(cmd)
@@ -75,7 +75,7 @@ module Cri2
     def run(&block)
       if block.arity != 2
         raise ArgumentError,
-          "The block given to Cri2::Command#run expects exactly two args"
+          "The block given to Cri::Command#run expects exactly two args"
       end
 
       @command.block = block

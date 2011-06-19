@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-class Cri2::CoreExtTestCase < Cri2::TestCase
+class Cri::CoreExtTestCase < Cri::TestCase
 
   def test_string_to_paragraphs
     original = "Lorem ipsum dolor sit amet,\nconsectetur adipisicing.\n\n" +
