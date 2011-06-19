@@ -21,8 +21,8 @@ module Cri
     # The delegate to which events will be sent. The following methods will
     # be send to the delegate:
     #
-    # * `option_added(key, value, base)`
-    # * `argument_added(argument, base)`
+    # * `option_added(key, value, cmd)`
+    # * `argument_added(argument, cmd)`
     #
     # @return [#option_added, #argument_added] The delegate
     attr_accessor :delegate
@@ -58,6 +58,11 @@ module Cri
     end
 
     # Creates a new parser with the given options/arguments and definitions.
+    #
+    # @param [Array<String>] arguments_and_options An array containing the
+    #   commandline arguments
+    #
+    # @param [Array<Hash>] definitions An array of option definitions
     def initialize(arguments_and_options, definitions)
       @unprocessed_arguments_and_options = arguments_and_options.dup
       @definitions = definitions
@@ -82,8 +87,7 @@ module Cri
       @running = false
     end
 
-    # Parses the commandline arguments in +arguments_and_options+, using the
-    # commandline option definitions in +definitions+.
+    # Parses the commandline arguments into options and arguments
     #
     # +arguments_and_options+ is an array of commandline arguments and
     # options. This will usually be +ARGV+.

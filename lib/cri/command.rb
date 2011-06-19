@@ -3,11 +3,54 @@
 module Cri
 
   # Cri::Command represents a command that can be executed on the commandline.
-  # It is an abstract superclass for all commands.
+  # It is also used for the commandline tool itself.
   class Command
 
+    # Delegate used for partitioning the list of arguments and options. This
+    # delegate will stop the parser as soon as the first argument, i.e. the
+    # command, is found.
+    #
+    # @api private
+    class OptionParserPartitioningDelegate
+
+      # Returns the last parsed argument, which, in this case, will be the
+      # first argument, which will be either nil or the command name.
+      #
+      # @return [String] The last parsed argument.
+      attr_reader :last_argument
+
+      # Called when an option is parsed.
+      #
+      # @param [Symbol] key The option key (derived from the long format)
+      #
+      # @param value The option value
+      #
+      # @param [Cri::OptionParser] option_parser The option parser
+      #
+      # @return [void]
+      def option_added(key, value, option_parser)
+      end
+
+      # Called when an argument is parsed.
+      #
+      # @param [String] argument The argument
+      #
+      # @param [Cri::OptionParser] option_parser The option parser
+      #
+      # @return [void]
+      def argument_added(argument, option_parser)
+        @last_argument = argument
+        option_parser.stop
+      end
+
+    end
+
     # @todo Document
-    attr_accessor :base
+    attr_accessor :supercommand
+
+    # @todo document
+    attr_accessor :commands
+    alias_method :subcommands, :commands
 
     # @todo Document
     attr_accessor :name
@@ -32,17 +75,98 @@ module Cri
 
     def initialize
       @aliases            = Set.new
+      @commands           = Set.new # TODO make this a hash (name -> cmd)
       @option_definitions = Set.new
     end
 
     # @todo Document
-    def run(options, arguments)
-      if @block.nil?
-        raise RuntimeError,
-          "This command does not have anything to execute"
+    def global_option_definitions
+      res = Set.new
+      res.merge(option_definitions)
+      res.merge(supercommand.global_option_definitions) if supercommand
+      res
+    end
+
+    # @todo Document
+    def define_command(name=nil, &block)
+      # Execute DSL
+      dsl = Cri::CommandDSL.new
+      dsl.name name unless name.nil?
+      dsl.instance_eval(&block)
+
+      # Create command
+      cmd = dsl.build_command
+      self.add_command(cmd)
+      cmd
+    end
+
+    # Returns the commands that could be referred to with the given name. If
+    # the result contains more than one command, the name is ambiguous.
+    #
+    # @todo Document
+    def commands_named(name)
+      # Find by exact name or alias
+      @commands.each do |cmd|
+        found = cmd.name == name || cmd.aliases.include?(name)
+        return [ cmd ] if found
       end
 
-      @block.call(options, arguments)
+      # Find by approximation
+      @commands.select do |cmd|
+        cmd.name[0, name.length] == name
+      end
+    end
+
+    # Returns the command with the given name.
+    #
+    # @todo Document
+    def command_named(name)
+      commands = commands_named(name)
+
+      if commands.size < 1
+        $stderr.puts "#{@tool_name}: unknown command '#{name}'\n"
+        exit 1
+      elsif commands.size > 1
+        $stderr.puts "#{@tool_name}: '#{name}' is ambiguous:"
+        $stderr.puts "  #{commands.map { |c| c.name }.join(' ') }"
+        exit 1
+      else
+        commands[0]
+      end
+    end
+
+    # @todo Document
+    def run(opts_and_args, parent_opts={})
+      if subcommands.empty?
+        # Parse
+        parser = Cri::OptionParser.new(
+          opts_and_args, global_option_definitions)
+        self.handle_parser_errors_while { parser.run }
+
+        # Execute
+        @block.call(
+          parent_opts.merge(parser.options),
+          parser.arguments)
+      else
+        # Parse up to command name
+        opts_before_cmd, cmd_name, opts_and_args_after_cmd = *partition(args)
+
+        # Handle options before command
+        opts_before_cmd.each_pair do |key, value|
+          # TODO add definition here (for block)
+          handle_option(key, value)
+        end
+
+        # Get command
+        if command_name.nil?
+          $stderr.puts "no command given"
+          exit 1
+        end
+        command = command_named(command_name)
+
+        # Run
+        command.run(opts_and_args_after_cmd, opts_before_cmd)
+      end
     end
 
     # @return [String] The help text for this command
@@ -67,13 +191,17 @@ module Cri
       text << long_desc.wrap_and_indent(78, 4) + "\n"
 
       # Append options
-      all_option_definitions = base.global_option_definitions + option_definitions
-      unless all_option_definitions.empty?
+      defs = global_option_definitions.sort { |x,y| x[:long] <=> y[:long] }
+      unless defs.empty?
         text << "\n"
         text << "options:\n"
         text << "\n"
-        all_option_definitions.sort { |x,y| x[:long] <=> y[:long] }.each do |opt_def|
-          text << sprintf("    -%1s --%-10s %s\n", opt_def[:short], opt_def[:long], opt_def[:desc])
+        defs.each do |opt_def|
+          text << sprintf(
+            "    -%1s --%-10s %s\n",
+            opt_def[:short],
+            opt_def[:long],
+            opt_def[:desc])
         end
       end
 
@@ -84,6 +212,41 @@ module Cri
     # Compares this command's name to the other given command's name.
     def <=>(other)
       self.name <=> other.name
+    end
+
+  protected
+
+    def add_command(command)
+      @commands << command
+      command.supercommand = self
+    end
+
+    def partition(opts_and_args)
+      # Parse
+      delegate = Cri::Command::OptionParserPartitioningDelegate.new
+      parser = Cri::OptionParser.new(opts_and_args, global_option_definitions)
+      parser.delegate = delegate
+      self.handle_parser_errors_while { parser.run }
+      parser
+
+      # Extract
+      [
+        parser.options,
+        delegate.last_argument,
+        parser.unprocessed_arguments_and_options
+      ]
+    end
+
+    def handle_parser_errors_while(&block)
+      begin
+        block.call
+      rescue Cri::OptionParser::IllegalOptionError => e
+        $stderr.puts "illegal option -- #{e}"
+        exit 1
+      rescue Cri::OptionParser::OptionRequiresAnArgumentError => e
+        $stderr.puts "option requires an argument -- #{e}"
+        exit 1
+      end
     end
 
   end
