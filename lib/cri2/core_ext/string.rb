@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-module Cri::CoreExtensions
+module Cri2::CoreExtensions
 
   module String
 

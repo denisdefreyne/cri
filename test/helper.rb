@@ -2,7 +2,7 @@
 
 require 'stringio'
 
-class Cri::TestCase < MiniTest::Unit::TestCase
+class Cri2::TestCase < MiniTest::Unit::TestCase
 
   def capture_io_while(&block)
     $orig_stdout = $stdout

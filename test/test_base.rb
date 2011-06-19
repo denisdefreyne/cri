@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-class Cri::BaseTestCase < Cri::TestCase
+class Cri2::BaseTestCase < Cri2::TestCase
 
   def test_stub
   end

@@ -8,7 +8,7 @@ require 'minitest/unit'
 
 # Cri itself
 $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + '/lib'))
-require 'cri'
+require 'cri2'
 
 ##### Documentation
 

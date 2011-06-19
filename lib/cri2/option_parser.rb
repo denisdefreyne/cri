@@ -1,8 +1,8 @@
 # encoding: utf-8
 
-module Cri
+module Cri2
 
-  # Cri::OptionParser is used for parsing commandline options.
+  # Cri2::OptionParser is used for parsing commandline options.
   class OptionParser
 
     # Superclass for generic option parser errors.
@@ -10,12 +10,12 @@ module Cri
     end
 
     # Error that will be raised when an unknown option is encountered.
-    class IllegalOptionError < Cri::OptionParser::GenericError
+    class IllegalOptionError < Cri2::OptionParser::GenericError
     end
 
     # Error that will be raised when an option without argument is
     # encountered.
-    class OptionRequiresAnArgumentError < Cri::OptionParser::GenericError
+    class OptionRequiresAnArgumentError < Cri2::OptionParser::GenericError
     end
 
     # The delegate to which events will be sent. The following methods will

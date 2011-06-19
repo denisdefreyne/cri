@@ -1,9 +1,9 @@
 # encoding: utf-8
 
 $LOAD_PATH.unshift(File.dirname(__FILE__) + '/../lib')
-require 'cri'
+require 'cri2'
 
-command = Cri::Command.define do
+command = Cri2::Command.define do
   name        'moo'
   usage       'usage: moo [options]'
   summary     'does stuff'

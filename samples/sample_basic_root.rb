@@ -1,9 +1,9 @@
 # encoding: utf-8
 
 $LOAD_PATH.unshift(File.dirname(__FILE__) + '/../lib')
-require 'cri'
+require 'cri2'
 
-cmd = Cri::Command.new_basic_root.modify do
+cmd = Cri2::Command.new_basic_root.modify do
   name        'nanoc'
   usage       'nanoc [options] [command] [options]'
   summary     'manages and builds static web sites'

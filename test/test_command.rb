@@ -1,9 +1,9 @@
 # encoding: utf-8
 
-class Cri::CommandTestCase < Cri::TestCase
+class Cri2::CommandTestCase < Cri2::TestCase
 
   def simple_cmd
-    Cri::Command.define do
+    Cri2::Command.define do
       name        'moo'
       usage       'dunno whatever'
       summary     'does stuff'
@@ -30,7 +30,7 @@ class Cri::CommandTestCase < Cri::TestCase
   end
 
   def nested_cmd
-    super_cmd = Cri::Command.define do
+    super_cmd = Cri2::Command.define do
       name        'super'
       usage       'does something super'
       summary     'does super stuff'
@@ -202,7 +202,7 @@ class Cri::CommandTestCase < Cri::TestCase
   end
 
   def test_modify
-    cmd = Cri::Command.define do
+    cmd = Cri2::Command.define do
       name 'build'
     end
     assert_equal 'build', cmd.name
@@ -215,7 +215,7 @@ class Cri::CommandTestCase < Cri::TestCase
   end
 
   def test_new_basic_root
-    cmd = Cri::Command.new_basic_root.modify do
+    cmd = Cri2::Command.new_basic_root.modify do
       name 'mytool'
     end
 
