@@ -3,10 +3,10 @@ module Cri
   # The current Cri version.
   VERSION = '1.1'
 
+  autoload 'Base',              'cri/base'
+  autoload 'Command',           'cri/command'
+  autoload 'OptionParser',      'cri/option_parser'
+
 end
 
-# Load Cri
-require 'cri/base'
-require 'cri/command'
 require 'cri/core_ext'
-require 'cri/option_parser'
