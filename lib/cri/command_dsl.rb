@@ -73,9 +73,9 @@ module Cri
 
     # @todo Document
     def run(&block)
-      if block.arity != 2
+      unless block.arity != 2 || block.arity != 3
         raise ArgumentError,
-          "The block given to Cri::Command#run expects exactly two args"
+          "The block given to Cri::Command#run expects two or three args"
       end
 
       @command.block = block

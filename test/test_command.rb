@@ -3,22 +3,22 @@
 class Cri::CommandTestCase < Cri::TestCase
 
   def simple_cmd
-    Cri::Command.define do
-      name        'moo'
-      usage       'dunno whatever'
-      summary     'does stuff'
-      description 'This command does a lot of stuff.'
+    Cri::Command.define do |c|
+      c.name        'moo'
+      c.usage       'dunno whatever'
+      c.summary     'does stuff'
+      c.description 'This command does a lot of stuff.'
 
-      option    :a, :aaa, 'opt a', :argument => :optional do |value|
-        $stdout.puts "#{name}:#{value}"
+      c.option    :a, :aaa, 'opt a', :argument => :optional do |value, cmd|
+        $stdout.puts "#{cmd.name}:#{value}"
       end
-      required  :b, :bbb, 'opt b'
-      optional  :c, :ccc, 'opt c'
-      flag      :d, :ddd, 'opt d'
-      forbidden :e, :eee, 'opt e'
+      c.required  :b, :bbb, 'opt b'
+      c.optional  :c, :ccc, 'opt c'
+      c.flag      :d, :ddd, 'opt d'
+      c.forbidden :e, :eee, 'opt e'
 
-      run do |opts, args|
-        $stdout.puts "Awesome #{name}!"
+      c.run do |opts, args, c|
+        $stdout.puts "Awesome #{c.name}!"
 
         $stdout.puts args.join(',')
 
@@ -30,44 +30,44 @@ class Cri::CommandTestCase < Cri::TestCase
   end
 
   def bare_cmd
-    Cri::Command.define do
-      name        'moo'
+    Cri::Command.define do |c|
+      c.name        'moo'
 
-      run do |opts, args|
+      c.run do |opts, args|
       end
     end
   end
 
   def nested_cmd
-    super_cmd = Cri::Command.define do
-      name        'super'
-      usage       'super [command] [options] [arguments]'
-      summary     'does super stuff'
-      description 'This command does super stuff.'
+    super_cmd = Cri::Command.define do |c|
+      c.name        'super'
+      c.usage       'super [command] [options] [arguments]'
+      c.summary     'does super stuff'
+      c.description 'This command does super stuff.'
 
-      option    :a, :aaa, 'opt a', :argument => :optional do |value|
-        $stdout.puts "#{name}:#{value}"
+      c.option    :a, :aaa, 'opt a', :argument => :optional do |value, cmd|
+        $stdout.puts "#{cmd.name}:#{value}"
       end
-      required  :b, :bbb, 'opt b'
-      optional  :c, :ccc, 'opt c'
-      flag      :d, :ddd, 'opt d'
-      forbidden :e, :eee, 'opt e'
+      c.required  :b, :bbb, 'opt b'
+      c.optional  :c, :ccc, 'opt c'
+      c.flag      :d, :ddd, 'opt d'
+      c.forbidden :e, :eee, 'opt e'
     end
 
-    super_cmd.define_command do
-      name        'sub'
-      aliases     'sup'
-      usage       'sub [options]'
-      summary     'does subby stuff'
-      description 'This command does subby stuff.'
+    super_cmd.define_command do |c|
+      c.name        'sub'
+      c.aliases     'sup'
+      c.usage       'sub [options]'
+      c.summary     'does subby stuff'
+      c.description 'This command does subby stuff.'
 
-      option    :m, :mmm, 'opt m', :argument => :optional
-      required  :n, :nnn, 'opt n'
-      optional  :o, :ooo, 'opt o'
-      flag      :p, :ppp, 'opt p'
-      forbidden :q, :qqq, 'opt q'
+      c.option    :m, :mmm, 'opt m', :argument => :optional
+      c.required  :n, :nnn, 'opt n'
+      c.optional  :o, :ooo, 'opt o'
+      c.flag      :p, :ppp, 'opt p'
+      c.forbidden :q, :qqq, 'opt q'
 
-      run do |opts, args|
+      c.run do |opts, args|
         $stdout.puts "Sub-awesome!"
 
         $stdout.puts args.join(',')
@@ -78,13 +78,13 @@ class Cri::CommandTestCase < Cri::TestCase
       end
     end
 
-    super_cmd.define_command do
-      name        'sink'
-      usage       'sink thing_to_sink'
-      summary     'sinks stuff'
-      description 'Sinks stuff (like ships and the like).'
+    super_cmd.define_command do |c|
+      c.name        'sink'
+      c.usage       'sink thing_to_sink'
+      c.summary     'sinks stuff'
+      c.description 'Sinks stuff (like ships and the like).'
 
-      run do |opts, args|
+      c.run do |opts, args|
         $stdout.puts "Sinking!"
       end
     end
@@ -221,21 +221,21 @@ class Cri::CommandTestCase < Cri::TestCase
   end
 
   def test_modify
-    cmd = Cri::Command.define do
-      name 'build'
+    cmd = Cri::Command.define do |c|
+      c.name 'build'
     end
     assert_equal 'build', cmd.name
 
-    cmd.modify do
-      name 'compile'
+    cmd.modify do |c|
+      c.name 'compile'
     end
 
     assert_equal 'compile', cmd.name
   end
 
   def test_new_basic_root
-    cmd = Cri::Command.new_basic_root.modify do
-      name 'mytool'
+    cmd = Cri::Command.new_basic_root.modify do |c|
+      c.name 'mytool'
     end
 
     # Check option definitions

@@ -74,10 +74,10 @@ module Cri
     attr_accessor :block
 
     # @todo Document
-    def self.define(string=nil, &block)
+    def self.define(string = nil,&block)
       dsl = Cri::CommandDSL.new
-      if block
-        dsl.instance_eval(&block)
+      if string.nil?
+        block.call(dsl)
       else
         dsl.instance_eval(string)
       end
@@ -105,7 +105,7 @@ module Cri
     # @todo Document
     def modify(&block)
       dsl = Cri::CommandDSL.new(self)
-      dsl.instance_eval(&block)
+      block.call(dsl)
       self
     end
 
@@ -128,7 +128,7 @@ module Cri
       # Execute DSL
       dsl = Cri::CommandDSL.new
       dsl.name name unless name.nil?
-      dsl.instance_eval(&block)
+      block.call(dsl)
 
       # Create command
       cmd = dsl.command
@@ -189,7 +189,7 @@ module Cri
         if @block.nil?
           raise "No implementation available for '#{self.name}'"
         end
-        self.instance_exec(global_opts, args, &block)
+        block.call(global_opts, args, self)
       else
         # Parse up to command name
         stuff = partition(opts_and_args)
@@ -284,7 +284,7 @@ module Cri
       opts.each_pair do |key, value|
         opt_def = global_option_definitions.find { |o| o[:long] == key.to_s }
         block = opt_def[:block]
-        self.instance_exec(value, &block) if block
+        block.call(value, self) if block
       end
     end
 

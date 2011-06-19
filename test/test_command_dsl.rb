@@ -5,7 +5,7 @@ class Cri::CommandDSLTestCase < Cri::TestCase
   def test_create_command
     # Define
     dsl = Cri::CommandDSL.new
-    dsl.instance_eval do
+    dsl.instance_eval do 
       name        'moo'
       usage       'dunno whatever'
       summary     'does stuff'
@@ -51,8 +51,8 @@ class Cri::CommandDSLTestCase < Cri::TestCase
     dsl = Cri::CommandDSL.new
     dsl.instance_eval do
       name 'super'
-      subcommand do
-        name 'sub'
+      subcommand do |c|
+        c.name 'sub'
       end
     end
     command = dsl.command
