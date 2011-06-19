@@ -131,10 +131,10 @@ module Cri
       commands = commands_named(name)
 
       if commands.size < 1
-        $stderr.puts "#{@tool_name}: unknown command '#{name}'\n"
+        $stderr.puts "#{self.name}: unknown command '#{name}'\n"
         exit 1
       elsif commands.size > 1
-        $stderr.puts "#{@tool_name}: '#{name}' is ambiguous:"
+        $stderr.puts "#{self.name}: '#{name}' is ambiguous:"
         $stderr.puts "  #{commands.map { |c| c.name }.join(' ') }"
         exit 1
       else
@@ -156,7 +156,8 @@ module Cri
           parser.arguments)
       else
         # Parse up to command name
-        opts_before_cmd, cmd_name, opts_and_args_after_cmd = *partition(args)
+        stuff = partition(opts_and_args)
+        opts_before_cmd, cmd_name, opts_and_args_after_cmd = *stuff
 
         # Handle options before command
         opts_before_cmd.each_pair do |key, value|
@@ -165,11 +166,11 @@ module Cri
         end
 
         # Get command
-        if command_name.nil?
-          $stderr.puts "no command given"
+        if cmd_name.nil?
+          $stderr.puts "#{name}: no command given"
           exit 1
         end
-        command = command_named(command_name)
+        command = command_named(cmd_name)
 
         # Run
         command.run(opts_and_args_after_cmd, opts_before_cmd)
@@ -248,10 +249,10 @@ module Cri
       begin
         block.call
       rescue Cri::OptionParser::IllegalOptionError => e
-        $stderr.puts "illegal option -- #{e}"
+        $stderr.puts "#{name}: illegal option -- #{e}"
         exit 1
       rescue Cri::OptionParser::OptionRequiresAnArgumentError => e
-        $stderr.puts "option requires an argument -- #{e}"
+        $stderr.puts "#{name}: option requires an argument -- #{e}"
         exit 1
       end
     end

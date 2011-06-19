@@ -11,7 +11,6 @@ module Cri
 
     # @todo Document
     def build_command
-      @command.freeze
       @command
     end
 

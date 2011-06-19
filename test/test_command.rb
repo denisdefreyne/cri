@@ -27,6 +27,57 @@ class Cri::CommandTestCase < Cri::TestCase
     end
   end
 
+  def nested_cmd
+    super_cmd = Cri::Command.define do
+      name        'super'
+      usage       'does something super'
+      summary     'does super stuff'
+      description 'This command does super stuff.'
+
+      option    :a, :aaa, 'opt a', :argument => :optional
+      required  :b, :bbb, 'opt b'
+      optional  :c, :ccc, 'opt c'
+      flag      :d, :ddd, 'opt d'
+      forbidden :e, :eee, 'opt e'
+    end
+
+    super_cmd.define_command do
+      name        'sub'
+      usage       'does something subby'
+      summary     'does subby stuff'
+      description 'This command does subby stuff.'
+
+      option    :m, :mmm, 'opt m', :argument => :optional
+      required  :n, :nnn, 'opt n'
+      optional  :o, :ooo, 'opt o'
+      flag      :p, :ppp, 'opt p'
+      forbidden :q, :qqq, 'opt q'
+
+      run do |opts, args|
+        $stdout.puts "Sub-awesome!"
+
+        $stdout.puts args.join(',')
+
+        opts_strings = []
+        opts.each_pair { |k,v| opts_strings << "#{k}=#{v}" }
+        $stdout.puts opts_strings.join(',')
+      end
+    end
+
+    super_cmd.define_command do
+      name        'sink'
+      usage       'sink thing_to_sink'
+      summary     'sinks stuff'
+      description 'Sinks stuff (like ships and the like).'
+
+      run do |opts, args|
+        $stdout.puts "Sinking!"
+      end
+    end
+
+    super_cmd
+  end
+
   def test_invoke_simple_without_opts_or_args
     out, err = capture_io_while do
       simple_cmd.run(%w())
@@ -61,8 +112,61 @@ class Cri::CommandTestCase < Cri::TestCase
       end
     end
 
-    assert_equal "", out
-    assert_equal "option requires an argument -- b\n", err
+    assert_equal [], lines(out)
+    assert_equal [ "moo: option requires an argument -- b" ], lines(err)
+  end
+
+  def test_invoke_simple_with_illegal_opt
+    out, err = capture_io_while do
+      assert_raises SystemExit do
+        simple_cmd.run(%w( -z ))
+      end
+    end
+
+    assert_equal [], lines(out)
+    assert_equal [ "moo: illegal option -- z" ], lines(err)
+  end
+
+  def test_invoke_nested_without_opts_or_args
+    out, err = capture_io_while do
+      assert_raises SystemExit do
+        nested_cmd.run(%w())
+      end
+    end
+
+    assert_equal [ ], lines(out)
+    assert_equal [ 'super: no command given' ], lines(err)
+  end
+
+  def test_invoke_nested_with_correct_command_name
+    out, err = capture_io_while do
+      nested_cmd.run(%w( sub ))
+    end
+
+    assert_equal [ 'Sub-awesome!', '', '' ], lines(out)
+    assert_equal [ ], lines(err)
+  end
+
+  def test_invoke_nested_with_incorrect_command_name
+    out, err = capture_io_while do
+      assert_raises SystemExit do
+        nested_cmd.run(%w( oogabooga ))
+      end
+    end
+
+    assert_equal [ ], lines(out)
+    assert_equal [ "super: unknown command 'oogabooga'" ], lines(err)
+  end
+
+  def test_invoke_nested_with_ambiguous_command_name
+    out, err = capture_io_while do
+      assert_raises SystemExit do
+        nested_cmd.run(%w( s ))
+      end
+    end
+
+    assert_equal [ ], lines(out)
+    assert_equal [ "super: 's' is ambiguous:", "  sub sink" ], lines(err)
   end
 
 end
