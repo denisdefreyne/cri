@@ -10,6 +10,6 @@ Contributors
 
 * Toon Willems
 
-Thanks for Lee “injekt” Jarvis for Slop[1], which has inspired the design of Cri 2.0.
+Thanks for Lee “injekt” Jarvis for [Slop][1], which has inspired the design of Cri 2.0.
 
 [1]: https://github.com/injekt/slop
