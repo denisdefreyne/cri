@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module Cri
 
   # Cri::Base is the central class representing a commandline tool. It has a

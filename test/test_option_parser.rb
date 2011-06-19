@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Cri::OptionParserTest < MiniTest::Unit::TestCase
 
   def test_parse_without_options

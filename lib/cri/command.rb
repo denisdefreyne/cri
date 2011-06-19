@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module Cri
 
   # Cri::Command represents a command that can be executed on the commandline.
