@@ -74,10 +74,20 @@ module Cri
     attr_accessor :block
 
     # @todo Document
-    def self.define(&block)
+    def self.define(string=nil, &block)
       dsl = Cri::CommandDSL.new
-      dsl.instance_eval(&block)
+      if block
+        dsl.instance_eval(&block)
+      else
+        dsl.instance_eval(string)
+      end
       dsl.command
+    end
+
+    # @todo Document
+    def self.new_basic_root
+      filename = File.dirname(__FILE__) + '/commands/basic_root.rb'
+      self.define(File.read(filename))
     end
 
     def initialize
