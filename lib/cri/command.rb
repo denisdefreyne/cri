@@ -237,9 +237,10 @@ module Cri
         text << "\n"
         text << "options:\n"
         text << "\n"
+        length = defs.inject(0) { |m,o| [ m, o[:long].size ].max }
         defs.each do |opt_def|
           text << sprintf(
-            "    -%1s --%-10s %s\n",
+            "    -%1s --%-#{length+4}s %s\n",
             opt_def[:short],
             opt_def[:long],
             opt_def[:desc])
