@@ -9,8 +9,8 @@ class Cri::CommandTestCase < Cri::TestCase
       summary     'does stuff'
       description 'This command does a lot of stuff.'
 
-      option    :a, :aaa, 'opt a', :argument => :optional do |value, cmd|
-        $stdout.puts "#{cmd.name}:#{value}"
+      option    :a, :aaa, 'opt a', :argument => :optional do |value|
+        $stdout.puts "#{name}:#{value}"
       end
       required  :b, :bbb, 'opt b'
       optional  :c, :ccc, 'opt c'
@@ -18,7 +18,7 @@ class Cri::CommandTestCase < Cri::TestCase
       forbidden :e, :eee, 'opt e'
 
       run do |opts, args|
-        $stdout.puts "Awesome!"
+        $stdout.puts "Awesome #{name}!"
 
         $stdout.puts args.join(',')
 
@@ -36,8 +36,8 @@ class Cri::CommandTestCase < Cri::TestCase
       summary     'does super stuff'
       description 'This command does super stuff.'
 
-      option    :a, :aaa, 'opt a', :argument => :optional do |value, cmd|
-        $stdout.puts "#{cmd.name}:#{value}"
+      option    :a, :aaa, 'opt a', :argument => :optional do |value|
+        $stdout.puts "#{name}:#{value}"
       end
       required  :b, :bbb, 'opt b'
       optional  :c, :ccc, 'opt c'
@@ -88,7 +88,7 @@ class Cri::CommandTestCase < Cri::TestCase
       simple_cmd.run(%w())
     end
 
-    assert_equal [ 'Awesome!', '', '' ], lines(out)
+    assert_equal [ 'Awesome moo!', '', '' ], lines(out)
     assert_equal [], lines(err)
   end
 
@@ -97,7 +97,7 @@ class Cri::CommandTestCase < Cri::TestCase
       simple_cmd.run(%w(abc xyz))
     end
 
-    assert_equal [ 'Awesome!', 'abc,xyz', '' ], lines(out)
+    assert_equal [ 'Awesome moo!', 'abc,xyz', '' ], lines(out)
     assert_equal [], lines(err)
   end
 
@@ -106,7 +106,7 @@ class Cri::CommandTestCase < Cri::TestCase
       simple_cmd.run(%w(-c -b x))
     end
 
-    assert_equal [ 'Awesome!', '', 'ccc=true,bbb=x' ], lines(out)
+    assert_equal [ 'Awesome moo!', '', 'ccc=true,bbb=x' ], lines(out)
     assert_equal [], lines(err)
   end
 
@@ -137,7 +137,7 @@ class Cri::CommandTestCase < Cri::TestCase
       simple_cmd.run(%w( -a 123 ))
     end
 
-    assert_equal [ 'moo:123', 'Awesome!', '', 'aaa=123' ], lines(out)
+    assert_equal [ 'moo:123', 'Awesome moo!', '', 'aaa=123' ], lines(out)
     assert_equal [], lines(err)
   end
 

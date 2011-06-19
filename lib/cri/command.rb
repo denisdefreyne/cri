@@ -183,7 +183,7 @@ module Cri
         if @block.nil?
           raise "No implementation available for '#{self.name}'"
         end
-        @block.call(global_opts, args)
+        self.instance_exec(global_opts, args, &block)
       else
         # Parse up to command name
         stuff = partition(opts_and_args)
@@ -255,7 +255,7 @@ module Cri
       opts.each_pair do |key, value|
         opt_def = global_option_definitions.find { |o| o[:long] == key.to_s }
         block = opt_def[:block]
-        block.call(value, self) if block
+        self.instance_exec(value, &block) if block
       end
     end
 
