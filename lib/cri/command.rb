@@ -90,6 +90,12 @@ module Cri
       self.define(File.read(filename))
     end
 
+    # @todo Document
+    def self.new_basic_help
+      filename = File.dirname(__FILE__) + '/commands/basic_help.rb'
+      self.define(File.read(filename))
+    end
+
     def initialize
       @aliases            = Set.new
       @commands           = Set.new # TODO make this a hash (name -> cmd)
