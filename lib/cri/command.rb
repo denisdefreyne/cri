@@ -6,115 +6,43 @@ module Cri
   # It is an abstract superclass for all commands.
   class Command
 
+    # @todo Document
     attr_accessor :base
 
-    # @todo document
-    def verify
-      # TODO implement
-      errors = []
-      errors << "name is nil" if @name.nil?
-      errors
+    # @todo Document
+    attr_accessor :name
+
+    # @todo Document
+    attr_accessor :aliases
+
+    # @todo Document
+    attr_accessor :short_desc
+
+    # @todo Document
+    attr_accessor :long_desc
+
+    # @todo Document
+    attr_accessor :usage
+
+    # @todo Document
+    attr_accessor :option_definitions
+
+    # @todo Document
+    attr_accessor :block
+
+    def initialize
+      @aliases            = Set.new
+      @option_definitions = Set.new
     end
 
-    # @todo document
-    def name(arg=nil)
-      if arg.nil?
-        @name or raise NotImplementedError,
-          "This command does not have a name"
-      else
-        @name = arg
-      end
-    end
-
-    # @todo document
-    def aliases(*args)
-      if args.empty?
-        @aliases ||= []
-      else
-        @aliases = args
-      end
-    end
-
-    # @todo document
-    def short_desc(arg=nil)
-      if arg.nil?
-        @short_desc or raise NotImplementedError,
-          "This command does not have a short description"
-      else
-        @short_desc = arg
-      end
-    end
-
-    # @todo document
-    def long_desc(arg=nil)
-      if arg.nil?
-        @long_desc
-      else
-        @long_desc = arg
-      end
-    end
-
-    # @todo document
-    def usage(arg=nil)
-      if arg.nil?
-        @usage or raise NotImplementedError,
-          "This command does not have a usage"
-      else
-        @usage = arg
-      end
-    end
-
-    # @todo document
-    def option_definitions
-      @option_definitions ||= []
-    end
-
-    # @todo document
-    def option(short, long, desc, params={})
-      requiredness = params.fetch(:argument) do
-        raise ArgumentError,
-          "Expected an :argument parameter (:required, :forbidden, :optional)"
+    # @todo Document
+    def run(options, arguments)
+      if @block.nil?
+        raise RuntimeError,
+          "This command does not have anything to execute"
       end
 
-      add_option(short, long, desc, requiredness)
-    end
-
-    # @todo document
-    def required(short, long, desc)
-      add_option(short, long, desc, :required)
-    end
-
-    # @todo document
-    def flag(short, long, desc)
-      add_option(short, long, desc, :forbidden)
-    end
-    alias_method :forbidden, :flag
-
-    # @todo document
-    def optional(short, long, desc)
-      add_option(short, long, desc, :optional)
-    end
-
-    # @todo document
-    def run(*args, &block)
-      if args.empty? && block
-        # set block
-        if block.arity != 2
-          raise ArgumentError,
-            "The block given to Cri::Command#run expects exactly two args"
-        end
-        @block = block
-      elsif args.size == 2
-        # run
-        if @block.nil?
-          raise RuntimeError,
-            "This command does not have anything to execute"
-        end
-        @block.call(*args)
-      else
-        raise ArgumentError,
-          "You are calling Cri::Command#run in a weird way. Kittens cry. :("
-      end
+      @block.call(options, arguments)
     end
 
     # @return [String] The help text for this command
@@ -156,17 +84,6 @@ module Cri
     # Compares this command's name to the other given command's name.
     def <=>(other)
       self.name <=> other.name
-    end
-
-  private
-
-    # @todo document
-    def add_option(short, long, desc, argument)
-      option_definitions << {
-        :short    => short.to_s,
-        :long     => long.to_s,
-        :desc     => desc,
-        :argument => argument }
     end
 
   end

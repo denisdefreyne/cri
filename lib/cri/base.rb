@@ -55,14 +55,17 @@ module Cri
       @commands = []
     end
 
-    # @todo document
+    # @todo Document
     def define_command(name=nil, &block)
-      command = Cri::Command.new
-      command.name name unless name.nil?
-      command.instance_eval(&block)
-      command.verify
-      add_command(command)
-      command
+      # Execute DSL
+      dsl = Cri::CommandDSL.new
+      dsl.name name unless name.nil?
+      dsl.instance_eval(&block)
+
+      # Create command
+      cmd = dsl.build_command
+      add_command(cmd)
+      cmd
     end
 
     # Returns the help command. If the help command was set using
