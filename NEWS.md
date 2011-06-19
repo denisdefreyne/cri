@@ -1,6 +1,12 @@
 Cri News
 ========
 
+2.0
+---
+
+* Added DSL
+* Added support for nested commands
+
 1.0.1
 -----
 
