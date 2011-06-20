@@ -74,12 +74,14 @@ module Cri
     attr_accessor :block
 
     # @todo Document
-    def self.define(string = nil,&block)
+    def self.define(string=nil, &block)
       dsl = Cri::CommandDSL.new
-      if string.nil?
-        block.call(dsl)
-      else
+      if string
         dsl.instance_eval(string)
+      elsif block.arity == 0
+        dsl.instance_eval(&block)
+      else
+        block.call(dsl)
       end
       dsl.command
     end
@@ -105,7 +107,11 @@ module Cri
     # @todo Document
     def modify(&block)
       dsl = Cri::CommandDSL.new(self)
-      block.call(dsl)
+      if block.arity == 0
+        dsl.instance_eval(&block)
+      else
+        block.call(dsl)
+      end
       self
     end
 
@@ -128,7 +134,11 @@ module Cri
       # Execute DSL
       dsl = Cri::CommandDSL.new
       dsl.name name unless name.nil?
-      block.call(dsl)
+      if block.arity == 0
+        dsl.instance_eval(&block)
+      else
+        block.call(dsl)
+      end
 
       # Create command
       cmd = dsl.command
