@@ -10,13 +10,17 @@ commandline options. When a command is given, a command description as well as
 command-specific commandline options are shown.
 EOS
 
-run do |opts, args|
+run do |opts, args, cmd|
+  if cmd.supercommand.nil?
+    raise "No help available because the help command has no supercommand"
+  end
+
   if args.empty?
-    puts self.supercommand.help
+    puts cmd.supercommand.help
   elsif args.size == 1
-    puts self.supercommand.command_named(args[0]).help
+    puts cmd.supercommand.command_named(args[0]).help
   else
-    $stderr.puts self.usage
+    $stderr.puts cmd.usage
     exit 1
   end
 end
