@@ -4,23 +4,41 @@ require 'stringio'
 
 class Cri::TestCase < MiniTest::Unit::TestCase
 
+  def setup
+    @orig_io = capture_io
+  end
+
+  def teardown
+    uncapture_io(*@orig_io)
+  end
+
   def capture_io_while(&block)
-    $orig_stdout = $stdout
-    $orig_stderr = $stderr
-
-    $stdout = StringIO.new
-    $stderr = StringIO.new
-
+   orig_io = capture_io
     block.call
-
     [ $stdout.string, $stderr.string ]
   ensure
-    $stdout = $orig_stdout
-    $stderr = $orig_stderr
+    uncapture_io(*orig_io)
   end
 
   def lines(string)
     string.scan(/^.*\n/).map { |s| s.chomp }
+  end
+
+private
+
+  def capture_io
+    orig_stdout = $stdout
+    orig_stderr = $stderr
+
+    $stdout = StringIO.new
+    $stderr = StringIO.new
+
+    [ orig_stdout, orig_stderr ]
+  end
+
+  def uncapture_io(orig_stdout, orig_stderr)
+    $stdout = orig_stdout
+    $stderr = orig_stderr
   end
 
 end
