@@ -5,7 +5,7 @@ class Cri::BasicHelpTestCase < Cri::TestCase
   def test_run_without_supercommand
     cmd = Cri::Command.new_basic_help
 
-    assert_raises RuntimeError do
+    assert_raises Cri::NoHelpAvailableError do
       cmd.run([])
     end
   end

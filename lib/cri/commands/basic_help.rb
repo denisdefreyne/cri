@@ -12,7 +12,8 @@ EOS
 
 run do |opts, args, cmd|
   if cmd.supercommand.nil?
-    raise "No help available because the help command has no supercommand"
+    raise NoHelpAvailableError,
+      "No help available because the help command has no supercommand"
   end
 
   if args.empty?

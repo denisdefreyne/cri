@@ -2,6 +2,18 @@
 
 module Cri
 
+  # @todo Document
+  class Error < ::StandardError
+  end
+
+  # @todo Document
+  class NotImplementedError < Error
+  end
+
+  # @todo Document
+  class NoHelpAvailableError < Error
+  end
+
   # The current Cri version.
   VERSION = '2.0a3'
 

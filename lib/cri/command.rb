@@ -197,7 +197,8 @@ module Cri
 
         # Execute
         if @block.nil?
-          raise "No implementation available for '#{self.name}'"
+          raise NotImplementedError,
+            "No implementation available for '#{self.name}'"
         end
         block.call(global_opts, args, self)
       else
