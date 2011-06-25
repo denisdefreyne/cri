@@ -63,4 +63,16 @@ class Cri::CommandDSLTestCase < Cri::TestCase
     assert_equal 'sub',   command.subcommands.to_a[0].name
   end
 
+  def test_aliases
+    # Define
+    dsl = Cri::CommandDSL.new
+    dsl.instance_eval do
+      aliases :moo, :aah
+    end
+    command = dsl.command
+
+    # Check
+    assert_equal %w( aah moo ), command.aliases.sort
+  end
+
 end

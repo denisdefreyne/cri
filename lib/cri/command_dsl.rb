@@ -30,7 +30,7 @@ module Cri
 
     # @todo Document
     def aliases(*args)
-      @command.aliases = args.flatten
+      @command.aliases = args.flatten.map { |a| a.to_s }
     end
 
     # @todo Document
