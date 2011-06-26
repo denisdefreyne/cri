@@ -111,7 +111,7 @@ to the command, and the command itself.
 
 Commands can have subcommands. For example, the `git` commandline tool would be represented by a command that has subcommands named `commit`, `add`, and so on. Commands with subcommands do not use a run block; execution will always be dispatched to a subcommand (or none, if no subcommand is found).
 
-To add a command as a subcommand to another command, use {Cri::Command#add_subcommand}, like this:
+To add a command as a subcommand to another command, use the {Cri::Command#add_command} method, like this:
 
 	root_cmd.add_command cmd_add
 	root_cmd.add_command cmd_commit
