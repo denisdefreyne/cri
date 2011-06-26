@@ -35,12 +35,12 @@ module Cri
 
     # @todo Document
     def summary(arg)
-      @command.short_desc = arg
+      @command.summary = arg
     end
 
     # @todo Document
     def description(arg)
-      @command.long_desc = arg
+      @command.description = arg
     end
 
     # @todo Document

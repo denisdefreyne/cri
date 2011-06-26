@@ -31,8 +31,8 @@ class Cri::CommandDSLTestCase < Cri::TestCase
     # Check
     assert_equal 'moo', command.name
     assert_equal 'dunno whatever', command.usage
-    assert_equal 'does stuff', command.short_desc
-    assert_equal 'This command does a lot of stuff.', command.long_desc
+    assert_equal 'does stuff', command.summary
+    assert_equal 'This command does a lot of stuff.', command.description
 
     # Check options
     expected_option_definitions = Set.new([

@@ -61,10 +61,10 @@ module Cri
     attr_accessor :aliases
 
     # @return [String] The short description (“summary”)
-    attr_accessor :short_desc
+    attr_accessor :summary
 
     # @return [String] The long description (“description”)
-    attr_accessor :long_desc
+    attr_accessor :description
 
     # @return [String] The usage, without the “usage:” prefix and without the
     #   supercommands’ names.
@@ -291,15 +291,15 @@ module Cri
       end
 
       # Append short description
-      if short_desc
+      if summary
         text << "\n"
-        text << short_desc + "\n"
+        text << summary + "\n"
       end
 
       # Append long description
-      if long_desc
+      if description
         text << "\n"
-        text << long_desc.wrap_and_indent(78, 4) + "\n"
+        text << description.wrap_and_indent(78, 4) + "\n"
       end
 
       # Append subcommands
@@ -311,7 +311,7 @@ module Cri
         self.commands.each do |cmd|
           text << sprintf("    %-#{length+4}s %s\n",
             cmd.name,
-            cmd.short_desc)
+            cmd.summary)
         end
       end
 
