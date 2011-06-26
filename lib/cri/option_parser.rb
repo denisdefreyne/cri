@@ -3,6 +3,58 @@
 module Cri
 
   # Cri::OptionParser is used for parsing commandline options.
+  #
+  # Option definitions are hashes with the keys `:short`, `:long` and
+  # `:argument` (optionally `:description` but this is not used by the
+  # option parser, only by the help generator). `:short` is the short,
+  # one-character option, without the `-` prefix. `:long` is the long,
+  # multi-character option, without the `--` prefix. `:argument` can be
+  # :required (if an argument should be provided to the option), :optional
+  # (if an argument may be provided) or :forbidden (if an argument should
+  # not be provided).
+  #
+  # A sample array of definition hashes could look like this:
+  #
+  #     [
+  #       { :short => 'a', :long => 'all',  :argument => :forbidden },
+  #       { :short => 'p', :long => 'port', :argument => :required  },
+  #     ]
+  #
+  # For example, the following commandline options (which should not be
+  # passed as a string, but as an array of strings):
+  #
+  #     foo -xyz -a hiss -s -m please --level 50 --father=ani -n luke squeak
+  #
+  # with the following option definitions:
+  #
+  #     [
+  #       { :short => 'x', :long => 'xxx',    :argument => :forbidden },
+  #       { :short => 'y', :long => 'yyy',    :argument => :forbidden },
+  #       { :short => 'z', :long => 'zzz',    :argument => :forbidden },
+  #       { :short => 'a', :long => 'all',    :argument => :forbidden },
+  #       { :short => 's', :long => 'stuff',  :argument => :optional  },
+  #       { :short => 'm', :long => 'more',   :argument => :optional  },
+  #       { :short => 'l', :long => 'level',  :argument => :required  },
+  #       { :short => 'f', :long => 'father', :argument => :required  },
+  #       { :short => 'n', :long => 'name',   :argument => :required  }
+  #     ]
+  #
+  # will be translated into:
+  #
+  #     {
+  #       :arguments => [ 'foo', 'hiss', 'squeak' ],
+  #       :options => {
+  #         :xxx    => true,
+  #         :yyy    => true,
+  #         :zzz    => true,
+  #         :all    => true,
+  #         :stuff  => true,
+  #         :more   => 'please',
+  #         :level  => '50',
+  #         :father => 'ani',
+  #         :name   => 'luke'
+  #       }
+  #     }
   class OptionParser
 
     # Error that will be raised when an unknown option is encountered.
@@ -49,6 +101,13 @@ module Cri
 
     # Parses the commandline arguments. See the instance `parse` method for
     # details.
+    #
+    # @param [Array<String>] arguments_and_options An array containing the
+    #   commandline arguments (will probably be `ARGS` for a root command)
+    #
+    # @param [Array<Hash>] definitions An array of option definitions
+    #
+    # @return [void]
     def self.parse(arguments_and_options, definitions)
       self.new(arguments_and_options, definitions).run
     end
@@ -56,7 +115,7 @@ module Cri
     # Creates a new parser with the given options/arguments and definitions.
     #
     # @param [Array<String>] arguments_and_options An array containing the
-    #   commandline arguments
+    #   commandline arguments (will probably be `ARGS` for a root command)
     #
     # @param [Array<Hash>] definitions An array of option definitions
     def initialize(arguments_and_options, definitions)
@@ -83,80 +142,17 @@ module Cri
       @running = false
     end
 
-    # Parses the commandline arguments into options and arguments
-    #
-    # +arguments_and_options+ is an array of commandline arguments and
-    # options. This will usually be +ARGV+.
-    #
-    # +definitions+ contains a list of hashes defining which options are
-    # allowed and how they will be handled. Such a hash has three keys:
-    #
-    # :short:: The short name of the option, e.g. +a+. Do not include the '-'
-    #          prefix.
-    #
-    # :long:: The long name of the option, e.g. +all+. Do not include the '--'
-    #         prefix.
-    #
-    # :argument:: Whether this option's argument is required (:required),
-    #             optional (:optional) or forbidden (:forbidden).
-    #
-    # A sample array of definition hashes could look like this:
-    #
-    #     [
-    #       { :short => 'a', :long => 'all',  :argument => :forbidden },
-    #       { :short => 'p', :long => 'port', :argument => :required  },
-    #     ]
+    # Parses the commandline arguments into options and arguments.
     #
     # During parsing, two errors can be raised:
     #
-    # IllegalOptionError:: An unrecognised option was encountered, i.e. an
-    #                      option that is not present in the list of option
-    #                      definitions.
+    # @raise IllegalOptionError if an unrecognised option was encountered,
+    #   i.e. an option that is not present in the list of option definitions
     #
-    # OptionRequiresAnArgumentError:: An option was found that did not have a
-    #                                 value, even though this value was
-    #                                 required.
+    # @raise OptionRequiresAnArgumentError if an option was found that did not
+    #   have a value, even though this value was required.
     #
-    # What will be returned, is a hash with two keys, :arguments and :options.
-    # The :arguments value contains a list of arguments, and the :options
-    # value contains a hash with key-value pairs for each option. Options
-    # without values will have a +nil+ value instead.
-    #
-    # For example, the following commandline options (which should not be
-    # passed as a string, but as an array of strings):
-    #
-    #     foo -xyz -a hiss -s -m please --level 50 --father=ani -n luke squeak
-    #
-    # with the following option definitions:
-    #
-    #     [
-    #       { :short => 'x', :long => 'xxx',    :argument => :forbidden },
-    #       { :short => 'y', :long => 'yyy',    :argument => :forbidden },
-    #       { :short => 'z', :long => 'zzz',    :argument => :forbidden },
-    #       { :short => 'a', :long => 'all',    :argument => :forbidden },
-    #       { :short => 's', :long => 'stuff',  :argument => :optional  },
-    #       { :short => 'm', :long => 'more',   :argument => :optional  },
-    #       { :short => 'l', :long => 'level',  :argument => :required  },
-    #       { :short => 'f', :long => 'father', :argument => :required  },
-    #       { :short => 'n', :long => 'name',   :argument => :required  }
-    #     ]
-    #
-    # will be translated into:
-    #
-    #     {
-    #       :arguments => [ 'foo', 'hiss', 'squeak' ],
-    #       :options => {
-    #         :xxx    => true,
-    #         :yyy    => true,
-    #         :zzz    => true,
-    #         :all    => true,
-    #         :stuff  => true,
-    #         :more   => 'please',
-    #         :level  => '50',
-    #         :father => 'ani',
-    #         :name   => 'luke'
-    #       }
-    #     }
+    # @return [void]
     def run
       @running = true
 
@@ -241,8 +237,6 @@ module Cri
           add_argument(e)
         end
       end
-
-      { :options => options, :arguments => arguments }
     ensure
       @running = false
     end
