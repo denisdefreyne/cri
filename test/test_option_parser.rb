@@ -6,10 +6,10 @@ class Cri::OptionParserTestCase < Cri::TestCase
     input       = %w( foo bar baz )
     definitions = []
 
-    result = Cri::OptionParser.parse(input, definitions)
+    parser = Cri::OptionParser.parse(input, definitions)
 
-    assert_equal({},                      result[:options])
-    assert_equal([ 'foo', 'bar', 'baz' ], result[:arguments])
+    assert_equal({},                      parser.options)
+    assert_equal([ 'foo', 'bar', 'baz' ], parser.arguments)
   end
 
   def test_parse_with_invalid_option
@@ -19,7 +19,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
     result = nil
 
     assert_raises(Cri::OptionParser::IllegalOptionError) do
-      result = Cri::OptionParser.parse(input, definitions)
+      parser = Cri::OptionParser.parse(input, definitions)
     end
   end
 
@@ -29,9 +29,9 @@ class Cri::OptionParserTestCase < Cri::TestCase
       { :long => 'aaa', :short => 'a', :argument => :forbidden }
     ]
 
-    result = Cri::OptionParser.parse(input, definitions)
+    parser = Cri::OptionParser.parse(input, definitions)
 
-    assert(!result[:options][:aaa])
+    assert(!parser.options[:aaa])
   end
 
   def test_parse_with_long_valueless_option
@@ -40,10 +40,10 @@ class Cri::OptionParserTestCase < Cri::TestCase
       { :long => 'aaa', :short => 'a', :argument => :forbidden }
     ]
 
-    result = Cri::OptionParser.parse(input, definitions)
+    parser = Cri::OptionParser.parse(input, definitions)
 
-    assert(result[:options][:aaa])
-    assert_equal([ 'foo', 'bar' ], result[:arguments])
+    assert(parser.options[:aaa])
+    assert_equal([ 'foo', 'bar' ], parser.arguments)
   end
 
   def test_parse_with_long_valueful_option
@@ -52,10 +52,10 @@ class Cri::OptionParserTestCase < Cri::TestCase
       { :long => 'aaa', :short => 'a', :argument => :required }
     ]
 
-    result = Cri::OptionParser.parse(input, definitions)
+    parser = Cri::OptionParser.parse(input, definitions)
 
-    assert_equal({ :aaa => 'xxx' },  result[:options])
-    assert_equal([ 'foo', 'bar' ], result[:arguments])
+    assert_equal({ :aaa => 'xxx' },  parser.options)
+    assert_equal([ 'foo', 'bar' ], parser.arguments)
   end
 
   def test_parse_with_long_valueful_equalsign_option
@@ -64,10 +64,10 @@ class Cri::OptionParserTestCase < Cri::TestCase
       { :long => 'aaa', :short => 'a', :argument => :required }
     ]
 
-    result = Cri::OptionParser.parse(input, definitions)
+    parser = Cri::OptionParser.parse(input, definitions)
 
-    assert_equal({ :aaa => 'xxx' },  result[:options])
-    assert_equal([ 'foo', 'bar' ], result[:arguments])
+    assert_equal({ :aaa => 'xxx' },  parser.options)
+    assert_equal([ 'foo', 'bar' ], parser.arguments)
   end
 
   def test_parse_with_long_valueful_option_with_missing_value
@@ -79,7 +79,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
     result = nil
 
     assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
-      result = Cri::OptionParser.parse(input, definitions)
+      parser = Cri::OptionParser.parse(input, definitions)
     end
   end
 
@@ -93,7 +93,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
     result = nil
 
     assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
-      result = Cri::OptionParser.parse(input, definitions)
+      parser = Cri::OptionParser.parse(input, definitions)
     end
   end
 
@@ -103,10 +103,10 @@ class Cri::OptionParserTestCase < Cri::TestCase
       { :long => 'aaa', :short => 'a', :argument => :optional }
     ]
 
-    result = Cri::OptionParser.parse(input, definitions)
+    parser = Cri::OptionParser.parse(input, definitions)
 
-    assert(result[:options][:aaa])
-    assert_equal([ 'foo' ], result[:arguments])
+    assert(parser.options[:aaa])
+    assert_equal([ 'foo' ], parser.arguments)
   end
 
   def test_parse_with_long_valueful_option_with_optional_value
@@ -115,10 +115,10 @@ class Cri::OptionParserTestCase < Cri::TestCase
       { :long => 'aaa', :short => 'a', :argument => :optional }
     ]
 
-    result = Cri::OptionParser.parse(input, definitions)
+    parser = Cri::OptionParser.parse(input, definitions)
 
-    assert_equal({ :aaa => 'xxx' },  result[:options])
-    assert_equal([ 'foo' ], result[:arguments])
+    assert_equal({ :aaa => 'xxx' },  parser.options)
+    assert_equal([ 'foo' ], parser.arguments)
   end
 
   def test_parse_with_long_valueless_option_with_optional_value_and_more_options
@@ -129,12 +129,12 @@ class Cri::OptionParserTestCase < Cri::TestCase
       { :long => 'ccc', :short => 'c', :argument => :forbidden }
     ]
 
-    result = Cri::OptionParser.parse(input, definitions)
+    parser = Cri::OptionParser.parse(input, definitions)
 
-    assert(result[:options][:aaa])
-    assert(result[:options][:bbb])
-    assert(result[:options][:ccc])
-    assert_equal([ 'foo' ], result[:arguments])
+    assert(parser.options[:aaa])
+    assert(parser.options[:bbb])
+    assert(parser.options[:ccc])
+    assert_equal([ 'foo' ], parser.arguments)
   end
 
   def test_parse_with_short_valueless_options
@@ -143,10 +143,10 @@ class Cri::OptionParserTestCase < Cri::TestCase
       { :long => 'aaa', :short => 'a', :argument => :forbidden }
     ]
 
-    result = Cri::OptionParser.parse(input, definitions)
+    parser = Cri::OptionParser.parse(input, definitions)
 
-    assert(result[:options][:aaa])
-    assert_equal([ 'foo', 'bar' ], result[:arguments])
+    assert(parser.options[:aaa])
+    assert_equal([ 'foo', 'bar' ], parser.arguments)
   end
 
   def test_parse_with_short_valueful_option_with_missing_value
@@ -158,7 +158,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
     result = nil
 
     assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
-      result = Cri::OptionParser.parse(input, definitions)
+      parser = Cri::OptionParser.parse(input, definitions)
     end
   end
 
@@ -170,12 +170,12 @@ class Cri::OptionParserTestCase < Cri::TestCase
       { :long => 'ccc', :short => 'c', :argument => :forbidden }
     ]
 
-    result = Cri::OptionParser.parse(input, definitions)
+    parser = Cri::OptionParser.parse(input, definitions)
 
-    assert(result[:options][:aaa])
-    assert(result[:options][:bbb])
-    assert(result[:options][:ccc])
-    assert_equal([ 'foo', 'bar' ], result[:arguments])
+    assert(parser.options[:aaa])
+    assert(parser.options[:bbb])
+    assert(parser.options[:ccc])
+    assert_equal([ 'foo', 'bar' ], parser.arguments)
   end
 
   def test_parse_with_short_combined_valueful_options_with_missing_value
@@ -189,7 +189,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
     result = nil
 
     assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
-      result = Cri::OptionParser.parse(input, definitions)
+      parser = Cri::OptionParser.parse(input, definitions)
     end
   end
 
@@ -203,7 +203,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
     result = nil
 
     assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
-      result = Cri::OptionParser.parse(input, definitions)
+      parser = Cri::OptionParser.parse(input, definitions)
     end
   end
 
@@ -213,10 +213,10 @@ class Cri::OptionParserTestCase < Cri::TestCase
       { :long => 'aaa', :short => 'a', :argument => :optional }
     ]
 
-    result = Cri::OptionParser.parse(input, definitions)
+    parser = Cri::OptionParser.parse(input, definitions)
 
-    assert(result[:options][:aaa])
-    assert_equal([ 'foo' ], result[:arguments])
+    assert(parser.options[:aaa])
+    assert_equal([ 'foo' ], parser.arguments)
   end
 
   def test_parse_with_short_valueful_option_with_optional_value
@@ -225,10 +225,10 @@ class Cri::OptionParserTestCase < Cri::TestCase
       { :long => 'aaa', :short => 'a', :argument => :optional }
     ]
 
-    result = Cri::OptionParser.parse(input, definitions)
+    parser = Cri::OptionParser.parse(input, definitions)
 
-    assert_equal({ :aaa => 'xxx' },  result[:options])
-    assert_equal([ 'foo' ], result[:arguments])
+    assert_equal({ :aaa => 'xxx' },  parser.options)
+    assert_equal([ 'foo' ], parser.arguments)
   end
 
   def test_parse_with_short_valueless_option_with_optional_value_and_more_options
@@ -239,32 +239,32 @@ class Cri::OptionParserTestCase < Cri::TestCase
       { :long => 'ccc', :short => 'c', :argument => :forbidden }
     ]
 
-    result = Cri::OptionParser.parse(input, definitions)
+    parser = Cri::OptionParser.parse(input, definitions)
 
-    assert(result[:options][:aaa])
-    assert(result[:options][:bbb])
-    assert(result[:options][:ccc])
-    assert_equal([ 'foo' ], result[:arguments])
+    assert(parser.options[:aaa])
+    assert(parser.options[:bbb])
+    assert(parser.options[:ccc])
+    assert_equal([ 'foo' ], parser.arguments)
   end
 
   def test_parse_with_single_hyphen
     input       = %w( foo - bar )
     definitions = []
 
-    result = Cri::OptionParser.parse(input, definitions)
+    parser = Cri::OptionParser.parse(input, definitions)
 
-    assert_equal({},                    result[:options])
-    assert_equal([ 'foo', '-', 'bar' ], result[:arguments])
+    assert_equal({},                    parser.options)
+    assert_equal([ 'foo', '-', 'bar' ], parser.arguments)
   end
 
   def test_parse_with_end_marker
     input       = %w( foo bar -- -x --yyy -abc )
     definitions = []
 
-    result = Cri::OptionParser.parse(input, definitions)
+    parser = Cri::OptionParser.parse(input, definitions)
 
-    assert_equal({},                                      result[:options])
-    assert_equal([ 'foo', 'bar', '-x', '--yyy', '-abc' ], result[:arguments])
+    assert_equal({},                                      parser.options)
+    assert_equal([ 'foo', 'bar', '-x', '--yyy', '-abc' ], parser.arguments)
   end
 
   def test_parse_with_end_marker_between_option_key_and_value
@@ -274,7 +274,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
     ]
 
     assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
-      result = Cri::OptionParser.parse(input, definitions)
+      parser = Cri::OptionParser.parse(input, definitions)
     end
   end
 

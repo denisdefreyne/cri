@@ -107,7 +107,7 @@ module Cri
     #
     # @param [Array<Hash>] definitions An array of option definitions
     #
-    # @return [void]
+    # @return [Cri::OptionParser] The option parser self
     def self.parse(arguments_and_options, definitions)
       self.new(arguments_and_options, definitions).run
     end
@@ -152,7 +152,7 @@ module Cri
     # @raise OptionRequiresAnArgumentError if an option was found that did not
     #   have a value, even though this value was required.
     #
-    # @return [void]
+    # @return [Cri::OptionParser] The option parser self
     def run
       @running = true
 
@@ -237,6 +237,7 @@ module Cri
           add_argument(e)
         end
       end
+      self
     ensure
       @running = false
     end
