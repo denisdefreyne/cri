@@ -16,6 +16,7 @@ Here’s a sample command definition:
 	command = Cri::Command.define do
 	  name        'dostuff'
 	  usage       'dostuff [options]'
+	  aliases     :ds, :stuff
 	  summary     'does stuff'
 	  description 'This command does a lot of stuff. I really mean a lot.'
 
@@ -57,18 +58,21 @@ Each command has automatically generated help. This help can be printed using
 	    -m --more      do even more stuff
 	    -s --stuff     specify stuff to do
 
-Let’s disect the command definition and start with the first four lines:
+Let’s disect the command definition and start with the first five lines:
 
 	name        'dostuff'
 	usage       'dostuff [options]'
+	aliases     :ds, :stuff
 	summary     'does stuff'
 	description 'This command does a lot of stuff. I really mean a lot.'
 
-The first four lines of the command definition specify the name of the command
-(or the commandline tool, if the command is the root command), the usage, a
-one-line summary and a (long) description. The usage should not include a
-“usage:” prefix nor the name of the supercommand, because the latter will be
-automatically prepended.
+These lines of the command definition specify the name of the command (or the
+commandline tool, if the command is the root command), the usage, a list of
+aliases that can be used to call this command, a one-line summary and a (long)
+description. The usage should not include a “usage:” prefix nor the name of
+the supercommand, because the latter will be automatically prepended.
+
+Aliases don’t make sense for root commands, but for subcommands they do.
 
 The next few lines contain the command’s option definitions:
 
@@ -81,7 +85,7 @@ The next few lines contain the command’s option definitions:
 
 Options can be defined using the following methods:
 
-* {Cri::CommandDSL#option} or * {Cri::CommandDSL#opt}
+* {Cri::CommandDSL#option} or {Cri::CommandDSL#opt}
 * {Cri::CommandDSL#flag} (implies forbidden argument)
 * {Cri::CommandDSL#required} (implies required argument)
 * {Cri::CommandDSL#optional} (implies optional argument)
@@ -104,6 +108,14 @@ The last part of the command defines the execution itself:
 The {Cri::CommandDSL#run} method takes a block with the actual code to
 execute. This block takes three arguments: the options, any arguments passed
 to the command, and the command itself.
+
+Commands can have subcommands. For example, the `git` commandline tool would be represented by a command that has subcommands named `commit`, `add`, and so on. Commands with subcommands do not use a run block; execution will always be dispatched to a subcommand (or none, if no subcommand is found).
+
+To add a command as a subcommand to another command, use {Cri::Command#add_subcommand}, like this:
+
+	root_cmd.add_command cmd_add
+	root_cmd.add_command cmd_commit
+	root.cmd.add_command cmd_init
 
 Contributors
 ------------
