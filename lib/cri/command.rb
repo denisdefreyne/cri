@@ -45,35 +45,49 @@ module Cri
 
     end
 
-    # @todo Document
+    # @return [Cri::Command, nil] This command’s supercommand, or nil if the
+    #   command has no supercommand
     attr_accessor :supercommand
 
-    # @todo document
+    # @return [Set<Cri::Command>] This command’s subcommands
     attr_accessor :commands
     alias_method :subcommands, :commands
 
-    # @todo Document
+    # @return [String] The name
     attr_accessor :name
 
-    # @todo Document
+    # @return [Array<String>] A list of aliases for this command that can be
+    #   used to invoke this command
     attr_accessor :aliases
 
-    # @todo Document
+    # @return [String] The short description (“summary”)
     attr_accessor :short_desc
 
-    # @todo Document
+    # @return [String] The long description (“description”)
     attr_accessor :long_desc
 
-    # @todo Document
+    # @return [String] The usage, without the “usage:” prefix and without the
+    #   supercommands’ names.
     attr_accessor :usage
 
-    # @todo Document
+    # @return [Array<Hash>] The list of option definitions
     attr_accessor :option_definitions
 
-    # @todo Document
+    # @return [Proc] The block that should be executed when invoking this
+    #   command (ignored for commands with subcommands)
     attr_accessor :block
 
-    # @todo Document
+    # Creates a new command using the DSL. If a string is given, the command
+    # will be defined using the string; if a block is given, the block will be
+    # used instead.
+    #
+    # If the block has one parameter, the block will be executed in the same
+    # context with the command DSL as its parameter. If the block has no
+    # parameters, the block will be executed in the context of the DSL.
+    #
+    # @param [String, nil] The string containing the command’s definition
+    #
+    # @return [Cri::Command] The newly defined command
     def self.define(string=nil, &block)
       dsl = Cri::CommandDSL.new
       if string
@@ -86,13 +100,19 @@ module Cri
       dsl.command
     end
 
-    # @todo Document
+    # Returns a new command that has support for the `-h`/`--help` option and
+    # also has a `help` subcommand. It is intended to be modified (adding
+    # name, summary, description, other subcommands, …)
+    #
+    # @return [Cri::Command] A basic root command
     def self.new_basic_root
       filename = File.dirname(__FILE__) + '/commands/basic_root.rb'
       self.define(File.read(filename))
     end
 
-    # @todo Document
+    # Returns a new command that implements showing help.
+    #
+    # @return [Cri::Command] A basic help command
     def self.new_basic_help
       filename = File.dirname(__FILE__) + '/commands/basic_help.rb'
       self.define(File.read(filename))
@@ -100,11 +120,17 @@ module Cri
 
     def initialize
       @aliases            = Set.new
-      @commands           = Set.new # TODO make this a hash (name -> cmd)
+      @commands           = Set.new
       @option_definitions = Set.new
     end
 
-    # @todo Document
+    # Modifies the command using the DSL.
+    #
+    # If the block has one parameter, the block will be executed in the same
+    # context with the command DSL as its parameter. If the block has no
+    # parameters, the block will be executed in the context of the DSL.
+    #
+    # @return [Cri::Command] The command itself
     def modify(&block)
       dsl = Cri::CommandDSL.new(self)
       if block.arity == 0
@@ -115,7 +141,8 @@ module Cri
       self
     end
 
-    # @todo Document
+    # @return [Hash] The option definitions for the command itself and all its
+    #   ancestors
     def global_option_definitions
       res = Set.new
       res.merge(option_definitions)
@@ -123,13 +150,22 @@ module Cri
       res
     end
 
-    # @todo Document
+    # Adds the given command as a subcommand to the current command.
+    #
+    # @param [Cri::Command] command The command to add as a subcommand
+    #
+    # @return [void]
     def add_command(command)
       @commands << command
       command.supercommand = self
     end
 
-    # @todo Document
+    # Defines a new subcommand for the current command using the DSL.
+    #
+    # @param [String, nil] name The name of the subcommand, or nil if no name
+    #   should be set (yet)
+    #
+    # @return [Cri::Command] The subcommand
     def define_command(name=nil, &block)
       # Execute DSL
       dsl = Cri::CommandDSL.new
@@ -149,7 +185,9 @@ module Cri
     # Returns the commands that could be referred to with the given name. If
     # the result contains more than one command, the name is ambiguous.
     #
-    # @todo Document
+    # @param [String] name The full, partial or aliases name of the command
+    #
+    # @return [Array<Cri::Command>] A list of commands matching the given name
     def commands_named(name)
       # Find by exact name or alias
       @commands.each do |cmd|
@@ -163,9 +201,15 @@ module Cri
       end
     end
 
-    # Returns the command with the given name.
+    # Returns the command with the given name. This method will display error
+    # messages and exit in case of an error (unknown or ambiguous command).
     #
-    # @todo Document
+    # The name can be a full command name, a partial command name (e.g. “com”
+    # for “commit”) or an aliased command name (e.g. “ci” for “commit”).
+    #
+    # @param [String] name The full, partial or aliases name of the command
+    #
+    # @return [Cri::Command] The command with the given name
     def command_named(name)
       commands = commands_named(name)
 
@@ -181,7 +225,14 @@ module Cri
       end
     end
 
-    # @todo Document
+    # Runs the command with the given commandline arguments.
+    #
+    # @param [Array<String>] opts_and_args A list of unparsed arguments
+    #
+    # @param [Hash] parent_opts A hash of options already handled by the
+    #   supercommand
+    #
+    # @return [void]
     def run(opts_and_args, parent_opts={})
       if subcommands.empty?
         # Parse
