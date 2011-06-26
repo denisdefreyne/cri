@@ -4,7 +4,9 @@ module Cri::CoreExtensions
 
   module String
 
-    # @todo Document
+    # Extracts individual paragraphs (separated by two newlines).
+    #
+    # @return [Array<String>] A list of paragraphs in the string
     def to_paragraphs
       lines = self.scan(/([^\n]+\n|[^\n]*$)/).map { |s| s[0].strip }
 
@@ -22,10 +24,13 @@ module Cri::CoreExtensions
 
     # Word-wraps and indents the string.
     #
-    # +width+:: The maximal width of each line. This also includes indentation,
-    #           i.e. the actual maximal width of the text is width-indentation.
+    # @param [Number] width The maximal width of each line. This also includes
+    #   indentation, i.e. the actual maximal width of the text is
+    #   `width`-`indentation`.
     #
-    # +indentation+:: The number of spaces to indent each wrapped line.
+    # @param [Number] indentation The number of spaces to indent each line.
+    #
+    # @return [String] The word-wrapped and indented string
     def wrap_and_indent(width, indentation)
       # Split into paragraphs
       paragraphs = self.to_paragraphs
