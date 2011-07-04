@@ -24,7 +24,7 @@ class Cri::CommandTestCase < Cri::TestCase
 
         opts_strings = []
         opts.each_pair { |k,v| opts_strings << "#{k}=#{v}" }
-        $stdout.puts opts_strings.join(',')
+        $stdout.puts opts_strings.sort.join(',')
       end
     end
   end
@@ -115,7 +115,7 @@ class Cri::CommandTestCase < Cri::TestCase
       simple_cmd.run(%w(-c -b x))
     end
 
-    assert_equal [ 'Awesome moo!', '', 'ccc=true,bbb=x' ], lines(out)
+    assert_equal [ 'Awesome moo!', '', 'bbb=x,ccc=true' ], lines(out)
     assert_equal [], lines(err)
   end
 
@@ -211,7 +211,7 @@ class Cri::CommandTestCase < Cri::TestCase
   end
 
   def test_help_nested
-    help = nested_cmd.subcommands.to_a[0].help
+    help = nested_cmd.subcommands.find { |cmd| cmd.name == 'sub' }.help
 
     assert_match /^usage: super sub \[options\]/, help
   end
