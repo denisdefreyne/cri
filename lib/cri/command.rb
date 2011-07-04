@@ -92,7 +92,7 @@ module Cri
       dsl = Cri::CommandDSL.new
       if string
         dsl.instance_eval(string)
-      elsif block.arity == 0
+      elsif [ -1, 0 ].include? block.arity
         dsl.instance_eval(&block)
       else
         block.call(dsl)
@@ -133,7 +133,7 @@ module Cri
     # @return [Cri::Command] The command itself
     def modify(&block)
       dsl = Cri::CommandDSL.new(self)
-      if block.arity == 0
+      if [ -1, 0 ].include? block.arity
         dsl.instance_eval(&block)
       else
         block.call(dsl)
@@ -170,7 +170,7 @@ module Cri
       # Execute DSL
       dsl = Cri::CommandDSL.new
       dsl.name name unless name.nil?
-      if block.arity == 0
+      if [ -1, 0 ].include? block.arity
         dsl.instance_eval(&block)
       else
         block.call(dsl)
