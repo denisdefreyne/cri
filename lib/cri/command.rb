@@ -218,7 +218,7 @@ module Cri
         exit 1
       elsif commands.size > 1
         $stderr.puts "#{self.name}: '#{name}' is ambiguous:"
-        $stderr.puts "  #{commands.map { |c| c.name }.join(' ') }"
+        $stderr.puts "  #{commands.map { |c| c.name }.sort.join(' ') }"
         exit 1
       else
         commands[0]

@@ -189,7 +189,7 @@ class Cri::CommandTestCase < Cri::TestCase
     end
 
     assert_equal [ ], lines(out)
-    assert_equal [ "super: 's' is ambiguous:", "  sub sink" ], lines(err)
+    assert_equal [ "super: 's' is ambiguous:", "  sink sub" ], lines(err)
   end
 
   def test_invoke_nested_with_alias
