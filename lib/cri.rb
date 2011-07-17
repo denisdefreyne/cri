@@ -17,7 +17,7 @@ module Cri
   end
 
   # The current Cri version.
-  VERSION = '2.0.1'
+  VERSION = '2.0.2'
 
   autoload 'Command',           'cri/command'
   autoload 'CommandDSL',        'cri/command_dsl'
