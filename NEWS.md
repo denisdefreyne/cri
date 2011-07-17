@@ -1,12 +1,16 @@
 Cri News
 ========
 
+2.0.2
+-----
+
+* Added command filename to stack traces
+
 2.0.1
 -----
 
 * Sorted ambiguous command names
 * Restored compatibility with Ruby 1.8.x
-
 
 2.0.0
 -----
