@@ -88,10 +88,11 @@ module Cri
     # @param [String, nil] The string containing the command’s definition
     #
     # @return [Cri::Command] The newly defined command
-    def self.define(string=nil, &block)
+    def self.define(string=nil, filename=nil, &block)
       dsl = Cri::CommandDSL.new
       if string
-        dsl.instance_eval(string)
+        args = filename ? [ string, filename ] : [ string ]
+        dsl.instance_eval(*args)
       elsif [ -1, 0 ].include? block.arity
         dsl.instance_eval(&block)
       else

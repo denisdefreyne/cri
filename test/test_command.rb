@@ -295,4 +295,12 @@ class Cri::CommandTestCase < Cri::TestCase
     assert_equal 'baresub', cmd.subcommands.to_a[0].name
   end
 
+  def test_backtrace_includes_filename
+    error = assert_raises RuntimeError do
+      Cri::Command.define('raise "boom"', 'mycommand.rb')
+    end
+
+    assert_match /mycommand.rb/, error.backtrace.join("\n")
+  end
+
 end
