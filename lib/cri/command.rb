@@ -317,18 +317,23 @@ module Cri
       end
 
       # Append options
-      defs = global_option_definitions.sort { |x,y| x[:long] <=> y[:long] }
-      unless defs.empty?
-        text << "\n"
-        text << "options:\n"
-        text << "\n"
-        length = defs.inject(0) { |m,o| [ m, o[:long].size ].max }
-        defs.each do |opt_def|
-          text << sprintf(
-            "    -%1s --%-#{length+4}s %s\n",
-            opt_def[:short],
-            opt_def[:long],
-            opt_def[:desc])
+      groups = { 'options' => self.option_definitions }
+      if self.supercommand
+        groups["options for #{self.supercommand.name}"] = self.supercommand.global_option_definitions
+      end
+      length = groups.values.inject(&:+).inject(0) { |m,o| [ m, o[:long].size ].max }
+      groups.each_pair do |name, defs|
+        unless defs.empty?
+          text << "\n"
+          text << "#{name}:\n"
+          text << "\n"
+          defs.sort { |x,y| x[:long] <=> y[:long] }.each do |opt_def|
+            text << sprintf(
+              "    -%1s --%-#{length+4}s %s\n",
+              opt_def[:short],
+              opt_def[:long],
+              opt_def[:desc])
+          end
         end
       end
 

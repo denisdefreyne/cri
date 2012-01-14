@@ -11,8 +11,8 @@ super_cmd = Cri::Command.define do
 
   option    :a, :aaa, 'opt a', :argument => :optional
   required  :b, :bbb, 'opt b'
-  optional  :c, :ccc, 'opt c'
   flag      :d, :ddd, 'opt d'
+  optional  :c, :ccc, 'opt c'
   forbidden :e, :eee, 'opt e'
 end
 
@@ -24,20 +24,18 @@ super_cmd.define_command do
 
   option    :m, :mmm, 'opt m', :argument => :optional
   required  :n, :nnn, 'opt n'
-  optional  :o, :ooo, 'opt o'
   flag      :p, :ppp, 'opt p'
   forbidden :q, :qqq, 'opt q'
+  optional  :o, :ooo, 'opt o'
 
   run do |opts, args|
     $stdout.puts "Sub-awesome!"
 
-    $stdout.puts args.join(',')
-
-    opts_strings = []
-    opts.each_pair { |k,v| opts_strings << "#{k}=#{v}" }
-    $stdout.puts opts_strings.join(',')
+    $stdout.puts "arguments: #{args.inspect}"
+    $stdout.puts "options:   #{opts.inspect}"
   end
 end
 
-puts super_cmd.help
+super_cmd.add_command Cri::Command.new_basic_help
+
 super_cmd.run(ARGV)
