@@ -109,6 +109,11 @@ The {Cri::CommandDSL#run} method takes a block with the actual code to
 execute. This block takes three arguments: the options, any arguments passed
 to the command, and the command itself.
 
+Instead of defining a run block, it is possible to declare a class, the
+_command runner_ class ({Cri::CommandRunner}) that will perform the actual
+execution of the command. This makes it easier to break up large run blocks
+into manageable pieces.
+
 Commands can have subcommands. For example, the `git` commandline tool would be represented by a command that has subcommands named `commit`, `add`, and so on. Commands with subcommands do not use a run block; execution will always be dispatched to a subcommand (or none, if no subcommand is found).
 
 To add a command as a subcommand to another command, use the {Cri::Command#add_command} method, like this:

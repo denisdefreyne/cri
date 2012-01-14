@@ -75,4 +75,24 @@ class Cri::CommandDSLTestCase < Cri::TestCase
     assert_equal %w( aah moo ), command.aliases.sort
   end
 
+  def test_runner
+    # Define
+    dsl = Cri::CommandDSL.new
+    dsl.instance_eval <<-EOS
+      class Cri::CommandDSLTestCaseCommandRunner < Cri::CommandRunner
+        def run
+          $works = arguments[0]
+        end
+      end
+
+      runner Cri::CommandDSLTestCaseCommandRunner
+EOS
+    command = dsl.command
+
+    # Check
+    $works = false
+    command.run(%w( certainly ))
+    assert_equal 'certainly', $works
+  end
+
 end

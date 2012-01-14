@@ -1,6 +1,11 @@
 Cri News
 ========
 
+2.1.0
+-----
+
+* Added support for runners
+
 2.0.2
 -----
 

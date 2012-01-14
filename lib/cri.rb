@@ -17,10 +17,11 @@ module Cri
   end
 
   # The current Cri version.
-  VERSION = '2.0.2'
+  VERSION = '2.1.0'
 
   autoload 'Command',           'cri/command'
   autoload 'CommandDSL',        'cri/command_dsl'
+  autoload 'CommandRunner',     'cri/command_runner'
   autoload 'OptionParser',      'cri/option_parser'
 
 end

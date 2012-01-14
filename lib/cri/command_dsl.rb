@@ -149,6 +149,8 @@ module Cri
 
     # Sets the run block to the given block. The given block should have two
     # or three arguments (options, arguments, and optionally the command).
+    # Calling this will override existing run block or runner declarations
+    # (using {#run} and {#runner}, respectively).
     #
     # @return [void]
     def run(&block)
@@ -158,6 +160,20 @@ module Cri
       end
 
       @command.block = block
+    end
+
+    # Defines the runner class for this command. Calling this will override
+    # existing run block or runner declarations (using {#run} and {#runner},
+    # respectively).
+    #
+    # @param [Class<CommandRunner>] klass The command runner class (subclass
+    #   of {CommandRunner}) that is used for executing this command.
+    #
+    # @return [void]
+    def runner(klass)
+      run do |opts, args, cmd|
+        klass.new(opts, args, cmd).call
+      end
     end
 
   protected
