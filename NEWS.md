@@ -5,6 +5,7 @@ Cri News
 -----
 
 * Added support for runners
+* Split up local/global command options
 
 2.0.2
 -----
