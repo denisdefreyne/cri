@@ -226,7 +226,8 @@ module Cri
       end
     end
 
-    # Runs the command with the given commandline arguments.
+    # Runs the command with the given commandline arguments, possibly invoking
+    # subcommands and passing on the options and arguments.
     #
     # @param [Array<String>] opts_and_args A list of unparsed arguments
     #
@@ -235,42 +236,59 @@ module Cri
     #
     # @return [void]
     def run(opts_and_args, parent_opts={})
-      if subcommands.empty?
-        # Parse
-        parser = Cri::OptionParser.new(
-          opts_and_args, global_option_definitions)
-        self.handle_parser_errors_while { parser.run }
-        local_opts  = parser.options
-        global_opts = parent_opts.merge(parser.options)
-        args = parser.arguments
+      # Parse up to command name
+      stuff = partition(opts_and_args)
+      opts_before_subcmd, subcmd_name, opts_and_args_after_subcmd = *stuff
 
-        # Handle options
-        handle_options(local_opts)
-
-        # Execute
-        if @block.nil?
-          raise NotImplementedError,
-            "No implementation available for '#{self.name}'"
-        end
-        block.call(global_opts, args, self)
+      if subcommands.empty? || (subcmd_name.nil? && !self.block.nil?)
+        run_this(opts_and_args, parent_opts)
       else
-        # Parse up to command name
-        stuff = partition(opts_and_args)
-        opts_before_cmd, cmd_name, opts_and_args_after_cmd = *stuff
-
         # Handle options
-        handle_options(opts_before_cmd)
+        self.handle_options(opts_before_subcmd)
 
         # Get command
-        if cmd_name.nil?
+        if subcmd_name.nil?
           $stderr.puts "#{name}: no command given"
           exit 1
         end
-        command = command_named(cmd_name)
+        subcommand = self.command_named(subcmd_name)
 
         # Run
-        command.run(opts_and_args_after_cmd, opts_before_cmd)
+        subcommand.run(opts_and_args_after_subcmd, opts_before_subcmd)
       end
+    end
+
+    # Runs the actual command with the given commandline arguments, not
+    # invoking any subcommands. If the command does not have an execution
+    # block, an error ir raised.
+    #
+    # @param [Array<String>] opts_and_args A list of unparsed arguments
+    #
+    # @param [Hash] parent_opts A hash of options already handled by the
+    #   supercommand
+    #
+    # @raise [NotImplementedError] if the command does not have an execution
+    #   block
+    #
+    # @return [void]
+    def run_this(opts_and_args, parent_opts={})
+      # Parse
+      parser = Cri::OptionParser.new(
+        opts_and_args, self.global_option_definitions)
+      self.handle_parser_errors_while { parser.run }
+      local_opts  = parser.options
+      global_opts = parent_opts.merge(parser.options)
+      args = parser.arguments
+
+      # Handle options
+      self.handle_options(local_opts)
+
+      # Execute
+      if self.block.nil?
+        raise NotImplementedError,
+          "No implementation available for '#{self.name}'"
+      end
+      self.block.call(global_opts, args, self)
     end
 
     # @return [String] The help text for this command

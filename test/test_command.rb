@@ -92,6 +92,33 @@ class Cri::CommandTestCase < Cri::TestCase
     super_cmd
   end
 
+  def nested_cmd_with_run_block
+    super_cmd = Cri::Command.define do
+      name        'super'
+      usage       'super [command] [options] [arguments]'
+      summary     'does super stuff'
+      description 'This command does super stuff.'
+
+      run do |opts, args|
+        $stdout.puts "super"
+      end
+    end
+
+    super_cmd.define_command do
+      name        'sub'
+      aliases     'sup'
+      usage       'sub [options]'
+      summary     'does subby stuff'
+      description 'This command does subby stuff.'
+
+      run do |opts, args|
+        $stdout.puts "sub"
+      end
+    end
+
+    super_cmd
+  end
+
   def test_invoke_simple_without_opts_or_args
     out, err = capture_io_while do
       simple_cmd.run(%w())
@@ -207,6 +234,22 @@ class Cri::CommandTestCase < Cri::TestCase
     end
 
     assert_equal [ 'super:666', 'Sub-awesome!', '', 'aaa=666' ], lines(out)
+    assert_equal [ ], lines(err)
+  end
+
+  def test_invoke_nested_with_run_block
+    out, err = capture_io_while do
+      nested_cmd_with_run_block.run(%w())
+    end
+
+    assert_equal [ 'super' ], lines(out)
+    assert_equal [ ], lines(err)
+
+    out, err = capture_io_while do
+      nested_cmd_with_run_block.run(%w( sub ))
+    end
+
+    assert_equal [ 'sub' ], lines(out)
     assert_equal [ ], lines(err)
   end
 
