@@ -1,6 +1,11 @@
 Cri News
 ========
 
+2.2.0
+-----
+
+* Allowed commands with subcommands to have a run block
+
 2.1.0
 -----
 
