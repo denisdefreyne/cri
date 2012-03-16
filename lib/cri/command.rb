@@ -327,7 +327,7 @@ module Cri
         text << (self.supercommand ? 'subcommands' : 'commands') << ":\n"
         text << "\n"
         length = self.commands.inject(0) { |m,c| [ m, c.name.size ].max }
-        self.commands.each do |cmd|
+        self.commands.sort_by { |cmd| cmd.name }.each do |cmd|
           text << sprintf("    %-#{length+4}s %s\n",
             cmd.name,
             cmd.summary)
