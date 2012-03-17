@@ -1,6 +1,11 @@
 Cri News
 ========
 
+2.2.1
+-----
+
+* Made command help sort subcommands
+
 2.2.0
 -----
 
