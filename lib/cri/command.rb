@@ -293,43 +293,51 @@ module Cri
 
     # @return [String] The help text for this command
     def help
+      require 'colored'
+
       text = ''
 
-      # Append usage
-      if usage
-        path = [ self.supercommand ]
-        path.unshift(path[0].supercommand) until path[0].nil?
-        full_usage = path[1..-1].map { |c| c.name + ' ' }.join + usage
-        text << "usage: #{full_usage}\n"
+
+      # Append short description
+      if summary
+        text << "name".term_title << "\n"
+        text << "#{name}: #{summary}".wrap_and_indent(78, 4).term_text << "\n"
       end
 
       # Append aliases
       unless aliases.empty?
         text << "\n"
-        text << "aliases: #{aliases.join(' ')}\n"
+        text << "aliases".term_title << "\n"
+        text << aliases.join(' ').term_text << "\n"
       end
 
-      # Append short description
-      if summary
+      # Append synopsis
+      if usage
+        path = [ self.supercommand ]
+        path.unshift(path[0].supercommand) until path[0].nil?
+        full_usage = path[1..-1].map { |c| c.name + ' ' }.join + usage
+
         text << "\n"
-        text << summary + "\n"
+        text << "synopsis".term_title << "\n"
+        text << full_usage.wrap_and_indent(78, 4).term_text << "\n"
       end
 
       # Append long description
       if description
         text << "\n"
-        text << description.wrap_and_indent(78, 4) + "\n"
+        text << "description".term_title << "\n"
+        text << description.wrap_and_indent(78, 4).term_text + "\n"
       end
 
       # Append subcommands
       unless self.commands.empty?
         text << "\n"
-        text << (self.supercommand ? 'subcommands' : 'commands') << ":\n"
+        text << (self.supercommand ? 'subcommands' : 'commands').term_title
         text << "\n"
-        length = self.commands.inject(0) { |m,c| [ m, c.name.size ].max }
+        length = self.commands.map { |c| c.name.term_text.size }.max
         self.commands.sort_by { |cmd| cmd.name }.each do |cmd|
           text << sprintf("    %-#{length+4}s %s\n",
-            cmd.name,
+            cmd.name.term_text,
             cmd.summary)
         end
       end
@@ -339,24 +347,35 @@ module Cri
       if self.supercommand
         groups["options for #{self.supercommand.name}"] = self.supercommand.global_option_definitions
       end
-      length = groups.values.inject(&:+).inject(0) { |m,o| [ m, o[:long].size ].max }
+      length = groups.values.inject(&:+).map { |o| o[:long].size }.max
       groups.each_pair do |name, defs|
         unless defs.empty?
           text << "\n"
-          text << "#{name}:\n"
+          text << "#{name}".term_title
           text << "\n"
           defs.sort { |x,y| x[:long] <=> y[:long] }.each do |opt_def|
             text << sprintf(
-              "    -%1s --%-#{length+4}s %s\n",
+              "    -%1s --%-#{length+4}s",
               opt_def[:short],
-              opt_def[:long],
-              opt_def[:desc])
+              opt_def[:long]).term_text
+
+            text << opt_def[:desc] << "\n"
           end
         end
       end
 
-      # Return text
-      text
+      # highlight the name of the current command
+      # while preserving the color of the original text
+      # TODO: this can't be the best way to do this
+      #
+      # $1 == any whitespace in front of the text
+      # $2 == the ansi colorcode
+      # $3 == text between color code and name of the command
+      # $4 == someone might add a `:`
+      # $5 == text after name of the command
+      text.gsub(/^(\s*)?(\S*)(.*)#{name}(:?)(.*)$/) do
+        "#{$1}#{$2}#{$3}#{Colored.extra(:clear)}#{name.white}#{$4.white}#{$2}#{$5}"
+      end
     end
 
     # Compares this command's name to the other given command's name.
