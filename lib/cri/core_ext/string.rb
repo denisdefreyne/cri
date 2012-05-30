@@ -1,4 +1,5 @@
 # encoding: utf-8
+require 'colored'
 
 module Cri::CoreExtensions
 
@@ -57,6 +58,16 @@ module Cri::CoreExtensions
         # Join lines
         lines.map { |l| ' '*indentation + l }.join("\n")
       end.join("\n\n")
+    end
+
+    # provide some convenience functions for turning Strings into colored
+    # terminal output
+    def term_title
+      self.upcase.yellow.bold
+    end
+
+    def term_text
+      self
     end
 
   end
