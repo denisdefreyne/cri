@@ -60,9 +60,6 @@ module Cri::CoreExtensions
       end.join("\n\n")
     end
 
-    # provide some convenience functions for turning Strings into colored
-    # terminal output
-
     # @return [String] The string, formatted to be used as a title in a section
     #   in the help
     def formatted_as_title

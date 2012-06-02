@@ -293,8 +293,6 @@ module Cri
 
     # @return [String] The help text for this command
     def help
-      require 'colored'
-
       text = ''
 
       # Append name and summary
