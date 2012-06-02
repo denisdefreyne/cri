@@ -62,12 +62,23 @@ module Cri::CoreExtensions
 
     # provide some convenience functions for turning Strings into colored
     # terminal output
-    def term_title
-      self.upcase.yellow.bold
+
+    # @return [String] The string, formatted to be used as a title in a section
+    #   in the help
+    def formatted_as_title
+      self.upcase.red.bold
     end
 
-    def term_text
-      self
+    # @return [String] The string, formatted to be used as the name of a command
+    #   in the help
+    def formatted_as_command
+      self.green
+    end
+
+    # @return [String] The string, formatted to be used as an option definition
+    #   of a command in the help
+    def formatted_as_option
+      self.yellow
     end
 
   end
