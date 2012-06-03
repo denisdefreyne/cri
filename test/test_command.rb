@@ -256,7 +256,7 @@ class Cri::CommandTestCase < Cri::TestCase
   def test_help_nested
     help = nested_cmd.subcommands.find { |cmd| cmd.name == 'sub' }.help
 
-    assert_match /^usage: super sub \[options\]/, help
+    assert help.include?("USAGE\e[0m\e[0m\n    \e[32msuper\e[0m \e[32msub\e[0m [options]\n")
   end
 
   def test_help_for_bare_cmd
