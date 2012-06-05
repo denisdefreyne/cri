@@ -5,7 +5,7 @@ class Cri::CommandTestCase < Cri::TestCase
   def simple_cmd
     Cri::Command.define do
       name        'moo'
-      usage       'dunno whatever'
+      usage       'moo [options] arg1 arg2 ...'
       summary     'does stuff'
       description 'This command does a lot of stuff.'
 
@@ -344,6 +344,55 @@ class Cri::CommandTestCase < Cri::TestCase
     end
 
     assert_match /mycommand.rb/, error.backtrace.join("\n")
+  end
+
+  def test_hidden_commands_single
+    cmd    = nested_cmd
+    subcmd = simple_cmd
+    cmd.add_command subcmd
+    subcmd.modify do |c|
+      c.name    'old-and-deprecated'
+      c.summary 'does stuff the ancient, totally deprecated way'
+      c.be_hidden
+    end
+
+    refute cmd.help.include?('hidden commands ommitted')
+    assert cmd.help.include?('hidden command ommitted')
+    refute cmd.help.include?('old-and-deprecated')
+
+    refute cmd.help(:verbose => true).include?('hidden commands ommitted')
+    refute cmd.help(:verbose => true).include?('hidden command ommitted')
+    assert cmd.help(:verbose => true).include?('old-and-deprecated')
+  end
+
+  def test_hidden_commands_multiple
+    cmd    = nested_cmd
+
+    subcmd = simple_cmd
+    cmd.add_command subcmd
+    subcmd.modify do |c|
+      c.name    'old-and-deprecated'
+      c.summary 'does stuff the old, deprecated way'
+      c.be_hidden
+    end
+
+    subcmd = simple_cmd
+    cmd.add_command subcmd
+    subcmd.modify do |c|
+      c.name    'ancient-and-deprecated'
+      c.summary 'does stuff the ancient, reallydeprecated way'
+      c.be_hidden
+    end
+
+    assert cmd.help.include?('hidden commands ommitted')
+    refute cmd.help.include?('hidden command ommitted')
+    refute cmd.help.include?('old-and-deprecated')
+    refute cmd.help.include?('ancient-and-deprecated')
+
+    refute cmd.help(:verbose => true).include?('hidden commands ommitted')
+    refute cmd.help(:verbose => true).include?('hidden command ommitted')
+    assert cmd.help(:verbose => true).include?('old-and-deprecated')
+    assert cmd.help(:verbose => true).include?('ancient-and-deprecated')
   end
 
 end

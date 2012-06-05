@@ -70,6 +70,11 @@ module Cri
     #   supercommands’ names.
     attr_accessor :usage
 
+    # @return [Boolean] true if the command is hidden (e.g. because it is
+    #   deprecated), false otherwise
+    attr_accessor :hidden
+    alias_method :hidden?, :hidden
+
     # @return [Array<Hash>] The list of option definitions
     attr_accessor :option_definitions
 
@@ -292,7 +297,9 @@ module Cri
     end
 
     # @return [String] The help text for this command
-    def help
+    def help(params={})
+      is_verbose = params.fetch(:verbose, false)
+
       text = ''
 
       # Append name and summary
@@ -324,15 +331,38 @@ module Cri
       end
 
       # Append subcommands
-      unless self.commands.empty?
+      unless self.subcommands.empty?
         text << "\n"
         text << (self.supercommand ? 'subcommands' : 'commands').formatted_as_title
         text << "\n"
-        length = self.commands.map { |c| c.name.formatted_as_command.size }.max
-        self.commands.sort_by { |cmd| cmd.name }.each do |cmd|
+
+        visible_cmds, invisible_cmds = self.subcommands.partition { |c| !c.hidden? }
+
+        commands_for_length = is_verbose ? self.subcommands : visible_cmds
+        length = commands_for_length.map { |c| c.name.formatted_as_command.size }.max
+
+        # Visible
+        visible_cmds.sort_by { |cmd| cmd.name }.each do |cmd|
           text << sprintf("    %-#{length+4}s %s\n",
             cmd.name.formatted_as_command,
             cmd.summary)
+        end
+
+        # Invisible
+        if is_verbose
+          invisible_cmds.sort_by { |cmd| cmd.name }.each do |cmd|
+            text << sprintf("    %-#{length+4}s %s\n",
+              cmd.name.formatted_as_command,
+              cmd.summary)
+          end
+        else
+          case invisible_cmds.size
+          when 0
+          when 1
+            text << "    (1 hidden command ommitted; show it with --verbose)\n"
+          else
+            text << "    (#{invisible_cmds.size} hidden commands ommitted; show them with --verbose)\n"
+          end
         end
       end
 

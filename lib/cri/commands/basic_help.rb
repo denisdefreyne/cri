@@ -10,16 +10,20 @@ commandline options. When a command is given, a command description as well as
 command-specific commandline options are shown.
 EOS
 
+flag :v, :verbose, 'show more detailed help'
+
 run do |opts, args, cmd|
   if cmd.supercommand.nil?
     raise NoHelpAvailableError,
       "No help available because the help command has no supercommand"
   end
 
+  is_verbose = opts.fetch(:verbose, false)
+
   if args.empty?
-    puts cmd.supercommand.help
+    puts cmd.supercommand.help(:verbose => is_verbose)
   elsif args.size == 1
-    puts cmd.supercommand.command_named(args[0]).help
+    puts cmd.supercommand.command_named(args[0]).help(:verbose => is_verbose)
   else
     $stderr.puts cmd.usage
     exit 1

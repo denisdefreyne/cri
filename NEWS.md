@@ -5,6 +5,7 @@ Cri News
 -----
 
 * Added colors
+* Added support for marking commands as hidden
 
 2.2.1
 -----

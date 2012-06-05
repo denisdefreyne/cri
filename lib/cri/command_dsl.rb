@@ -79,6 +79,16 @@ module Cri
       @command.usage = arg
     end
 
+    # Marks the command as hidden. Hidden commands do not show up in the list of
+    # subcommands of the parent command, unless --verbose is passed (or
+    # `:verbose => true` is passed to the {Cri::Command#help} method). This can
+    # be used to mark commands as deprecated.
+    #
+    # @return [void]
+    def be_hidden
+      @command.hidden = true
+    end
+
     # Adds a new option to the command. If a block is given, it will be
     # executed when the option is successfully parsed.
     #
