@@ -70,6 +70,11 @@ module Cri
     #   supercommands’ names.
     attr_accessor :usage
 
+    # @return [Boolean] true if the command is hidden (e.g. because it is
+    #   deprecated), false otherwise
+    attr_accessor :hidden
+    alias_method :hidden?, :hidden
+
     # @return [Array<Hash>] The list of option definitions
     attr_accessor :option_definitions
 
@@ -292,45 +297,72 @@ module Cri
     end
 
     # @return [String] The help text for this command
-    def help
+    def help(params={})
+      is_verbose = params.fetch(:verbose, false)
+
       text = ''
+
+      # Append name and summary
+      if summary
+        text << "name".formatted_as_title << "\n"
+        text << "    #{name.formatted_as_command} - #{summary}" << "\n"
+        unless aliases.empty?
+          text << "    aliases: " << aliases.map { |a| a.formatted_as_command }.join(' ') << "\n"
+        end
+      end
 
       # Append usage
       if usage
         path = [ self.supercommand ]
         path.unshift(path[0].supercommand) until path[0].nil?
-        full_usage = path[1..-1].map { |c| c.name + ' ' }.join + usage
-        text << "usage: #{full_usage}\n"
-      end
+        formatted_usage = usage.gsub(/^([^\s]+)/) { |m| m.formatted_as_command }
+        full_usage = path[1..-1].map { |c| c.name.formatted_as_command + ' ' }.join + formatted_usage
 
-      # Append aliases
-      unless aliases.empty?
         text << "\n"
-        text << "aliases: #{aliases.join(' ')}\n"
-      end
-
-      # Append short description
-      if summary
-        text << "\n"
-        text << summary + "\n"
+        text << "usage".formatted_as_title << "\n"
+        text << full_usage.wrap_and_indent(78, 4) << "\n"
       end
 
       # Append long description
       if description
         text << "\n"
+        text << "description".formatted_as_title << "\n"
         text << description.wrap_and_indent(78, 4) + "\n"
       end
 
       # Append subcommands
-      unless self.commands.empty?
+      unless self.subcommands.empty?
         text << "\n"
-        text << (self.supercommand ? 'subcommands' : 'commands') << ":\n"
+        text << (self.supercommand ? 'subcommands' : 'commands').formatted_as_title
         text << "\n"
-        length = self.commands.inject(0) { |m,c| [ m, c.name.size ].max }
-        self.commands.sort_by { |cmd| cmd.name }.each do |cmd|
+
+        visible_cmds, invisible_cmds = self.subcommands.partition { |c| !c.hidden? }
+
+        commands_for_length = is_verbose ? self.subcommands : visible_cmds
+        length = commands_for_length.map { |c| c.name.formatted_as_command.size }.max
+
+        # Visible
+        visible_cmds.sort_by { |cmd| cmd.name }.each do |cmd|
           text << sprintf("    %-#{length+4}s %s\n",
-            cmd.name,
+            cmd.name.formatted_as_command,
             cmd.summary)
+        end
+
+        # Invisible
+        if is_verbose
+          invisible_cmds.sort_by { |cmd| cmd.name }.each do |cmd|
+            text << sprintf("    %-#{length+4}s %s\n",
+              cmd.name.formatted_as_command,
+              cmd.summary)
+          end
+        else
+          case invisible_cmds.size
+          when 0
+          when 1
+            text << "    (1 hidden command ommitted; show it with --verbose)\n"
+          else
+            text << "    (#{invisible_cmds.size} hidden commands ommitted; show them with --verbose)\n"
+          end
         end
       end
 
@@ -339,23 +371,23 @@ module Cri
       if self.supercommand
         groups["options for #{self.supercommand.name}"] = self.supercommand.global_option_definitions
       end
-      length = groups.values.inject(&:+).inject(0) { |m,o| [ m, o[:long].size ].max }
+      length = groups.values.inject(&:+).map { |o| o[:long].size }.max
       groups.each_pair do |name, defs|
         unless defs.empty?
           text << "\n"
-          text << "#{name}:\n"
+          text << "#{name}".formatted_as_title
           text << "\n"
           defs.sort { |x,y| x[:long] <=> y[:long] }.each do |opt_def|
             text << sprintf(
-              "    -%1s --%-#{length+4}s %s\n",
+              "    -%1s --%-#{length+4}s",
               opt_def[:short],
-              opt_def[:long],
-              opt_def[:desc])
+              opt_def[:long]).formatted_as_option
+
+            text << opt_def[:desc] << "\n"
           end
         end
       end
 
-      # Return text
       text
     end
 

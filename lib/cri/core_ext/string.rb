@@ -1,4 +1,5 @@
 # encoding: utf-8
+require 'colored'
 
 module Cri::CoreExtensions
 
@@ -57,6 +58,24 @@ module Cri::CoreExtensions
         # Join lines
         lines.map { |l| ' '*indentation + l }.join("\n")
       end.join("\n\n")
+    end
+
+    # @return [String] The string, formatted to be used as a title in a section
+    #   in the help
+    def formatted_as_title
+      self.upcase.red.bold
+    end
+
+    # @return [String] The string, formatted to be used as the name of a command
+    #   in the help
+    def formatted_as_command
+      self.green
+    end
+
+    # @return [String] The string, formatted to be used as an option definition
+    #   of a command in the help
+    def formatted_as_option
+      self.yellow
     end
 
   end

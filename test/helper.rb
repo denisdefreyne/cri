@@ -13,7 +13,7 @@ class Cri::TestCase < MiniTest::Unit::TestCase
   end
 
   def capture_io_while(&block)
-   orig_io = capture_io
+    orig_io = capture_io
     block.call
     [ $stdout.string, $stderr.string ]
   ensure
@@ -42,3 +42,6 @@ private
   end
 
 end
+
+# Unexpected system exit is unexpected
+::MiniTest::Unit::TestCase::PASSTHROUGH_EXCEPTIONS.delete(SystemExit)

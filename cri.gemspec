@@ -18,6 +18,8 @@ Gem::Specification.new do |s|
                          [ 'cri.gemspec', '.gemtest' ]
   s.require_paths      = [ 'lib' ]
 
+  s.add_dependency('colored', '>= 1.2')
+
   s.rdoc_options     = [ '--main', 'README.md' ]
   s.extra_rdoc_files = [ 'ChangeLog', 'LICENSE', 'README.md', 'NEWS.md' ]
 end
