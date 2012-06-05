@@ -331,7 +331,7 @@ module Cri
         length = self.commands.map { |c| c.name.formatted_as_command.size }.max
         self.commands.sort_by { |cmd| cmd.name }.each do |cmd|
           text << sprintf("    %-#{length+4}s %s\n",
-            cmd.name.formatted_as_option,
+            cmd.name.formatted_as_command,
             cmd.summary)
         end
       end
