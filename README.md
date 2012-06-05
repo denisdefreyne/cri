@@ -125,8 +125,6 @@ To add a command as a subcommand to another command, use the {Cri::Command#add_c
 Contributors
 ------------
 
-(In alphabetical order)
-
 * Toon Willems
 
 Thanks for Lee “injekt” Jarvis for [Slop][1], which has inspired the design of Cri 2.0.
