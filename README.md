@@ -58,6 +58,12 @@ Each command has automatically generated help. This help can be printed using
 	    -m --more      do even more stuff
 	    -s --stuff     specify stuff to do
 
+Since version 2.3.0, colors are added to this help output by default. The
+help command contains a hidden switch --nocolor which will disable all colors.
+For more advanced control over the used colors and help output, see the
+[Settings](#settings) section below.
+
+
 Let’s disect the command definition and start with the first five lines:
 
 	name        'dostuff'
