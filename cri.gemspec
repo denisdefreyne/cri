@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 $LOAD_PATH.unshift(File.expand_path('../lib/', __FILE__))
-require 'cri'
+require 'cri/version'
 
 Gem::Specification.new do |s|
   s.name        = 'cri'

@@ -1,4 +1,5 @@
 # encoding: utf-8
+require 'cri/version'
 
 module Cri
 
@@ -15,9 +16,6 @@ module Cri
   # command has no supercommand for which to show help.
   class NoHelpAvailableError < Error
   end
-
-  # The current Cri version.
-  VERSION = '2.3.0'
 
   autoload 'Command',           'cri/command'
   autoload 'CommandDSL',        'cri/command_dsl'
