@@ -60,22 +60,10 @@ module Cri::CoreExtensions
       end.join("\n\n")
     end
 
-    # @return [String] The string, formatted to be used as a title in a section
-    #   in the help
-    def formatted_as_title
-      self.upcase.red.bold
-    end
-
-    # @return [String] The string, formatted to be used as the name of a command
-    #   in the help
-    def formatted_as_command
-      self.green
-    end
-
-    # @return [String] The string, formatted to be used as an option definition
-    #   of a command in the help
-    def formatted_as_option
-      self.yellow
+    # @return [String] The string, with each action applied to the string.
+    def formatted_as(actions)
+      actions = [actions] unless actions.is_a?(Array)
+      actions.inject(self) {|o, a| o.send(a) }
     end
 
   end

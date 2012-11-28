@@ -311,6 +311,19 @@ module Cri
     # @return [String] The help text for this command
     def help(params={})
       is_verbose = params.fetch(:verbose, false)
+      # Use the defaults or merge the colors from the settings.
+      colors = {
+        :title           => [:upcase, :red, :bold],
+        :command         => [:green],
+        :option          => [:yellow],
+      }.merge(@settings[:colors] || {})
+
+      # Monkeypath the String class so we do not need to change the help generation.
+      colors.each do |t,a|
+        String.send(:define_method, "formatted_as_#{t}") do
+          self.formatted_as(a)
+        end
+      end
 
       text = ''
 

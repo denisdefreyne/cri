@@ -132,8 +132,27 @@ various parameters that change the way cri works internally.
 
 Currently, the following parameters are implemented:
 
-* `:noparent`:: Prevents merging settings from a parent command when using subcommands.
+* `:colors`:   A hash with markup for our help. Valid hash keys are `:title`, `:command` and `:option`.
+* `:noparent`: Prevents merging settings from a parent command when using subcommands.
 
+
+Example using settings:
+
+	command = Cri::Command.define do
+	  name        'dostuff'
+	  usage       'dostuff'
+	  description 'dostuff'
+	  settings    :colors => { :title => [:upcase, :bold], :command => [:bold], :options => [] }
+	end
+
+	command.define_command do
+	  name        'sub'
+	  usage       'sub'
+	  description 'sub'
+	  settings    :noparent => true, :colors => {:title => [:upcase, :blue, :bold],}
+	end
+
+	command.add_command(Cri::Command.new_basic_help)
 
 Contributors
 ------------
