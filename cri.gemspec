@@ -20,6 +20,10 @@ Gem::Specification.new do |s|
 
   s.add_dependency('colored', '>= 1.2')
 
+  s.add_development_dependency('rake')
+  s.add_development_dependency('minitest')
+  s.add_development_dependency('yard')
+
   s.rdoc_options     = [ '--main', 'README.md' ]
   s.extra_rdoc_files = [ 'ChangeLog', 'LICENSE', 'README.md', 'NEWS.md' ]
 end
