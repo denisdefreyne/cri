@@ -122,6 +122,19 @@ To add a command as a subcommand to another command, use the {Cri::Command#add_c
 	root_cmd.add_command cmd_commit
 	root.cmd.add_command cmd_init
 
+
+Settings
+--------
+
+To enable more advanced control over the colors and markup used in the help,
+the settings attribute has been created. This is a place where you can define
+various parameters that change the way cri works internally.
+
+Currently, the following parameters are implemented:
+
+* `:noparent`:: Prevents merging settings from a parent command when using subcommands.
+
+
 Contributors
 ------------
 

@@ -79,6 +79,17 @@ module Cri
       @command.usage = arg
     end
 
+    # Sets global settings. These can be used througout the library and is
+    # mainly for internal use. This allows applications to change the way
+    # Cri behaves.
+    #
+    # @param [Hash] arg settings attached to this command
+    #
+    # @return [void]
+    def settings(arg)
+      @command.settings = arg
+    end
+
     # Marks the command as hidden. Hidden commands do not show up in the list of
     # subcommands of the parent command, unless --verbose is passed (or
     # `:verbose => true` is passed to the {Cri::Command#help} method). This can

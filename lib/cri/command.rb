@@ -82,6 +82,13 @@ module Cri
     #   command (ignored for commands with subcommands)
     attr_accessor :block
 
+    # @return [Hash] Various settings that change the way cri works
+    # Includes the color styles to use in the generated help.
+    #
+    # By default, settings of subcommands are merged with the supercommand.
+    # You can prevent this by setting `:noparent => true` in your hash.
+    attr_accessor :settings
+
     # Creates a new command using the DSL. If a string is given, the command
     # will be defined using the string; if a block is given, the block will be
     # used instead.
@@ -128,6 +135,7 @@ module Cri
       @aliases            = Set.new
       @commands           = Set.new
       @option_definitions = Set.new
+      @settings           = Hash.new
     end
 
     # Modifies the command using the DSL.
@@ -163,6 +171,10 @@ module Cri
     # @return [void]
     def add_command(command)
       @commands << command
+      # merge our settings with the child. if unset, noparent if false and we merge.
+      if ! command.settings[:noparent] or command.settings[:noparent] == false
+        command.settings.merge!(@settings)
+      end
       command.supercommand = self
     end
 
