@@ -11,6 +11,7 @@ command-specific commandline options are shown.
 EOS
 
 flag :v, :verbose, 'show more detailed help'
+flag :c, :nocolor, 'disable color in the help output'
 
 run do |opts, args, cmd|
   if cmd.supercommand.nil?
@@ -19,11 +20,12 @@ run do |opts, args, cmd|
   end
 
   is_verbose = opts.fetch(:verbose, false)
+  is_color   = ! opts.fetch(:nocolor, false)
 
   if args.empty?
-    puts cmd.supercommand.help(:verbose => is_verbose)
+    puts cmd.supercommand.help(:verbose => is_verbose, :color => is_color)
   elsif args.size == 1
-    puts cmd.supercommand.command_named(args[0]).help(:verbose => is_verbose)
+    puts cmd.supercommand.command_named(args[0]).help(:verbose => is_verbose, :color => is_color)
   else
     $stderr.puts cmd.usage
     exit 1

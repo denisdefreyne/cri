@@ -58,6 +58,12 @@ Each command has automatically generated help. This help can be printed using
 	    -m --more      do even more stuff
 	    -s --stuff     specify stuff to do
 
+Since version 2.3.0, colors are added to this help output by default. The
+help command contains a hidden switch --nocolor which will disable all colors.
+For more advanced control over the used colors and help output, see the
+[Settings](#settings) section below.
+
+
 Let’s disect the command definition and start with the first five lines:
 
 	name        'dostuff'
@@ -121,6 +127,38 @@ To add a command as a subcommand to another command, use the {Cri::Command#add_c
 	root_cmd.add_command cmd_add
 	root_cmd.add_command cmd_commit
 	root.cmd.add_command cmd_init
+
+
+Settings
+--------
+
+To enable more advanced control over the colors and markup used in the help,
+the settings attribute has been created. This is a place where you can define
+various parameters that change the way cri works internally.
+
+Currently, the following parameters are implemented:
+
+* `:colors`:   A hash with markup for our help. Valid hash keys are `:title`, `:command` and `:option`.
+* `:noparent`: Prevents merging settings from a parent command when using subcommands.
+
+
+Example using settings:
+
+	command = Cri::Command.define do
+	  name        'dostuff'
+	  usage       'dostuff'
+	  description 'dostuff'
+	  settings    :colors => { :title => [:upcase, :bold], :command => [:bold], :options => [] }
+	end
+
+	command.define_command do
+	  name        'sub'
+	  usage       'sub'
+	  description 'sub'
+	  settings    :noparent => true, :colors => {:title => [:upcase, :blue, :bold],}
+	end
+
+	command.add_command(Cri::Command.new_basic_help)
 
 Contributors
 ------------
