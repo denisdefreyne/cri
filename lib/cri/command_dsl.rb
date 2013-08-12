@@ -190,8 +190,8 @@ module Cri
 
     def add_option(short, long, desc, argument, block)
       @command.option_definitions << {
-        :short    => short.to_s,
-        :long     => long.to_s,
+        :short    => short.nil? ? nil : short.to_s,
+        :long     => long.nil? ? nil : long.to_s,
         :desc     => desc,
         :argument => argument,
         :block    => block }
