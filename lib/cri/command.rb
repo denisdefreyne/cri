@@ -371,17 +371,27 @@ module Cri
       if self.supercommand
         groups["options for #{self.supercommand.name}"] = self.supercommand.global_option_definitions
       end
-      length = groups.values.inject(&:+).map { |o| o[:long].size }.max
+      length = groups.values.inject(&:+).map { |o| o[:long].to_s.size }.max
       groups.each_pair do |name, defs|
         unless defs.empty?
           text << "\n"
           text << "#{name}".formatted_as_title
           text << "\n"
-          defs.sort { |x,y| x[:long] <=> y[:long] }.each do |opt_def|
+          ordered_defs = defs.sort { |x,y|
+            case
+            when (x[:short] && y[:short])
+              (x[:short] <=> y[:short])
+            when (x[:long] && y[:long])
+              (x[:long] <=> y[:long])
+            else
+              (x[:long] || x[:short]) <=> (y[:long] || y[:short])
+            end
+          }
+          ordered_defs.each do |opt_def|
             text << sprintf(
-              "    -%1s --%-#{length+4}s",
-              opt_def[:short],
-              opt_def[:long]).formatted_as_option
+              "    %-2s %-#{length+6}s",
+              opt_def[:short] ? ('-' + opt_def[:short]) : '',
+              opt_def[:long] ? ('--' + opt_def[:long]) : '').formatted_as_option
 
             text << opt_def[:desc] << "\n"
           end
