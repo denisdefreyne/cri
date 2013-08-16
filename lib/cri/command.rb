@@ -378,7 +378,14 @@ module Cri
           text << "#{name}".formatted_as_title
           text << "\n"
           ordered_defs = defs.sort { |x,y|
-            (x[:long] || x[:short]) <=> (y[:long] || y[:short])
+            case
+            when (x[:short] && y[:short])
+              (x[:short] <=> y[:short])
+            when (x[:long] && y[:long])
+              (x[:long] <=> y[:long])
+            else
+              (x[:long] || x[:short]) <=> (y[:long] || y[:short])
+            end
           }
           ordered_defs.each do |opt_def|
             text << sprintf(
