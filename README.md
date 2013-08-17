@@ -131,6 +131,7 @@ Contributors
 ------------
 
 * Toon Willems
+* Ken Coar
 
 Thanks for Lee “injekt” Jarvis for [Slop][1], which has inspired the design of Cri 2.0.
 
