@@ -20,12 +20,12 @@ Here’s a sample command definition:
 	  summary     'does stuff'
 	  description 'This command does a lot of stuff. I really mean a lot.'
 
-	  flag   :h, :help,  'show help for this command' do |value, cmd|
+	  flag   :h,  :help,  'show help for this command' do |value, cmd|
 	    puts cmd.help
 	    exit 0
 	  end
-	  flag   :m, :more,  'do even more stuff'
-	  option :s, :stuff, 'specify stuff to do', :argument => :required
+	  flag   nil, :more,  'do even more stuff'
+	  option :s,  :stuff, 'specify stuff to do', :argument => :required
 
 	  run do |opts, args, cmd|
 	    stuff = opts[:stuff] || 'generic stuff'
@@ -55,7 +55,7 @@ Each command has automatically generated help. This help can be printed using
 	options:
 
 	    -h --help      show help for this command
-	    -m --more      do even more stuff
+	       --more      do even more stuff
 	    -s --stuff     specify stuff to do
 
 Let’s disect the command definition and start with the first five lines:
@@ -76,12 +76,12 @@ Aliases don’t make sense for root commands, but for subcommands they do.
 
 The next few lines contain the command’s option definitions:
 
-	flag   :h, :help,  'show help for this command' do |value, cmd|
+	flag   :h,  :help,  'show help for this command' do |value, cmd|
 	  puts cmd.help
 	  exit 0
 	end
-	flag   :m, :more,  'do even more stuff'
-	option :s, :stuff, 'specify stuff to do', :argument => :required
+	flag   nil, :more,  'do even more stuff'
+	option :s,  :stuff, 'specify stuff to do', :argument => :required
 
 Options can be defined using the following methods:
 
@@ -89,6 +89,11 @@ Options can be defined using the following methods:
 * {Cri::CommandDSL#flag} (implies forbidden argument)
 * {Cri::CommandDSL#required} (implies required argument)
 * {Cri::CommandDSL#optional} (implies optional argument)
+
+All these methods take the short option form as their first argument, and a
+long option form as their second argument. Either the short or the long form
+can be nil, but not both (because that would not make any sense). In the
+example above, the `--more` option has no short form.
 
 Each of the above methods also take a block, which will be executed when the
 option is found. The argument to the block are the option value (`true` in
