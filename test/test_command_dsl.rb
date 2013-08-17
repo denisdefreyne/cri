@@ -46,6 +46,38 @@ class Cri::CommandDSLTestCase < Cri::TestCase
     assert_equal expected_option_definitions, actual_option_definitions
   end
 
+  def test_optional_options
+    # Define
+    dsl = Cri::CommandDSL.new
+    dsl.instance_eval do
+      name        'moo'
+      usage       'dunno whatever'
+      summary     'does stuff'
+      description 'This command does a lot of stuff.'
+
+      flag :s,  nil,   'short'
+      flag nil, :long, 'long'
+
+      run do |opts, args|
+        $did_it_work = :probably
+      end
+    end
+    command = dsl.command
+
+    # Run
+    $did_it_work = :sadly_not
+    command.run(%w( -s --long ))
+    assert_equal :probably, $did_it_work
+
+    # Check options
+    expected_option_definitions = Set.new([
+      { :short => 's', :long => nil,    :desc => 'short', :argument => :forbidden, :block => nil },
+      { :short => nil, :long => 'long', :desc => 'long',  :argument => :forbidden, :block => nil }
+      ])
+    actual_option_definitions = Set.new(command.option_definitions)
+    assert_equal expected_option_definitions, actual_option_definitions
+  end
+
   def test_subcommand
     # Define
     dsl = Cri::CommandDSL.new
