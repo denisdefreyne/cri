@@ -92,9 +92,9 @@ module Cri
     # Adds a new option to the command. If a block is given, it will be
     # executed when the option is successfully parsed.
     #
-    # @param [String, Symbol] short The short option name
+    # @param [String, Symbol, nil] short The short option name
     #
-    # @param [String, Symbol] long The long option name
+    # @param [String, Symbol, nil] long The long option name
     #
     # @param [String] desc The option description
     #
@@ -111,9 +111,9 @@ module Cri
     # Adds a new option with a required argument to the command. If a block is
     # given, it will be executed when the option is successfully parsed.
     #
-    # @param [String, Symbol] short The short option name
+    # @param [String, Symbol, nil] short The short option name
     #
-    # @param [String, Symbol] long The long option name
+    # @param [String, Symbol, nil] long The long option name
     #
     # @param [String] desc The option description
     #
@@ -127,9 +127,9 @@ module Cri
     # Adds a new option with a forbidden argument to the command. If a block
     # is given, it will be executed when the option is successfully parsed.
     #
-    # @param [String, Symbol] short The short option name
+    # @param [String, Symbol, nil] short The short option name
     #
-    # @param [String, Symbol] long The long option name
+    # @param [String, Symbol, nil] long The long option name
     #
     # @param [String] desc The option description
     #
@@ -144,9 +144,9 @@ module Cri
     # Adds a new option with an optional argument to the command. If a block
     # is given, it will be executed when the option is successfully parsed.
     #
-    # @param [String, Symbol] short The short option name
+    # @param [String, Symbol, nil] short The short option name
     #
-    # @param [String, Symbol] long The long option name
+    # @param [String, Symbol, nil] long The long option name
     #
     # @param [String] desc The option description
     #
@@ -189,9 +189,13 @@ module Cri
   protected
 
     def add_option(short, long, desc, argument, block)
+      if short.nil? && long.nil?
+        raise ArgumentError, "short and long options cannot both be nil"
+      end
+
       @command.option_definitions << {
-        :short    => short.to_s,
-        :long     => long.to_s,
+        :short    => short.nil? ? nil : short.to_s,
+        :long     => long.nil? ? nil : long.to_s,
         :desc     => desc,
         :argument => argument,
         :block    => block }
