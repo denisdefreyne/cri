@@ -78,6 +78,16 @@ class Cri::CommandDSLTestCase < Cri::TestCase
     assert_equal expected_option_definitions, actual_option_definitions
   end
 
+  def test_optional_options
+    # Define
+    dsl = Cri::CommandDSL.new
+    assert_raises ArgumentError do
+      dsl.instance_eval do
+        flag nil, nil, 'meh'
+      end
+    end
+  end
+
   def test_subcommand
     # Define
     dsl = Cri::CommandDSL.new

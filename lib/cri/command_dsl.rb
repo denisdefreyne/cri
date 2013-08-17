@@ -189,6 +189,10 @@ module Cri
   protected
 
     def add_option(short, long, desc, argument, block)
+      if short.nil? && long.nil?
+        raise ArgumentError, "short and long options cannot both be nil"
+      end
+
       @command.option_definitions << {
         :short    => short.nil? ? nil : short.to_s,
         :long     => long.nil? ? nil : long.to_s,
