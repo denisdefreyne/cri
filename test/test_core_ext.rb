@@ -41,6 +41,28 @@ class Cri::CoreExtTestCase < Cri::TestCase
     assert_equal expected, actual
   end
 
+  def test_string_wrap_and_indent_with_large_indent
+    original = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, " +
+               "sed do eiusmod tempor incididunt ut labore et dolore " + 
+               "magna aliqua."
+
+    expected = "                              Lorem ipsum\n" +
+               "                              dolor sit\n" +
+               "                              amet,\n" +
+               "                              consectetur\n" +
+               "                              adipisicing\n" +
+               "                              elit, sed do\n" +
+               "                              eiusmod\n" +
+               "                              tempor\n" +
+               "                              incididunt ut\n" +
+               "                              labore et\n" +
+               "                              dolore magna\n" +
+               "                              aliqua."
+
+    actual = original.wrap_and_indent(44, 30)
+    assert_equal expected, actual
+  end
+
   def test_string_wrap_and_indent_with_multiple_lines
     original = "Lorem ipsum dolor sit\namet, consectetur adipisicing elit, " +
                "sed do\neiusmod tempor incididunt ut\nlabore et dolore " + 
