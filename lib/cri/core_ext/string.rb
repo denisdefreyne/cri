@@ -33,6 +33,8 @@ module Cri::CoreExtensions
     #
     # @return [String] The word-wrapped and indented string
     def wrap_and_indent(width, indentation)
+      indented_width = width - indentation
+      indent = ' ' * indentation
       # Split into paragraphs
       paragraphs = self.to_paragraphs
 
@@ -45,7 +47,7 @@ module Cri::CoreExtensions
         # Split into words
         paragraph.split(/\s/).each do |word|
           # Begin new line if it's too long
-          if (line + ' ' + word).length >= width
+          if (line + ' ' + word).length >= indented_width
             lines << line
             line = ''
           end
@@ -56,7 +58,7 @@ module Cri::CoreExtensions
         lines << line
 
         # Join lines
-        lines.map { |l| ' '*indentation + l }.join("\n")
+        lines.map { |l| indent + l }.join("\n")
       end.join("\n\n")
     end
 
