@@ -194,10 +194,10 @@ module Cri
             end
 
             # Store option
-            add_option(definition[:long].to_sym, option_value)
+            add_option(definition, option_value)
           else
             # Store option
-            add_option(definition[:long].to_sym, true)
+            add_option(definition, true)
           end
         # Handle -xyz options
         elsif e =~ /^-./ and !@no_more_options
@@ -226,10 +226,10 @@ module Cri
               end
 
               # Store option
-              add_option(definition[:long].to_sym, option_value)
+              add_option(definition, option_value)
             else
               # Store option
-              add_option(definition[:long].to_sym, true)
+              add_option(definition, true)
             end
           end
         # Handle normal arguments
@@ -244,7 +244,8 @@ module Cri
 
   private
 
-    def add_option(key, value)
+    def add_option(definition, value)
+      key = (definition[:long] || definition[:short]).to_sym
       options[key] = value
       delegate.option_added(key, value, self) unless delegate.nil?
     end

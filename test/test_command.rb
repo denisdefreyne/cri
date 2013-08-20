@@ -263,6 +263,19 @@ class Cri::CommandTestCase < Cri::TestCase
     bare_cmd.help
   end
 
+  def test_help_with_optional_options
+    cmd = Cri::Command.define do
+      name 'build'
+      flag :s,  nil,   'short'
+      flag nil, :long, 'long'
+    end
+    help = cmd.help
+
+    assert_match(help, /--long.*-s/m)
+    assert_match(help, /^\e\[33m       --long    \e\[0mlong$/)
+    assert_match(help, /^\e\[33m    -s           \e\[0mshort$/)
+  end
+
   def test_modify_with_block_argument
     cmd = Cri::Command.define do |c|
       c.name 'build'
