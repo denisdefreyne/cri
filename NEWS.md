@@ -1,6 +1,13 @@
 Cri News
 ========
 
+2.4.0
+-----
+
+* Allowed either short or long option to be, eh, optional [Ken Coar]
+* Fixed wrap-and-indent behavior [Ken Coar]
+* Moved version information into `cri/version`
+
 2.3.0
 -----
 
