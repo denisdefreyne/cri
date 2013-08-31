@@ -4,6 +4,7 @@
 
 # Rake etc
 require 'rake'
+require 'minitest'
 require 'minitest/unit'
 
 # Cri itself
@@ -32,7 +33,7 @@ task :test do
 
   $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
 
-  MiniTest::Unit.autorun
+  MiniTest.autorun
 
   require 'test/helper.rb'
 

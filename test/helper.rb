@@ -2,7 +2,7 @@
 
 require 'stringio'
 
-class Cri::TestCase < MiniTest::Unit::TestCase
+class Cri::TestCase < Minitest::Test
 
   def setup
     @orig_io = capture_io

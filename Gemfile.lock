@@ -1,0 +1,22 @@
+PATH
+  remote: .
+  specs:
+    cri (2.4.0)
+      colored (>= 1.2)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    colored (1.2)
+    minitest (5.0.6)
+    rake (10.1.0)
+    yard (0.8.7)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  cri!
+  minitest
+  rake
+  yard

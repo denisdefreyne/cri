@@ -271,9 +271,9 @@ class Cri::CommandTestCase < Cri::TestCase
     end
     help = cmd.help
 
-    assert_match(help, /--long.*-s/m)
-    assert_match(help, /^\e\[33m       --long    \e\[0mlong$/)
-    assert_match(help, /^\e\[33m    -s           \e\[0mshort$/)
+    assert_match(/--long.*-s/m,                           help)
+    assert_match(/^\e\[33m       --long    \e\[0mlong$/,  help)
+    assert_match(/^\e\[33m    -s           \e\[0mshort$/, help)
   end
 
   def test_modify_with_block_argument
