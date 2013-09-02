@@ -90,7 +90,9 @@ module Cri
     # context with the command DSL as its parameter. If the block has no
     # parameters, the block will be executed in the context of the DSL.
     #
-    # @param [String, nil] The string containing the command’s definition
+    # @param [String, nil] string The command definition as a string
+    #
+    # @param [String, nil] filename The filename corresponding to the string parameter (only useful if a string is given)
     #
     # @return [Cri::Command] The newly defined command
     def self.define(string=nil, filename=nil, &block)
