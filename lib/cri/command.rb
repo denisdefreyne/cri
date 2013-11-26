@@ -374,7 +374,8 @@ module Cri
         groups["options for #{self.supercommand.name}"] = self.supercommand.global_option_definitions
       end
       length = groups.values.inject(&:+).map { |o| o[:long].to_s.size }.max
-      groups.each_pair do |name, defs|
+      groups.keys.sort.each do |name|
+        defs = groups[name]
         unless defs.empty?
           text << "\n"
           text << "#{name}".formatted_as_title
