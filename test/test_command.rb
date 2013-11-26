@@ -369,12 +369,12 @@ class Cri::CommandTestCase < Cri::TestCase
       c.be_hidden
     end
 
-    refute cmd.help.include?('hidden commands ommitted')
-    assert cmd.help.include?('hidden command ommitted')
+    refute cmd.help.include?('hidden commands omitted')
+    assert cmd.help.include?('hidden command omitted')
     refute cmd.help.include?('old-and-deprecated')
 
-    refute cmd.help(:verbose => true).include?('hidden commands ommitted')
-    refute cmd.help(:verbose => true).include?('hidden command ommitted')
+    refute cmd.help(:verbose => true).include?('hidden commands omitted')
+    refute cmd.help(:verbose => true).include?('hidden command omitted')
     assert cmd.help(:verbose => true).include?('old-and-deprecated')
   end
 
@@ -397,13 +397,13 @@ class Cri::CommandTestCase < Cri::TestCase
       c.be_hidden
     end
 
-    assert cmd.help.include?('hidden commands ommitted')
-    refute cmd.help.include?('hidden command ommitted')
+    assert cmd.help.include?('hidden commands omitted')
+    refute cmd.help.include?('hidden command omitted')
     refute cmd.help.include?('old-and-deprecated')
     refute cmd.help.include?('ancient-and-deprecated')
 
-    refute cmd.help(:verbose => true).include?('hidden commands ommitted')
-    refute cmd.help(:verbose => true).include?('hidden command ommitted')
+    refute cmd.help(:verbose => true).include?('hidden commands omitted')
+    refute cmd.help(:verbose => true).include?('hidden command omitted')
     assert cmd.help(:verbose => true).include?('old-and-deprecated')
     assert cmd.help(:verbose => true).include?('ancient-and-deprecated')
   end

@@ -361,9 +361,9 @@ module Cri
           case invisible_cmds.size
           when 0
           when 1
-            text << "    (1 hidden command ommitted; show it with --verbose)\n"
+            text << "    (1 hidden command omitted; show it with --verbose)\n"
           else
-            text << "    (#{invisible_cmds.size} hidden commands ommitted; show them with --verbose)\n"
+            text << "    (#{invisible_cmds.size} hidden commands omitted; show them with --verbose)\n"
           end
         end
       end
