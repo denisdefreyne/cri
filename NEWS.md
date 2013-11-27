@@ -1,6 +1,11 @@
 Cri News
 ========
 
+2.4.1
+-----
+
+* Fixed ordering of option groups on Ruby 1.8.x (#14, #15)
+
 2.4.0
 -----
 
