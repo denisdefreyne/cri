@@ -276,6 +276,12 @@ class Cri::CommandTestCase < Cri::TestCase
     assert_match(/^\e\[33m    -s           \e\[0mshort$/, help)
   end
 
+  def test_help_with_multiple_groups
+    help = nested_cmd.subcommands.find { |cmd| cmd.name == 'sub' }.help
+
+    assert_match(/OPTIONS.*OPTIONS FOR SUPER/m,  help)
+  end
+
   def test_modify_with_block_argument
     cmd = Cri::Command.define do |c|
       c.name 'build'
