@@ -338,32 +338,25 @@ module Cri
         text << (self.supercommand ? 'subcommands' : 'commands').formatted_as_title
         text << "\n"
 
-        visible_cmds, invisible_cmds = self.subcommands.partition { |c| !c.hidden? }
+        shown_subcommands = self.subcommands.select { |c| !c.hidden? || is_verbose }
+        length = shown_subcommands.map { |c| c.name.formatted_as_command.size }.max
 
-        commands_for_length = is_verbose ? self.subcommands : visible_cmds
-        length = commands_for_length.map { |c| c.name.formatted_as_command.size }.max
-
-        # Visible
-        visible_cmds.sort_by { |cmd| cmd.name }.each do |cmd|
+        # Command
+        shown_subcommands.sort_by { |cmd| cmd.name }.each do |cmd|
           text << sprintf("    %-#{length+4}s %s\n",
             cmd.name.formatted_as_command,
             cmd.summary)
         end
 
-        # Invisible
-        if is_verbose
-          invisible_cmds.sort_by { |cmd| cmd.name }.each do |cmd|
-            text << sprintf("    %-#{length+4}s %s\n",
-              cmd.name.formatted_as_command,
-              cmd.summary)
-          end
-        else
-          case invisible_cmds.size
+        # Hidden notice
+        if !is_verbose
+          diff = self.subcommands.size - shown_subcommands.size
+          case diff
           when 0
           when 1
             text << "    (1 hidden command omitted; show it with --verbose)\n"
           else
-            text << "    (#{invisible_cmds.size} hidden commands omitted; show them with --verbose)\n"
+            text << "    (#{diff} hidden commands omitted; show them with --verbose)\n"
           end
         end
       end

@@ -390,6 +390,13 @@ class Cri::CommandTestCase < Cri::TestCase
     subcmd = simple_cmd
     cmd.add_command subcmd
     subcmd.modify do |c|
+      c.name    'first'
+      c.summary 'does stuff first'
+    end
+
+    subcmd = simple_cmd
+    cmd.add_command subcmd
+    subcmd.modify do |c|
       c.name    'old-and-deprecated'
       c.summary 'does stuff the old, deprecated way'
       c.be_hidden
@@ -412,6 +419,9 @@ class Cri::CommandTestCase < Cri::TestCase
     refute cmd.help(:verbose => true).include?('hidden command omitted')
     assert cmd.help(:verbose => true).include?('old-and-deprecated')
     assert cmd.help(:verbose => true).include?('ancient-and-deprecated')
+
+    pattern = /ancient-and-deprecated.*first.*old-and-deprecated/m
+    assert_match(pattern, cmd.help(:verbose => true))
   end
 
 end
