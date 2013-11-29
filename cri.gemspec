@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
 
   s.files              = Dir['[A-Z]*'] +
                          Dir['{lib,test}/**/*'] +
-                         [ 'cri.gemspec', '.gemtest' ]
+                         [ 'cri.gemspec' ]
   s.require_paths      = [ 'lib' ]
 
   s.add_dependency('colored', '>= 1.2')
@@ -25,5 +25,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency('yard')
 
   s.rdoc_options     = [ '--main', 'README.md' ]
-  s.extra_rdoc_files = [ 'ChangeLog', 'LICENSE', 'README.md', 'NEWS.md' ]
+  s.extra_rdoc_files = [ 'LICENSE', 'README.md', 'NEWS.md' ]
 end
