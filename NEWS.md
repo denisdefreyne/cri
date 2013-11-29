@@ -5,6 +5,7 @@ Cri News
 -----
 
 * Fixed ordering of option groups on Ruby 1.8.x (#14, #15)
+* Fixed ordering of commands when --verbose is passed (#16, #18)
 
 2.4.0
 -----
