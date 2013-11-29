@@ -9,6 +9,7 @@ Gem::Specification.new do |s|
   s.homepage    = 'http://stoneship.org/software/cri/' # TODO CREATE A WEB SITE YOU SILLY PERSON
   s.summary     = 'a library for building easy-to-use commandline tools'
   s.description = 'Cri allows building easy-to-use commandline interfaces with support for subcommands.'
+  s.license     = 'MIT'
 
   s.author = 'Denis Defreyne'
   s.email  = 'denis.defreyne@stoneship.org'
