@@ -343,7 +343,6 @@ module Cri
 
         # Command
         shown_subcommands.sort_by { |cmd| cmd.name }.each do |cmd|
-          next if cmd.hidden? && !is_verbose
           text << sprintf("    %-#{length+4}s %s\n",
             cmd.name.formatted_as_command,
             cmd.summary)
