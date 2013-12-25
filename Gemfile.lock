@@ -1,16 +1,16 @@
 PATH
   remote: .
   specs:
-    cri (2.4.0)
+    cri (2.4.1)
       colored (>= 1.2)
 
 GEM
   remote: https://rubygems.org/
   specs:
     colored (1.2)
-    minitest (5.0.6)
-    rake (10.1.0)
-    yard (0.8.7)
+    minitest (5.2.0)
+    rake (10.1.1)
+    yard (0.8.7.3)
 
 PLATFORMS
   ruby
