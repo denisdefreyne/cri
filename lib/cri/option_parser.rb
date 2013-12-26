@@ -268,7 +268,9 @@ module Cri
     end
 
     def start_new_argument_group
-      argument_groups << [ ]
+      unless argument_groups.last.empty?
+        argument_groups << [ ]
+      end
     end
 
   end

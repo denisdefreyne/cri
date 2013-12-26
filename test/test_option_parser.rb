@@ -265,6 +265,18 @@ class Cri::OptionParserTestCase < Cri::TestCase
 
     assert_equal({},                                      parser.options)
     assert_equal([ 'foo', 'bar', '-x', '--yyy', '-abc' ], parser.arguments)
+    assert_equal([ [ 'foo', 'bar' ], [ '-x', '--yyy', '-abc' ] ], parser.argument_groups)
+  end
+
+  def test_parse_with_end_marker_before_arguments
+    input       = %w( -- foo -abc )
+    definitions = []
+
+    parser = Cri::OptionParser.parse(input, definitions)
+
+    assert_equal({},                    parser.options)
+    assert_equal([ 'foo', '-abc' ],     parser.arguments)
+    assert_equal([ [ 'foo', '-abc' ] ], parser.argument_groups)
   end
 
   def test_parse_with_end_marker_between_option_key_and_value
