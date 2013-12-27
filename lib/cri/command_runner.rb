@@ -12,6 +12,9 @@ module Cri
     # @return [Array] The list of arguments
     attr_reader :arguments
 
+    # @return [Array] The list of argument groups
+    attr_reader :argument_groups
+
     # @return [Command] The command
     attr_reader :command
 
@@ -20,9 +23,10 @@ module Cri
     # @param [Array] arguments The list of arguments
     #
     # @param [Cri::Command] command The Cri command
-    def initialize(options, arguments, command)
+    def initialize(options, arguments, command, argument_groups)
       @options   = options
       @arguments = arguments
+      @argument_groups = argument_groups
       @command   = command
     end
 
