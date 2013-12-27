@@ -164,9 +164,10 @@ module Cri
     #
     # @return [void]
     def run(&block)
-      if block.arity < 2 || block.arity > 4
+      if block.arity > 4
         raise ArgumentError,
-          "The block given to Cri::Command#run expects two, three or four args"
+          'The block given to Cri::Command#run expects at most four ' +
+          'arguments (options, arguments, command, argument_groups)'
       end
 
       @command.block = block

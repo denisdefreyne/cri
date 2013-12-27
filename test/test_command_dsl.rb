@@ -5,7 +5,7 @@ class Cri::CommandDSLTestCase < Cri::TestCase
   def test_create_command
     # Define
     dsl = Cri::CommandDSL.new
-    dsl.instance_eval do 
+    dsl.instance_eval do
       name        'moo'
       usage       'dunno whatever'
       summary     'does stuff'
@@ -135,6 +135,32 @@ EOS
     $works = false
     command.run(%w( certainly ))
     assert_equal 'certainly', $works
+  end
+
+  def test_missing_run_arguments
+    # 0 args
+    dsl = Cri::CommandDSL.new
+    dsl.instance_eval { run { || $works = 'a' } }
+    dsl.command.run([])
+    assert_equal 'a', $works
+
+    # 1 arg
+    dsl = Cri::CommandDSL.new
+    dsl.instance_eval { run { |x| $works = 'b' } }
+    dsl.command.run([])
+    assert_equal 'b', $works
+
+    # 4 args
+    dsl = Cri::CommandDSL.new
+    dsl.instance_eval { run { |x,y,z,t| $works = 'e' } }
+    dsl.command.run([])
+    assert_equal 'e', $works
+
+    # 5 args
+    dsl = Cri::CommandDSL.new
+    assert_raises ArgumentError do
+      dsl.instance_eval { run { |x,y,z,t,u| $works = 'e' } }
+    end
   end
 
 end
