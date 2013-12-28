@@ -286,7 +286,6 @@ module Cri
       local_opts  = parser.options
       global_opts = parent_opts.merge(parser.options)
       args = parser.arguments
-      arg_groups = parser.argument_groups
 
       # Handle options
       self.handle_options(local_opts)
@@ -296,7 +295,7 @@ module Cri
         raise NotImplementedError,
           "No implementation available for '#{self.name}'"
       end
-      self.block.call(global_opts, args, self, arg_groups)
+      self.block.call(global_opts, args, self)
     end
 
     # @return [String] The help text for this command

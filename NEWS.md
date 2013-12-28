@@ -1,11 +1,6 @@
 Cri News
 ========
 
-2.5.0
------
-
-* Added argument groups to distinguish between positional arguments (#19, #20)
-
 2.4.1
 -----
 

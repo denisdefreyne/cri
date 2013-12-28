@@ -127,25 +127,6 @@ To add a command as a subcommand to another command, use the {Cri::Command#add_c
 	root_cmd.add_command cmd_commit
 	root.cmd.add_command cmd_init
 
-Positional arguments can be split using a `--`. This can be used to disambiguate arguments. The `run` method takes as its 4th parameter `argument_groups`, which is a list of grouped arguents. For example:
-
-	git checkout origin/master -- # branch master on origin
-	git checkout -- origin/master # local file master in origin directory
-
-In the former case, `argument_groups` will be
-
-	[
-	  [ 'origin/master' ],
-	  [],
-	]
-
-In the latter case, `argument_groups` will be
-
-	[
-	  [],
-	  [ 'origin/master' ],
-	]
-
 Contributors
 ------------
 

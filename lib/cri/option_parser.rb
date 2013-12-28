@@ -93,15 +93,6 @@ module Cri
     # @return [Array] The already parsed arguments.
     attr_reader :arguments
 
-    # The argument groups that have already been parsed.
-    #
-    # If the parser was stopped before it finished, this will not contain all
-    # options and `unprocessed_arguments_and_options` will contain what is
-    # left to be processed.
-    #
-    # @return [Array] The already parsed argument groups.
-    attr_reader :argument_groups
-
     # The options and arguments that have not yet been processed. If the
     # parser wasn’t stopped (using {#stop}), this list will be empty.
     #
@@ -133,7 +124,6 @@ module Cri
 
       @options   = {}
       @arguments = []
-      @argument_groups = [ [] ]
 
       @running = false
       @no_more_options = false
@@ -174,7 +164,6 @@ module Cri
         # Handle end-of-options marker
         if e == '--'
           @no_more_options = true
-          start_new_argument_group
         # Handle incomplete options
         elsif e =~ /^--./ and !@no_more_options
           # Get option key, and option value if included
@@ -263,14 +252,7 @@ module Cri
 
     def add_argument(value)
       arguments << value
-      argument_groups.last << value
       delegate.argument_added(value, self) unless delegate.nil?
-    end
-
-    def start_new_argument_group
-      unless argument_groups.last.empty?
-        argument_groups << [ ]
-      end
     end
 
   end
