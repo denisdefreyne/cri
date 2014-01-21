@@ -86,7 +86,7 @@ The next few lines contain the command’s option definitions:
 Options can be defined using the following methods:
 
 * {Cri::CommandDSL#option} or {Cri::CommandDSL#opt}
-* {Cri::CommandDSL#flag} (implies forbidden argument)
+* {Cri::CommandDSL#flag} (implies no arguments passed to option)
 * {Cri::CommandDSL#required} (implies required argument)
 * {Cri::CommandDSL#optional} (implies optional argument)
 
