@@ -41,7 +41,7 @@ To run this command, invoke the `#run` method with the raw arguments. For
 example, for a root command (the commandline tool itself), the command could
 be called like this:
 
-	command.run(ARGS)
+	command.run(ARGV)
 
 Each command has automatically generated help. This help can be printed using
 {Cri::Command#help}; something like this will be shown:
