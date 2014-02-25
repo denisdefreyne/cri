@@ -24,6 +24,8 @@ run do |opts, args, cmd|
     puts cmd.supercommand.help(:verbose => is_verbose)
   elsif args.size == 1
     puts cmd.supercommand.command_named(args[0]).help(:verbose => is_verbose)
+  elsif args.size == 2
+    puts cmd.supercommand.command_named(args[0]).command_named(args[1]).help(:verbose => is_verbose)
   else
     $stderr.puts cmd.usage
     exit 1
