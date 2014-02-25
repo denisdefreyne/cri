@@ -20,12 +20,8 @@ run do |opts, args, cmd|
 
   is_verbose = opts.fetch(:verbose, false)
 
-  if args.empty?
-    puts cmd.supercommand.help(:verbose => is_verbose)
-  elsif args.size == 1
-    puts cmd.supercommand.command_named(args[0]).help(:verbose => is_verbose)
-  else
-    $stderr.puts cmd.usage
-    exit 1
-  end
+
+  base_command = "cmd.supercommand.help(:verbose => is_verbose)"
+  args.each_index {|index| base_command = base_command.insert(-30,".command_named(args[#{index}])")}
+  puts base_command
 end
