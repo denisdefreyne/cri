@@ -1,6 +1,11 @@
 Cri News
 ========
 
+2.5.0
+-----
+
+* Made the default help command handle subcommands
+
 2.4.1
 -----
 
