@@ -25,6 +25,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency('minitest')
   s.add_development_dependency('yard')
 
-  s.rdoc_options     = [ '--main', 'README.md' ]
-  s.extra_rdoc_files = [ 'LICENSE', 'README.md', 'NEWS.md' ]
+  s.rdoc_options     = [ '--main', 'README.adoc' ]
+  s.extra_rdoc_files = [ 'LICENSE', 'README.adoc', 'NEWS.md' ]
 end
