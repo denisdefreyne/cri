@@ -206,15 +206,7 @@ module Cri
       if [ :required, :optional ].include?(definition[:argument])
         # Get option value if necessary
         if option_value.nil?
-          option_value = @unprocessed_arguments_and_options.shift
-          if option_value.nil? || option_value =~ /^-/
-            if definition[:argument] == :required
-              raise OptionRequiresAnArgumentError.new(option_key)
-            else
-              @unprocessed_arguments_and_options.unshift(option_value)
-              option_value = true
-            end
-          end
+          option_value = find_option_value(definition, option_key)
         end
 
         # Store option
@@ -240,15 +232,7 @@ module Cri
           raise OptionRequiresAnArgumentError.new(option_key)
         elsif [ :required, :optional ].include?(definition[:argument])
           # Get option value
-          option_value = @unprocessed_arguments_and_options.shift
-          if option_value.nil? || option_value =~ /^-/
-            if definition[:argument] == :required
-              raise OptionRequiresAnArgumentError.new(option_key)
-            else
-              @unprocessed_arguments_and_options.unshift(option_value)
-              option_value = true
-            end
-          end
+          option_value = find_option_value(definition, option_key)
 
           # Store option
           add_option(definition, option_value)
@@ -257,6 +241,19 @@ module Cri
           add_option(definition, true)
         end
       end
+    end
+
+    def find_option_value(definition, option_key)
+      option_value = @unprocessed_arguments_and_options.shift
+      if option_value.nil? || option_value =~ /^-/
+        if definition[:argument] == :required
+          raise OptionRequiresAnArgumentError.new(option_key)
+        else
+          @unprocessed_arguments_and_options.unshift(option_value)
+          option_value = true
+        end
+      end
+      option_value
     end
 
     def add_option(definition, value)
