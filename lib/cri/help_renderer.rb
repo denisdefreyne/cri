@@ -92,21 +92,30 @@ module Cri
       length = groups.values.inject(&:+).map { |o| o[:long].to_s.size }.max
       groups.keys.sort.each do |name|
         defs = groups[name]
-        unless defs.empty?
-          text << "\n"
-          text << "#{name}".formatted_as_title
-          text << "\n"
-          ordered_defs = defs.sort_by { |x| x[:short] || x[:long] }
-          ordered_defs.each do |opt_def|
-            text << sprintf(
-              "    %-2s %-#{length+6}s",
-              opt_def[:short] ? ('-' + opt_def[:short]) : '',
-              opt_def[:long] ? ('--' + opt_def[:long]) : '').formatted_as_option
-
-            text << opt_def[:desc] << "\n"
-          end
-        end
+        append_option_group(text, name, defs, length)
       end
+    end
+
+    def append_option_group(text, name, defs, length)
+      return if defs.empty?
+
+      text << "\n"
+      text << "#{name}".formatted_as_title
+      text << "\n"
+
+      ordered_defs = defs.sort_by { |x| x[:short] || x[:long] }
+      ordered_defs.each do |opt_def|
+        text << format_opt_def(opt_def, length)
+        text << opt_def[:desc] << "\n"
+      end
+    end
+
+    def format_opt_def(opt_def, length)
+      opt_text = sprintf(
+          "    %-2s %-#{length+6}s",
+          opt_def[:short] ? ('-' + opt_def[:short]) : '',
+          opt_def[:long]  ? ('--' + opt_def[:long]) : '')
+      opt_text.formatted_as_option
     end
 
   end
