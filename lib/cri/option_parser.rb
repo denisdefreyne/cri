@@ -167,79 +167,12 @@ module Cri
         e = @unprocessed_arguments_and_options.shift
         break if e.nil?
 
-        # Handle end-of-options marker
         if e == '--'
-          add_argument(e)
-          @no_more_options = true
-        # Handle incomplete options
+          handle_dashdash(e)
         elsif e =~ /^--./ and !@no_more_options
-          # Get option key, and option value if included
-          if e =~ /^--([^=]+)=(.+)$/
-            option_key   = $1
-            option_value = $2
-          else
-            option_key    = e[2..-1]
-            option_value  = nil
-          end
-
-          # Find definition
-          definition = @definitions.find { |d| d[:long] == option_key }
-          raise IllegalOptionError.new(option_key) if definition.nil?
-
-          if [ :required, :optional ].include?(definition[:argument])
-            # Get option value if necessary
-            if option_value.nil?
-              option_value = @unprocessed_arguments_and_options.shift
-              if option_value.nil? || option_value =~ /^-/
-                if definition[:argument] == :required
-                  raise OptionRequiresAnArgumentError.new(option_key)
-                else
-                  @unprocessed_arguments_and_options.unshift(option_value)
-                  option_value = true
-                end
-              end
-            end
-
-            # Store option
-            add_option(definition, option_value)
-          else
-            # Store option
-            add_option(definition, true)
-          end
-        # Handle -xyz options
+          handle_dashdash_option(e)
         elsif e =~ /^-./ and !@no_more_options
-          # Get option keys
-          option_keys = e[1..-1].scan(/./)
-
-          # For each key
-          option_keys.each do |option_key|
-            # Find definition
-            definition = @definitions.find { |d| d[:short] == option_key }
-            raise IllegalOptionError.new(option_key) if definition.nil?
-
-            if option_keys.length > 1 and definition[:argument] == :required
-              # This is a combined option and it requires an argument, so complain
-              raise OptionRequiresAnArgumentError.new(option_key)
-            elsif [ :required, :optional ].include?(definition[:argument])
-              # Get option value
-              option_value = @unprocessed_arguments_and_options.shift
-              if option_value.nil? || option_value =~ /^-/
-                if definition[:argument] == :required
-                  raise OptionRequiresAnArgumentError.new(option_key)
-                else
-                  @unprocessed_arguments_and_options.unshift(option_value)
-                  option_value = true
-                end
-              end
-
-              # Store option
-              add_option(definition, option_value)
-            else
-              # Store option
-              add_option(definition, true)
-            end
-          end
-        # Handle normal arguments
+          handle_dash_option(e)
         else
           add_argument(e)
         end
@@ -250,6 +183,81 @@ module Cri
     end
 
   private
+
+    def handle_dashdash(e)
+      add_argument(e)
+      @no_more_options = true
+    end
+
+    def handle_dashdash_option(e)
+      # Get option key, and option value if included
+      if e =~ /^--([^=]+)=(.+)$/
+        option_key   = $1
+        option_value = $2
+      else
+        option_key    = e[2..-1]
+        option_value  = nil
+      end
+
+      # Find definition
+      definition = @definitions.find { |d| d[:long] == option_key }
+      raise IllegalOptionError.new(option_key) if definition.nil?
+
+      if [ :required, :optional ].include?(definition[:argument])
+        # Get option value if necessary
+        if option_value.nil?
+          option_value = @unprocessed_arguments_and_options.shift
+          if option_value.nil? || option_value =~ /^-/
+            if definition[:argument] == :required
+              raise OptionRequiresAnArgumentError.new(option_key)
+            else
+              @unprocessed_arguments_and_options.unshift(option_value)
+              option_value = true
+            end
+          end
+        end
+
+        # Store option
+        add_option(definition, option_value)
+      else
+        # Store option
+        add_option(definition, true)
+      end
+    end
+
+    def handle_dash_option(e)
+      # Get option keys
+      option_keys = e[1..-1].scan(/./)
+
+      # For each key
+      option_keys.each do |option_key|
+        # Find definition
+        definition = @definitions.find { |d| d[:short] == option_key }
+        raise IllegalOptionError.new(option_key) if definition.nil?
+
+        if option_keys.length > 1 and definition[:argument] == :required
+          # This is a combined option and it requires an argument, so complain
+          raise OptionRequiresAnArgumentError.new(option_key)
+        elsif [ :required, :optional ].include?(definition[:argument])
+          # Get option value
+          option_value = @unprocessed_arguments_and_options.shift
+          if option_value.nil? || option_value =~ /^-/
+            if definition[:argument] == :required
+              raise OptionRequiresAnArgumentError.new(option_key)
+            else
+              @unprocessed_arguments_and_options.unshift(option_value)
+              option_value = true
+            end
+          end
+
+          # Store option
+          add_option(definition, option_value)
+        else
+          # Store option
+          add_option(definition, true)
+        end
+      end
+    end
 
     def add_option(definition, value)
       key = (definition[:long] || definition[:short]).to_sym
