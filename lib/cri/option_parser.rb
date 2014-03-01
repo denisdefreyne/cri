@@ -84,14 +84,9 @@ module Cri
     # @return [Hash] The already parsed options.
     attr_reader :options
 
-    # The arguments that have already been parsed.
-    #
-    # If the parser was stopped before it finished, this will not contain all
-    # options and `unprocessed_arguments_and_options` will contain what is
-    # left to be processed.
-    #
-    # @return [Array] The already parsed arguments.
-    attr_reader :arguments
+    # @return [Array] The arguments that have already been parsed, including
+    #   the -- separator.
+    attr_reader :raw_arguments
 
     # The options and arguments that have not yet been processed. If the
     # parser wasn’t stopped (using {#stop}), this list will be empty.
@@ -122,11 +117,22 @@ module Cri
       @unprocessed_arguments_and_options = arguments_and_options.dup
       @definitions = definitions
 
-      @options   = {}
-      @arguments = []
+      @options       = {}
+      @raw_arguments = []
 
       @running = false
       @no_more_options = false
+    end
+
+    # Returns the arguments that have already been parsed.
+    #
+    # If the parser was stopped before it finished, this will not contain all
+    # options and `unprocessed_arguments_and_options` will contain what is
+    # left to be processed.
+    #
+    # @return [Array] The already parsed arguments.
+    def arguments
+      ArgumentArray.new(@raw_arguments).freeze
     end
 
     # @return [Boolean] true if the parser is running, false otherwise.
@@ -163,6 +169,7 @@ module Cri
 
         # Handle end-of-options marker
         if e == '--'
+          add_argument(e)
           @no_more_options = true
         # Handle incomplete options
         elsif e =~ /^--./ and !@no_more_options
@@ -251,8 +258,11 @@ module Cri
     end
 
     def add_argument(value)
-      arguments << value
-      delegate.argument_added(value, self) unless delegate.nil?
+      @raw_arguments << value
+
+      unless '--' == value
+        delegate.argument_added(value, self) unless delegate.nil?
+      end
     end
 
   end

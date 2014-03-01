@@ -424,4 +424,34 @@ class Cri::CommandTestCase < Cri::TestCase
     assert_match(pattern, cmd.help(:verbose => true))
   end
 
+  def test_run_with_raw_args
+    cmd = Cri::Command.define do
+      name 'moo'
+      run do |opts, args|
+        puts "args=#{args.join(',')} args.raw=#{args.raw.join(',')}"
+      end
+    end
+
+    out, err = capture_io_while do
+      cmd.run(%w( foo -- bar ))
+    end
+    assert_equal "args=foo,bar args.raw=foo,--,bar\n", out
+  end
+
+  def test_runner_with_raw_args
+    cmd = Cri::Command.define do
+      name 'moo'
+      runner(Class.new(Cri::CommandRunner) do
+        def run
+          puts "args=#{arguments.join(',')} args.raw=#{arguments.raw.join(',')}"
+        end
+      end)
+    end
+
+    out, err = capture_io_while do
+      cmd.run(%w( foo -- bar ))
+    end
+    assert_equal "args=foo,bar args.raw=foo,--,bar\n", out
+  end
+
 end

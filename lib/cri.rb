@@ -27,3 +27,4 @@ end
 require 'set'
 
 require 'cri/core_ext'
+require 'cri/argument_array'
