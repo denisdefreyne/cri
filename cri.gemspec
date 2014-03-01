@@ -19,11 +19,11 @@ Gem::Specification.new do |s|
                          [ 'cri.gemspec' ]
   s.require_paths      = [ 'lib' ]
 
-  s.add_dependency('colored', '>= 1.2')
+  s.add_dependency('colored', '~> 1.2')
 
-  s.add_development_dependency('rake')
-  s.add_development_dependency('minitest')
-  s.add_development_dependency('yard')
+  s.add_development_dependency('rake',     '~> 10.1')
+  s.add_development_dependency('minitest', '~> 5.3')
+  s.add_development_dependency('yard',     '~> 0.8')
 
   s.rdoc_options     = [ '--main', 'README.adoc' ]
   s.extra_rdoc_files = [ 'LICENSE', 'README.adoc', 'NEWS.md' ]
