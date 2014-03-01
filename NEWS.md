@@ -5,6 +5,7 @@ Cri News
 -----
 
 * Made the default help command handle subcommands
+* Added `#raw` method to argument arrays, returning all arguments including `--`
 
 2.4.1
 -----
