@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     cri (2.5.0)
-      colored (>= 1.2)
+      colored (~> 1.2)
 
 GEM
   remote: https://rubygems.org/
@@ -17,6 +17,6 @@ PLATFORMS
 
 DEPENDENCIES
   cri!
-  minitest
-  rake
-  yard
+  minitest (~> 5.3)
+  rake (~> 10.1)
+  yard (~> 0.8)

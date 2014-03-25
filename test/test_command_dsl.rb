@@ -5,13 +5,13 @@ class Cri::CommandDSLTestCase < Cri::TestCase
   def test_create_command
     # Define
     dsl = Cri::CommandDSL.new
-    dsl.instance_eval do 
+    dsl.instance_eval do
       name        'moo'
       usage       'dunno whatever'
       summary     'does stuff'
       description 'This command does a lot of stuff.'
 
-      option    :a, :aaa, 'opt a', :argument => :optional
+      option    :a, :aaa, 'opt a', :argument => :optional, :multiple => true
       required  :b, :bbb, 'opt b'
       optional  :c, :ccc, 'opt c'
       flag      :d, :ddd, 'opt d'
@@ -36,11 +36,11 @@ class Cri::CommandDSLTestCase < Cri::TestCase
 
     # Check options
     expected_option_definitions = Set.new([
-      { :short => 'a', :long => 'aaa', :desc => 'opt a', :argument => :optional,  :block => nil },
-      { :short => 'b', :long => 'bbb', :desc => 'opt b', :argument => :required,  :block => nil },
-      { :short => 'c', :long => 'ccc', :desc => 'opt c', :argument => :optional,  :block => nil },
-      { :short => 'd', :long => 'ddd', :desc => 'opt d', :argument => :forbidden, :block => nil },
-      { :short => 'e', :long => 'eee', :desc => 'opt e', :argument => :forbidden, :block => nil }
+      { :short => 'a', :long => 'aaa', :desc => 'opt a', :argument => :optional, :multiple => true,   :block => nil },
+      { :short => 'b', :long => 'bbb', :desc => 'opt b', :argument => :required, :multiple => false,  :block => nil },
+      { :short => 'c', :long => 'ccc', :desc => 'opt c', :argument => :optional, :multiple => false,  :block => nil },
+      { :short => 'd', :long => 'ddd', :desc => 'opt d', :argument => :forbidden, :multiple => false, :block => nil },
+      { :short => 'e', :long => 'eee', :desc => 'opt e', :argument => :forbidden, :multiple => false, :block => nil }
       ])
     actual_option_definitions = Set.new(command.option_definitions)
     assert_equal expected_option_definitions, actual_option_definitions

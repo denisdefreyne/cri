@@ -16,8 +16,8 @@ module Cri
   # A sample array of definition hashes could look like this:
   #
   #     [
-  #       { :short => 'a', :long => 'all',  :argument => :forbidden },
-  #       { :short => 'p', :long => 'port', :argument => :required  },
+  #       { :short => 'a', :long => 'all',  :argument => :forbidden, :multiple => true },
+  #       { :short => 'p', :long => 'port', :argument => :required, :multiple => false },
   #     ]
   #
   # For example, the following commandline options (which should not be
@@ -258,7 +258,13 @@ module Cri
 
     def add_option(definition, value)
       key = (definition[:long] || definition[:short]).to_sym
-      options[key] = value
+      if definition[:multiple]
+        options[key] ||= []
+        options[key] << value
+      else
+        options[key] = value
+      end
+
       delegate.option_added(key, value, self) unless delegate.nil?
     end
 

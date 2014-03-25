@@ -279,4 +279,16 @@ class Cri::OptionParserTestCase < Cri::TestCase
     end
   end
 
+  def test_parse_with_multiple_options
+    input = %w( foo -o test -o test2 -v -v -v)
+    definitions = [
+      { :long => 'long', :short => 'o', :argument => :required, :multiple => true },
+      { :long => 'verbose', :short => 'v', :multiple => true }
+    ]
+    parser = Cri::OptionParser.parse(input, definitions)
+
+    assert_equal(['test', 'test2'], parser.options[:long])
+    assert_equal(3, parser.options[:verbose].size)
+  end
+
 end
