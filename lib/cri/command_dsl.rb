@@ -101,10 +101,26 @@ module Cri
     # @option params [:forbidden, :required, :optional] :argument Whether the
     #   argument is forbidden, required or optional
     #
+    # @option params [Boolean] :multiple Whether the
+    #   option should support multiple arguments
+    #
     # @return [void]
     def option(short, long, desc, params={}, &block)
-      requiredness = params[:argument] || :forbidden
-      self.add_option(short, long, desc, requiredness, block)
+      requiredness = params.fetch(:argument, :forbidden)
+      multiple = params.fetch(:multiple, false)
+
+      if short.nil? && long.nil?
+        raise ArgumentError, "short and long options cannot both be nil"
+      end
+
+      @command.option_definitions << {
+        :short    => short.nil? ? nil : short.to_s,
+        :long     => long.nil? ? nil : long.to_s,
+        :desc     => desc,
+        :argument => requiredness,
+        :multiple => multiple,
+        :block    => block,
+      }
     end
     alias_method :opt, :option
 
@@ -121,7 +137,7 @@ module Cri
     #
     # @see {#option}
     def required(short, long, desc, &block)
-      self.add_option(short, long, desc, :required, block)
+      self.option(short, long, desc, { :argument => :required }, &block)
     end
 
     # Adds a new option with a forbidden argument to the command. If a block
@@ -137,7 +153,7 @@ module Cri
     #
     # @see {#option}
     def flag(short, long, desc, &block)
-      self.add_option(short, long, desc, :forbidden, block)
+      self.option(short, long, desc, { :argument => :forbidden }, &block)
     end
     alias_method :forbidden, :flag
 
@@ -154,7 +170,7 @@ module Cri
     #
     # @see {#option}
     def optional(short, long, desc, &block)
-      self.add_option(short, long, desc, :optional, block)
+      self.option(short, long, desc, { :argument => :optional }, &block)
     end
 
     # Sets the run block to the given block. The given block should have two
@@ -185,22 +201,5 @@ module Cri
         klass.new(opts, args, cmd).call
       end
     end
-
-  protected
-
-    def add_option(short, long, desc, argument, block)
-      if short.nil? && long.nil?
-        raise ArgumentError, "short and long options cannot both be nil"
-      end
-
-      @command.option_definitions << {
-        :short    => short.nil? ? nil : short.to_s,
-        :long     => long.nil? ? nil : long.to_s,
-        :desc     => desc,
-        :argument => argument,
-        :block    => block }
-    end
-
   end
-
 end
