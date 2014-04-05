@@ -70,6 +70,8 @@ options:
     -s --stuff     specify stuff to do
 --------------------------------------------------------------------------------
 
+=== General command metadata ===
+
 Let’s disect the command definition and start with the first five lines:
 
 [source,ruby]
@@ -88,6 +90,8 @@ description. The usage should not include a “usage:” prefix nor the name of
 the supercommand, because the latter will be automatically prepended.
 
 Aliases don’t make sense for root commands, but for subcommands they do.
+
+=== Command-line options ===
 
 The next few lines contain the command’s option definitions:
 
@@ -117,6 +121,8 @@ Each of the above methods also take a block, which will be executed when the
 option is found. The argument to the block are the option value (`true` in
 case the option does not have an argument) and the command.
 
+==== Multivalued options ====
+
 Each of these four methods take a `:multiple` option. When set to true, multiple
 option valus are accepted, and the option values will be stored in an array.
 
@@ -141,6 +147,8 @@ this example). The option definition would then look like this:
 flag :v, :verbose, 'be verbose (use up to three times)', multiple: true
 --------------------------------------------------------------------------------
 
+=== The run block ===
+
 The last part of the command defines the execution itself:
 
 [source,ruby]
@@ -163,6 +171,8 @@ Instead of defining a run block, it is possible to declare a class, the
 _command runner_ class (`Cri::CommandRunner`) that will perform the actual
 execution of the command. This makes it easier to break up large run blocks
 into manageable pieces.
+
+=== Subcommands ===
 
 Commands can have subcommands. For example, the `git` commandline tool would be
 represented by a command that has subcommands named `commit`, `add`, and so on.
