@@ -299,6 +299,9 @@ module Cri
     end
 
     # @return [String] The help text for this command
+    #
+    # @option params [Boolean] :verbose true if the help output should be
+    #   verbose, false otherwise.
     def help(params={})
       HelpRenderer.new(self, params).render
     end
