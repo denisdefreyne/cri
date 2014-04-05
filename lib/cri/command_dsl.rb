@@ -101,8 +101,8 @@ module Cri
     # @option params [:forbidden, :required, :optional] :argument Whether the
     #   argument is forbidden, required or optional
     #
-    # @option params [Boolean] :multiple Whether the
-    #   option should support multiple arguments
+    # @option params [Boolean] :multiple Whether or not the option should
+    #   support multiple arguments
     #
     # @return [void]
     def option(short, long, desc, params={}, &block)
@@ -133,11 +133,15 @@ module Cri
     #
     # @param [String] desc The option description
     #
+    # @option params [Boolean] :multiple Whether or not the option should
+    #   support multiple arguments
+    #
     # @return [void]
     #
     # @see {#option}
-    def required(short, long, desc, &block)
-      self.option(short, long, desc, { :argument => :required }, &block)
+    def required(short, long, desc, params={}, &block)
+      params = params.merge(:argument => :required)
+      self.option(short, long, desc, params, &block)
     end
 
     # Adds a new option with a forbidden argument to the command. If a block
@@ -149,11 +153,15 @@ module Cri
     #
     # @param [String] desc The option description
     #
+    # @option params [Boolean] :multiple Whether or not the option should
+    #   support multiple arguments
+    #
     # @return [void]
     #
     # @see {#option}
-    def flag(short, long, desc, &block)
-      self.option(short, long, desc, { :argument => :forbidden }, &block)
+    def flag(short, long, desc, params={}, &block)
+      params = params.merge(:argument => :forbidden)
+      self.option(short, long, desc, params, &block)
     end
     alias_method :forbidden, :flag
 
@@ -166,11 +174,15 @@ module Cri
     #
     # @param [String] desc The option description
     #
+    # @option params [Boolean] :multiple Whether or not the option should
+    #   support multiple arguments
+    #
     # @return [void]
     #
     # @see {#option}
-    def optional(short, long, desc, &block)
-      self.option(short, long, desc, { :argument => :optional }, &block)
+    def optional(short, long, desc, params={}, &block)
+      params = params.merge(:argument => :optional)
+      self.option(short, long, desc, params, &block)
     end
 
     # Sets the run block to the given block. The given block should have two

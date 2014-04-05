@@ -73,7 +73,29 @@ class Cri::CommandDSLTestCase < Cri::TestCase
     expected_option_definitions = Set.new([
       { :short => 's', :long => nil,    :desc => 'short', :argument => :forbidden, :block => nil },
       { :short => nil, :long => 'long', :desc => 'long',  :argument => :forbidden, :block => nil }
-      ])
+    ])
+    actual_option_definitions = Set.new(command.option_definitions)
+    assert_equal expected_option_definitions, actual_option_definitions
+  end
+
+  def test_multiple
+    # Define
+    dsl = Cri::CommandDSL.new
+    dsl.instance_eval do
+      flag     :f, :flag,     'sample flag option',     :multiple => true
+      required :r, :required, 'sample required option', :multiple => true
+      optional :o, :optional, 'sample optional option', :multiple => true
+
+      run { |opts, args| }
+    end
+    command = dsl.command
+
+    # Check options
+    expected_option_definitions = Set.new([
+      { :short => 'f', :long => 'flag',     :desc => 'sample flag option',     :argument => :forbidden, :multiple => true, :block => nil },
+      { :short => 'r', :long => 'required', :desc => 'sample required option', :argument => :required,  :multiple => true, :block => nil },
+      { :short => 'o', :long => 'optional', :desc => 'sample optional option', :argument => :optional,  :multiple => true, :block => nil },
+    ])
     actual_option_definitions = Set.new(command.option_definitions)
     assert_equal expected_option_definitions, actual_option_definitions
   end
