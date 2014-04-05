@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module Cri
 
   # The current Cri version.
