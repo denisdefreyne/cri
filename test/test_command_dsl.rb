@@ -105,7 +105,22 @@ class Cri::CommandDSLTestCase < Cri::TestCase
     dsl = Cri::CommandDSL.new
     assert_raises ArgumentError do
       dsl.instance_eval do
+        option nil, nil, 'meh'
+      end
+    end
+    assert_raises ArgumentError do
+      dsl.instance_eval do
         flag nil, nil, 'meh'
+      end
+    end
+    assert_raises ArgumentError do
+      dsl.instance_eval do
+        required nil, nil, 'meh'
+      end
+    end
+    assert_raises ArgumentError do
+      dsl.instance_eval do
+        optional nil, nil, 'meh'
       end
     end
   end
