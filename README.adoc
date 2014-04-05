@@ -139,7 +139,7 @@ This can also be used for flags (options without arguments). In this case, the
 length of the options array is relevant.
 
 For example, you can allow setting the verbosity level using `-v -v -v`. The
-value of `options[:output].size` would then be the verbosity level (three in
+value of `options[:verbose].size` would then be the verbosity level (three in
 this example). The option definition would then look like this:
 
 [source,ruby]
