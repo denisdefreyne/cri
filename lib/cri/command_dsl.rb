@@ -102,7 +102,7 @@ module Cri
     #   argument is forbidden, required or optional
     #
     # @option params [Boolean] :multiple Whether or not the option should
-    #   support multiple arguments
+    #   be multi-valued
     #
     # @return [void]
     def option(short, long, desc, params={}, &block)
@@ -134,7 +134,7 @@ module Cri
     # @param [String] desc The option description
     #
     # @option params [Boolean] :multiple Whether or not the option should
-    #   support multiple arguments
+    #   be multi-valued
     #
     # @return [void]
     #
@@ -154,7 +154,7 @@ module Cri
     # @param [String] desc The option description
     #
     # @option params [Boolean] :multiple Whether or not the option should
-    #   support multiple arguments
+    #   be multi-valued
     #
     # @return [void]
     #
@@ -175,7 +175,7 @@ module Cri
     # @param [String] desc The option description
     #
     # @option params [Boolean] :multiple Whether or not the option should
-    #   support multiple arguments
+    #   be multi-valued
     #
     # @return [void]
     #
