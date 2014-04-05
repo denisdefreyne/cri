@@ -1,18 +1,6 @@
 # encoing: utf-8
 
-##### Requirements
-
-# Rake etc
-require 'rake'
-require 'minitest'
-require 'minitest/unit'
-
-# Cri itself
-$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + '/lib'))
-require 'cri'
-
-##### Documentation
-
+require 'rake/testtask'
 require 'yard'
 
 YARD::Rake::YardocTask.new(:doc) do |yard|
@@ -25,20 +13,12 @@ YARD::Rake::YardocTask.new(:doc) do |yard|
   ]
 end
 
-##### Testing
-
-desc 'Runs all tests'
 task :test do
-  ENV['QUIET'] ||= 'true'
+  require './test/helper.rb'
 
-  $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__)))
-
-  MiniTest.autorun
-
-  require 'test/helper.rb'
-
-  test_files = Dir['test/test_*.rb']
-  test_files.each { |f| require f }
+  FileList['./test/**/test_*.rb', './test/**/*_spec.rb'].each do |fn|
+    require fn
+  end
 end
 
 task :default => :test
