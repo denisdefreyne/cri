@@ -1,3 +1,7 @@
+image:http://img.shields.io/gem/v/cri.svg[]
+image:http://img.shields.io/travis/ddfreyne/cri.svg[]
+image:http://img.shields.io/coveralls/ddfreyne/cri.svg[]
+image:http://img.shields.io/codeclimate/github/ddfreyne/cri.svg[]
 image:http://inch-pages.github.io/github/ddfreyne/cri.png[]
 
 = Cri =
