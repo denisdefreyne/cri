@@ -251,7 +251,7 @@ module Cri
         run_this(opts_and_args, parent_opts)
       else
         # Handle options
-        self.handle_options(opts_before_subcmd)
+        handle_options(opts_before_subcmd)
 
         # Get command
         if subcmd_name.nil?
@@ -282,13 +282,13 @@ module Cri
       # Parse
       parser = Cri::OptionParser.new(
         opts_and_args, self.global_option_definitions)
-      self.handle_parser_errors_while { parser.run }
+      handle_parser_errors_while { parser.run }
       local_opts  = parser.options
       global_opts = parent_opts.merge(parser.options)
       args = parser.arguments
 
       # Handle options
-      self.handle_options(local_opts)
+      handle_options(local_opts)
 
       # Execute
       if self.block.nil?
@@ -317,7 +317,7 @@ module Cri
       self.name <=> other.name
     end
 
-  protected
+  private
 
     def handle_options(opts)
       opts.each_pair do |key, value|
@@ -332,7 +332,7 @@ module Cri
       delegate = Cri::Command::OptionParserPartitioningDelegate.new
       parser = Cri::OptionParser.new(opts_and_args, global_option_definitions)
       parser.delegate = delegate
-      self.handle_parser_errors_while { parser.run }
+      handle_parser_errors_while { parser.run }
       parser
 
       # Extract
