@@ -31,7 +31,7 @@ command = Cri::Command.define do
     exit 0
   end
   flag   nil, :more,  'do even more stuff'
-  option :s,  :stuff, 'specify stuff to do', :argument => :required
+  option :s,  :stuff, 'specify stuff to do', argument: :required
 
   run do |opts, args, cmd|
     stuff = opts.fetch(:stuff, 'generic stuff')
@@ -102,7 +102,7 @@ flag   :h,  :help,  'show help for this command' do |value, cmd|
   exit 0
 end
 flag   nil, :more,  'do even more stuff'
-option :s,  :stuff, 'specify stuff to do', :argument => :required
+option :s,  :stuff, 'specify stuff to do', argument: :required
 --------------------------------------------------------------------------------
 
 Options can be defined using the following methods:
