@@ -1,10 +1,10 @@
+= Cri =
+
 link:http://rubygems.org/gems/cri[image:http://img.shields.io/gem/v/cri.svg[]]
 link:https://travis-ci.org/ddfreyne/cri[image:http://img.shields.io/travis/ddfreyne/cri.svg[]]
 link:https://coveralls.io/r/ddfreyne/cri[image:http://img.shields.io/coveralls/ddfreyne/cri.svg[]]
 link:https://codeclimate.com/github/ddfreyne/cri[image:http://img.shields.io/codeclimate/github/ddfreyne/cri.svg[]]
 link:http://inch-pages.github.io/github/ddfreyne/cri/[image:http://inch-pages.github.io/github/ddfreyne/cri.png[]]
-
-= Cri =
 
 Cri is a library for building easy-to-use commandline tools with support for
 nested commands.
