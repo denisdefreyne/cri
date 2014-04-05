@@ -7,6 +7,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    asciidoctor (0.1.4)
     colored (1.2)
     coveralls (0.7.0)
       multi_json (~> 1.3)
@@ -36,6 +37,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  asciidoctor
   bundler (~> 1.6)
   coveralls
   cri!
