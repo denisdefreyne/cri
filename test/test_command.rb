@@ -438,6 +438,16 @@ class Cri::CommandTestCase < Cri::TestCase
     assert_equal "args=foo,bar args.raw=foo,--,bar\n", out
   end
 
+  def test_run_without_block
+    cmd = Cri::Command.define do
+      name 'moo'
+    end
+
+    assert_raises(Cri::NotImplementedError) do
+      cmd.run([])
+    end
+  end
+
   def test_runner_with_raw_args
     cmd = Cri::Command.define do
       name 'moo'
