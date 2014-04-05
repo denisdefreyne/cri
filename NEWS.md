@@ -1,6 +1,11 @@
 Cri News
 ========
 
+2.6.0
+-----
+
+* Added support for multi-valued options [Toon Willems]
+
 2.5.0
 -----
 
