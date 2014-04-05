@@ -100,7 +100,7 @@ class Cri::CommandDSLTestCase < Cri::TestCase
     assert_equal expected_option_definitions, actual_option_definitions
   end
 
-  def test_optional_options
+  def test_required_short_and_long
     # Define
     dsl = Cri::CommandDSL.new
     assert_raises ArgumentError do
