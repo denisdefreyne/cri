@@ -2,13 +2,22 @@
 
 module Cri
 
+  # The {HelpRenderer} class is responsible for generating a string containing
+  # the help for a given command, intended to be printed on the command line.
   class HelpRenderer
 
+    # Creates a new help renderer for the given command.
+    #
+    # @param [Cri::Command] cmd The command to generate the help for
+    #
+    # @option params [Boolean] :verbose true if the help output should be
+    #   verbose, false otherwise.
     def initialize(cmd, params={})
       @cmd        = cmd
       @is_verbose = params.fetch(:verbose, false)
     end
 
+    # @return [String] The help text for this command
     def render
       text = ''
 
