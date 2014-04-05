@@ -202,7 +202,7 @@ module Cri
     #
     # @return [void]
     def run(&block)
-      unless block.arity != 2 || block.arity != 3
+      unless [2, 3].include?(block.arity)
         raise ArgumentError,
           "The block given to Cri::Command#run expects two or three args"
       end

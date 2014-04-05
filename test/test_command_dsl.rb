@@ -139,6 +139,16 @@ class Cri::CommandDSLTestCase < Cri::TestCase
     assert_equal %w( aah moo ), command.aliases.sort
   end
 
+  def test_run_arity
+    dsl = Cri::CommandDSL.new
+    assert_raises ArgumentError do
+      dsl.instance_eval do
+        run do |a, b, c, d, e|
+        end
+      end
+    end
+  end
+
   def test_runner
     # Define
     dsl = Cri::CommandDSL.new
