@@ -1,3 +1,5 @@
+image:http://inch-pages.github.io/github/ddfreyne/cri.png[]
+
 = Cri =
 
 Cri is a library for building easy-to-use commandline tools with support for
