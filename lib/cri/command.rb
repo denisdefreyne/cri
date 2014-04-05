@@ -307,6 +307,12 @@ module Cri
     end
 
     # Compares this command's name to the other given command's name.
+    #
+    # @param [Cri::Command] other The command to compare with
+    #
+    # @return [-1, 0, 1] The result of the comparison between names
+    #
+    # @see Object<=>
     def <=>(other)
       self.name <=> other.name
     end

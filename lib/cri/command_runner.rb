@@ -15,6 +15,8 @@ module Cri
     # @return [Command] The command
     attr_reader :command
 
+    # Creates a command runner from the given options, arguments and command.
+    #
     # @param [Hash] options A hash contain the options and their values
     #
     # @param [Array] arguments The list of arguments

@@ -6,6 +6,10 @@ module Cri
   # commands.
   class CommandDSL
 
+    # Creates a new DSL, intended to be used for building a single command. A
+    # {CommandDSL} instance is not reusable; create a new instance if you want
+    # to build another command.
+    #
     # @param [Cri::Command, nil] command The command to modify, or nil if a
     #   new command should be created
     def initialize(command=nil)
