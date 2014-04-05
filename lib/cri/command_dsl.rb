@@ -190,6 +190,12 @@ module Cri
     # Calling this will override existing run block or runner declarations
     # (using {#run} and {#runner}, respectively).
     #
+    # @yieldparam [Hash<Symbol,Object>] opts A map of option names, as defined
+    #   in the option definitions, onto strings (when single-valued) or arrays
+    #   (when multi-valued)
+    #
+    # @yieldparam [Array<String>] args A list of arguments
+    #
     # @return [void]
     def run(&block)
       unless block.arity != 2 || block.arity != 3
