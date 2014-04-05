@@ -454,4 +454,12 @@ class Cri::CommandTestCase < Cri::TestCase
     assert_equal "args=foo,bar args.raw=foo,--,bar\n", out
   end
 
+  def test_compare
+    foo = Cri::Command.define { name 'foo' }
+    bar = Cri::Command.define { name 'bar' }
+    qux = Cri::Command.define { name 'qux' }
+
+    assert_equal [ bar, foo, qux ], [ foo, bar, qux ].sort
+  end
+
 end
