@@ -23,7 +23,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
     end
   end
 
-  def test_parse_without_options
+  def test_parse_with_unused_options
     input       = %w( foo )
     definitions = [
       { :long => 'aaa', :short => 'a', :argument => :forbidden }
