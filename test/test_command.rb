@@ -85,7 +85,6 @@ class Cri::CommandTestCase < Cri::TestCase
       description 'Sinks stuff (like ships and the like).'
 
       run do |opts, args|
-        $stdout.puts "Sinking!"
       end
     end
 
