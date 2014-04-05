@@ -71,8 +71,8 @@ class Cri::CommandDSLTestCase < Cri::TestCase
 
     # Check options
     expected_option_definitions = Set.new([
-      { :short => 's', :long => nil,    :desc => 'short', :argument => :forbidden, :block => nil },
-      { :short => nil, :long => 'long', :desc => 'long',  :argument => :forbidden, :block => nil }
+      { :short => 's', :long => nil,    :desc => 'short', :argument => :forbidden, :multiple => false, :block => nil },
+      { :short => nil, :long => 'long', :desc => 'long',  :argument => :forbidden, :multiple => false, :block => nil }
     ])
     actual_option_definitions = Set.new(command.option_definitions)
     assert_equal expected_option_definitions, actual_option_definitions
