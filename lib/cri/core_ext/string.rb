@@ -66,19 +66,31 @@ module Cri::CoreExtensions
     # @return [String] The string, formatted to be used as a title in a section
     #   in the help
     def formatted_as_title
-      self.upcase.red.bold
+      if Cri.enable_colors?($stdout)
+        self.upcase.red.bold
+      else
+        self.upcase
+      end
     end
 
     # @return [String] The string, formatted to be used as the name of a command
     #   in the help
     def formatted_as_command
-      self.green
+      if Cri.enable_colors?($stdout)
+        self.green
+      else
+        self
+      end
     end
 
     # @return [String] The string, formatted to be used as an option definition
     #   of a command in the help
     def formatted_as_option
-      self.yellow
+      if Cri.enable_colors?($stdout)
+        self.yellow
+      else
+        self
+      end
     end
 
   end

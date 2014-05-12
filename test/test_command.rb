@@ -253,6 +253,8 @@ class Cri::CommandTestCase < Cri::TestCase
   end
 
   def test_help_nested
+    def $stdout.tty? ; true ; end
+
     help = nested_cmd.subcommands.find { |cmd| cmd.name == 'sub' }.help
 
     assert help.include?("USAGE\e[0m\e[0m\n    \e[32msuper\e[0m \e[32msub\e[0m [options]\n")
@@ -263,6 +265,8 @@ class Cri::CommandTestCase < Cri::TestCase
   end
 
   def test_help_with_optional_options
+    def $stdout.tty? ; true ; end
+
     cmd = Cri::Command.define do
       name 'build'
       flag :s,  nil,   'short'
