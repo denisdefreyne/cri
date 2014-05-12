@@ -25,26 +25,7 @@ module Cri
   autoload 'CommandRunner',     'cri/command_runner'
   autoload 'HelpRenderer',      'cri/help_renderer'
   autoload 'OptionParser',      'cri/option_parser'
-
-  # @return [Boolean] true if the current platform is Windows, false otherwise.
-  def self.on_windows?
-    !!(RUBY_PLATFORM =~ /windows|bccwin|cygwin|djgpp|mingw|mswin|wince/i)
-  end
-
-  # Checks whether colors can be enabled. For colors to be enabled, the given
-  # IO should be a TTY, and, when on Windows, ::Win32::Console::ANSI needs to be
-  # defined.
-  #
-  # @return [Boolean] True if colors should be enabled, false otherwise.
-  def self.enable_colors?(io)
-    if !io.tty?
-      false
-    elsif on_windows?
-      defined?(::Win32::Console::ANSI)
-    else
-      true
-    end
-  end
+  autoload 'Platform',          'cri/platform'
 
 end
 
