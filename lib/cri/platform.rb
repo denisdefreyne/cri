@@ -15,7 +15,7 @@ module Cri
     # be defined.
     #
     # @return [Boolean] True if colors should be enabled, false otherwise.
-    def self.enable_colors?(io)
+    def self.color?(io)
       if !io.tty?
         false
       elsif windows?
