@@ -9,13 +9,13 @@ Cri News
 2.6.0
 -----
 
-* Added support for multi-valued options [Toon Willems]
+* Added support for multi-valued options (#29) [Toon Willems]
 
 2.5.0
 -----
 
-* Made the default help command handle subcommands
-* Added `#raw` method to argument arrays, returning all arguments including `--`
+* Made the default help command handle subcommands (#27)
+* Added `#raw` method to argument arrays, returning all arguments including `--` (#22)
 
 2.4.1
 -----
@@ -26,14 +26,14 @@ Cri News
 2.4.0
 -----
 
-* Allowed either short or long option to be, eh, optional [Ken Coar]
-* Fixed wrap-and-indent behavior [Ken Coar]
+* Allowed either short or long option to be, eh, optional (#9, #10) [Ken Coar]
+* Fixed wrap-and-indent behavior (#12) [Ken Coar]
 * Moved version information into `cri/version`
 
 2.3.0
 -----
 
-* Added colors
+* Added colors (#1)
 * Added support for marking commands as hidden
 
 2.2.1
