@@ -25,6 +25,7 @@ module Cri
   autoload 'CommandRunner',     'cri/command_runner'
   autoload 'HelpRenderer',      'cri/help_renderer'
   autoload 'OptionParser',      'cri/option_parser'
+  autoload 'Platform',          'cri/platform'
 
 end
 
