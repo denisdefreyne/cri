@@ -1,6 +1,11 @@
 Cri News
 ========
 
+2.6.1
+-----
+
+* Disable ANSI color codes when not supported (#31, #32)
+
 2.6.0
 -----
 
