@@ -260,6 +260,16 @@ class Cri::CommandTestCase < Cri::TestCase
     assert help.include?("USAGE\e[0m\e[0m\n    \e[32msuper\e[0m \e[32msub\e[0m [options]\n")
   end
 
+  def test_help_with_and_without_colors
+    def $stdout.tty? ; true ; end
+    help_on_tty = simple_cmd.help
+    def $stdout.tty? ; false ; end
+    help_not_on_tty = simple_cmd.help
+
+    assert_includes help_on_tty,     "\e[31mUSAGE\e[0m\e[0m\n    \e[32mmoo"
+    assert_includes help_not_on_tty, "USAGE\n    moo"
+  end
+
   def test_help_for_bare_cmd
     bare_cmd.help
   end
