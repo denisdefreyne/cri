@@ -71,8 +71,8 @@ module Cri
     #
     # @return [String] The string, formatted to be used as a title in a section
     #   in the help
-    def format_as_title(s)
-      if Cri::Platform.color?($stdout)
+    def format_as_title(s, io)
+      if Cri::Platform.color?(io)
         s.upcase.red.bold
       else
         s.upcase
@@ -83,8 +83,8 @@ module Cri
     #
     # @return [String] The string, formatted to be used as the name of a command
     #   in the help
-    def format_as_command(s)
-      if Cri::Platform.color?($stdout)
+    def format_as_command(s, io)
+      if Cri::Platform.color?(io)
         s.green
       else
         s
@@ -95,8 +95,8 @@ module Cri
     #
     # @return [String] The string, formatted to be used as an option definition
     #   of a command in the help
-    def format_as_option(s)
-      if Cri::Platform.color?($stdout)
+    def format_as_option(s, io)
+      if Cri::Platform.color?(io)
         s.yellow
       else
         s
