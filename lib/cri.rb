@@ -21,6 +21,7 @@ module Cri
   end
 
   autoload 'Command',           'cri/command'
+  autoload 'StringFormatter',   'cri/string_formatter'
   autoload 'CommandDSL',        'cri/command_dsl'
   autoload 'CommandRunner',     'cri/command_runner'
   autoload 'HelpRenderer',      'cri/help_renderer'
