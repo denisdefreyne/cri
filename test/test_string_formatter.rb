@@ -2,6 +2,10 @@
 
 class Cri::CoreExtTestCase < Cri::TestCase
 
+  def formatter
+    Cri::StringFormatter.new
+  end
+
   def test_string_to_paragraphs
     original = "Lorem ipsum dolor sit amet,\nconsectetur adipisicing.\n\n" +
                "Sed do eiusmod\ntempor incididunt ut labore."
@@ -9,7 +13,7 @@ class Cri::CoreExtTestCase < Cri::TestCase
     expected = [ "Lorem ipsum dolor sit amet, consectetur adipisicing.",
                  "Sed do eiusmod tempor incididunt ut labore." ]
 
-    actual = original.to_paragraphs
+    actual = formatter.to_paragraphs(original)
     assert_equal expected, actual
   end
 
@@ -23,7 +27,7 @@ class Cri::CoreExtTestCase < Cri::TestCase
                "incididunt ut labore et dolore magna\n" +
                "aliqua."
 
-    actual = original.wrap_and_indent(40, 0)
+    actual = formatter.wrap_and_indent(original, 40, 0)
     assert_equal expected, actual
   end
 
@@ -38,7 +42,7 @@ class Cri::CoreExtTestCase < Cri::TestCase
                "    incididunt ut labore et dolore\n" +
                "    magna aliqua."
 
-    actual = original.wrap_and_indent(36, 4)
+    actual = formatter.wrap_and_indent(original, 36, 4)
     assert_equal expected, actual
   end
 
@@ -60,7 +64,7 @@ class Cri::CoreExtTestCase < Cri::TestCase
                "                              dolore magna\n" +
                "                              aliqua."
 
-    actual = original.wrap_and_indent(44, 30)
+    actual = formatter.wrap_and_indent(original, 44, 30)
     assert_equal expected, actual
   end
 
@@ -75,7 +79,7 @@ class Cri::CoreExtTestCase < Cri::TestCase
                "    incididunt ut labore et dolore\n" +
                "    magna aliqua."
 
-    actual = original.wrap_and_indent(36, 4)
+    actual = formatter.wrap_and_indent(original, 36, 4)
     assert_equal expected, actual
   end
 
