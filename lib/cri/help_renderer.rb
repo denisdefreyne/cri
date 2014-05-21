@@ -15,6 +15,7 @@ module Cri
     def initialize(cmd, params={})
       @cmd        = cmd
       @is_verbose = params.fetch(:verbose, false)
+      @io         = params.fetch(:io, $stdout)
     end
 
     # @return [String] The help text for this command
@@ -32,13 +33,17 @@ module Cri
 
     private
 
+    def fmt
+      @_formatter ||= Cri::StringFormatter.new
+    end
+
     def append_summary(text)
       return if @cmd.summary.nil?
 
-      text << "name".formatted_as_title << "\n"
-      text << "    #{@cmd.name.formatted_as_command} - #{@cmd.summary}" << "\n"
+      text << fmt.format_as_title("name", @io) << "\n"
+      text << "    #{fmt.format_as_command(@cmd.name, @io)} - #{@cmd.summary}" << "\n"
       unless @cmd.aliases.empty?
-        text << "    aliases: " << @cmd.aliases.map { |a| a.formatted_as_command }.join(' ') << "\n"
+        text << "    aliases: " << @cmd.aliases.map { |a| fmt.format_as_command(a, @io) }.join(' ') << "\n"
       end
     end
 
@@ -47,36 +52,36 @@ module Cri
 
       path = [ @cmd.supercommand ]
       path.unshift(path[0].supercommand) until path[0].nil?
-      formatted_usage = @cmd.usage.gsub(/^([^\s]+)/) { |m| m.formatted_as_command }
-      full_usage = path[1..-1].map { |c| c.name.formatted_as_command + ' ' }.join + formatted_usage
+      formatted_usage = @cmd.usage.gsub(/^([^\s]+)/) { |m| fmt.format_as_command(m, @io) }
+      full_usage = path[1..-1].map { |c| fmt.format_as_command(c.name, @io) + ' ' }.join + formatted_usage
 
       text << "\n"
-      text << "usage".formatted_as_title << "\n"
-      text << full_usage.wrap_and_indent(78, 4) << "\n"
+      text << fmt.format_as_title("usage", @io) << "\n"
+      text << fmt.wrap_and_indent(full_usage, 78, 4) << "\n"
     end
 
     def append_description(text)
       return if @cmd.description.nil?
 
       text << "\n"
-      text << "description".formatted_as_title << "\n"
-      text << @cmd.description.wrap_and_indent(78, 4) + "\n"
+      text << fmt.format_as_title("description", @io) << "\n"
+      text << fmt.wrap_and_indent(@cmd.description, 78, 4) + "\n"
     end
 
     def append_subcommands(text)
       return if @cmd.subcommands.empty?
 
       text << "\n"
-      text << (@cmd.supercommand ? 'subcommands' : 'commands').formatted_as_title
+      text << fmt.format_as_title(@cmd.supercommand ? 'subcommands' : 'commands', @io)
       text << "\n"
 
       shown_subcommands = @cmd.subcommands.select { |c| !c.hidden? || @is_verbose }
-      length = shown_subcommands.map { |c| c.name.formatted_as_command.size }.max
+      length = shown_subcommands.map { |c| fmt.format_as_command(c.name, @io).size }.max
 
       # Command
       shown_subcommands.sort_by { |cmd| cmd.name }.each do |cmd|
         text << sprintf("    %-#{length+4}s %s\n",
-          cmd.name.formatted_as_command,
+          fmt.format_as_command(cmd.name, @io),
           cmd.summary)
       end
 
@@ -109,7 +114,7 @@ module Cri
       return if defs.empty?
 
       text << "\n"
-      text << "#{name}".formatted_as_title
+      text << fmt.format_as_title("#{name}", @io)
       text << "\n"
 
       ordered_defs = defs.sort_by { |x| x[:short] || x[:long] }
@@ -124,7 +129,7 @@ module Cri
           "    %-2s %-#{length+6}s",
           opt_def[:short] ? ('-' + opt_def[:short]) : '',
           opt_def[:long]  ? ('--' + opt_def[:long]) : '')
-      opt_text.formatted_as_option
+      fmt.format_as_option(opt_text, @io)
     end
 
   end

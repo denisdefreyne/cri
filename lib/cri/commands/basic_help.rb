@@ -23,5 +23,5 @@ run do |opts, args, cmd|
   resolved_cmd = args.inject(cmd.supercommand) do |acc, name|
     acc.command_named(name)
   end
-  puts resolved_cmd.help(:verbose => is_verbose)
+  puts resolved_cmd.help(:verbose => is_verbose, :io => $stdout)
 end

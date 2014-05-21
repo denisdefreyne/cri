@@ -302,6 +302,9 @@ module Cri
     #
     # @option params [Boolean] :verbose true if the help output should be
     #   verbose, false otherwise.
+    #
+    # @option params [IO] :io ($stdout) the IO the help text is intended for.
+    #   This influences the decision to enable/disable colored output.
     def help(params={})
       HelpRenderer.new(self, params).render
     end
