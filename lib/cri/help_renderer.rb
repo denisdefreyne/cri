@@ -98,12 +98,34 @@ module Cri
       end
     end
 
+    def length_for_opt_defs(opt_defs)
+      opt_defs.map do |opt_def|
+        string = ''
+
+        # Always pretend there is a short option
+        string << '-X'
+
+        if opt_def[:long]
+          string << ' --' + opt_def[:long]
+        end
+
+        case opt_def[:argument]
+        when :required
+          string << '=value'
+        when :optional
+          string << '=[value]'
+        end
+
+        string.size
+      end.max
+    end
+
     def append_options(text)
       groups = { 'options' => @cmd.option_definitions }
       if @cmd.supercommand
         groups["options for #{@cmd.supercommand.name}"] = @cmd.supercommand.global_option_definitions
       end
-      length = groups.values.inject(&:+).map { |o| o[:long].to_s.size }.max
+      length = length_for_opt_defs(groups.values.inject(&:+))
       groups.keys.sort.each do |name|
         defs = groups[name]
         append_option_group(text, name, defs, length)
@@ -124,12 +146,58 @@ module Cri
       end
     end
 
+    def raw_value_postfix_for(opt_def)
+      case opt_def[:argument]
+      when :required
+        'value'
+      when :optional
+        '[value]'
+      else
+        nil
+      end
+    end
+
+    def short_value_postfix_for(opt_def)
+      value_postfix = raw_value_postfix_for(opt_def)
+
+      if value_postfix
+        opt_def[:long] ? '' : ' ' + value_postfix
+      else
+        ''
+      end
+    end
+
+    def long_value_postfix_for(opt_def)
+      value_postfix = raw_value_postfix_for(opt_def)
+
+      if value_postfix
+        opt_def[:long] ? '=' + value_postfix : ''
+      else
+        ''
+      end
+    end
+
     def format_opt_def(opt_def, length)
-      opt_text = sprintf(
-          "    %-2s %-#{length+6}s",
-          opt_def[:short] ? ('-' + opt_def[:short]) : '',
-          opt_def[:long]  ? ('--' + opt_def[:long]) : '')
-      fmt.format_as_option(opt_text, @io)
+      short_value_postfix = short_value_postfix_for(opt_def)
+      long_value_postfix = long_value_postfix_for(opt_def)
+
+      opt_text = ''
+      opt_text_len = 0
+      if opt_def[:short]
+        opt_text << fmt.format_as_option('-' + opt_def[:short], @io)
+        opt_text << short_value_postfix
+        opt_text << ' '
+        opt_text_len += 1 + opt_def[:short].size + short_value_postfix.size + 1
+      else
+        opt_text << '   '
+        opt_text_len += 3
+      end
+      opt_text << fmt.format_as_option('--' + opt_def[:long], @io) if opt_def[:long]
+      opt_text << long_value_postfix
+      opt_text_len += 2 + opt_def[:long].size if opt_def[:long]
+      opt_text_len += long_value_postfix.size
+
+      '    ' + opt_text + ' ' * (length + 6 - opt_text_len)
     end
 
   end
