@@ -284,9 +284,57 @@ class Cri::CommandTestCase < Cri::TestCase
     end
     help = cmd.help
 
-    assert_match(/--long.*-s/m,                           help)
-    assert_match(/^\e\[33m       --long    \e\[0mlong$/,  help)
-    assert_match(/^\e\[33m    -s           \e\[0mshort$/, help)
+    assert_match(/--long.*-s/m,                             help)
+    assert_match(/^       \e\[33m--long\e\[0m      long$/,  help)
+    assert_match(/^    \e\[33m-s\e\[0m             short$/, help)
+  end
+
+  def test_help_with_different_option_types_short_and_long
+    def $stdout.tty? ; true ; end
+
+    cmd = Cri::Command.define do
+      name 'build'
+      required :r, :required, 'required value'
+      flag     :f, :flag,     'forbidden value'
+      optional :o, :optional, 'optional value'
+    end
+    help = cmd.help
+
+    assert_match(/^    \e\[33m-r\e\[0m \e\[33m--required\e\[0m=value        required value$/, help)
+    assert_match(/^    \e\[33m-f\e\[0m \e\[33m--flag\e\[0m                  forbidden value$/, help)
+    assert_match(/^    \e\[33m-o\e\[0m \e\[33m--optional\e\[0m=\[value\]      optional value$/, help)
+  end
+
+  def test_help_with_different_option_types_short
+    def $stdout.tty? ; true ; end
+
+    cmd = Cri::Command.define do
+      name 'build'
+      required :r, nil, 'required value'
+      flag     :f, nil, 'forbidden value'
+      optional :o, nil, 'optional value'
+    end
+    help = cmd.help
+
+    assert_match(/^    \e\[33m-r\e\[0m value        required value$/, help)
+    assert_match(/^    \e\[33m-f\e\[0m              forbidden value$/, help)
+    assert_match(/^    \e\[33m-o\e\[0m \[value\]      optional value$/, help)
+  end
+
+  def test_help_with_different_option_types_long
+    def $stdout.tty? ; true ; end
+
+    cmd = Cri::Command.define do
+      name 'build'
+      required nil, :required, 'required value'
+      flag     nil, :flag,     'forbidden value'
+      optional nil, :optional, 'optional value'
+    end
+    help = cmd.help
+
+    assert_match(/^       \e\[33m--required\e\[0m=value        required value$/, help)
+    assert_match(/^       \e\[33m--flag\e\[0m                  forbidden value$/, help)
+    assert_match(/^       \e\[33m--optional\e\[0m=\[value\]      optional value$/, help)
   end
 
   def test_help_with_multiple_groups
