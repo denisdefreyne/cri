@@ -300,9 +300,9 @@ class Cri::CommandTestCase < Cri::TestCase
     end
     help = cmd.help
 
-    assert_match(/^    \e\[33m-r\e\[0m \e\[33m--required\e\[0m=value        required value$/, help)
-    assert_match(/^    \e\[33m-f\e\[0m \e\[33m--flag\e\[0m                  forbidden value$/, help)
-    assert_match(/^    \e\[33m-o\e\[0m \e\[33m--optional\e\[0m=\[value\]      optional value$/, help)
+    assert_match(/^    \e\[33m-r\e\[0m \e\[33m--required\e\[0m=<value>        required value$/, help)
+    assert_match(/^    \e\[33m-f\e\[0m \e\[33m--flag\e\[0m                    forbidden value$/, help)
+    assert_match(/^    \e\[33m-o\e\[0m \e\[33m--optional\e\[0m\[=<value>\]      optional value$/, help)
   end
 
   def test_help_with_different_option_types_short
@@ -316,9 +316,9 @@ class Cri::CommandTestCase < Cri::TestCase
     end
     help = cmd.help
 
-    assert_match(/^    \e\[33m-r\e\[0m value        required value$/, help)
-    assert_match(/^    \e\[33m-f\e\[0m              forbidden value$/, help)
-    assert_match(/^    \e\[33m-o\e\[0m \[value\]      optional value$/, help)
+    assert_match(/^    \e\[33m-r\e\[0m <value>        required value$/, help)
+    assert_match(/^    \e\[33m-f\e\[0m                forbidden value$/, help)
+    assert_match(/^    \e\[33m-o\e\[0m \[<value>\]      optional value$/, help)
   end
 
   def test_help_with_different_option_types_long
@@ -332,9 +332,9 @@ class Cri::CommandTestCase < Cri::TestCase
     end
     help = cmd.help
 
-    assert_match(/^       \e\[33m--required\e\[0m=value        required value$/, help)
-    assert_match(/^       \e\[33m--flag\e\[0m                  forbidden value$/, help)
-    assert_match(/^       \e\[33m--optional\e\[0m=\[value\]      optional value$/, help)
+    assert_match(/^       \e\[33m--required\e\[0m=<value>        required value$/, help)
+    assert_match(/^       \e\[33m--flag\e\[0m                    forbidden value$/, help)
+    assert_match(/^       \e\[33m--optional\e\[0m\[=<value>\]      optional value$/, help)
   end
 
   def test_help_with_multiple_groups

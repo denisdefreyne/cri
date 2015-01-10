@@ -111,9 +111,9 @@ module Cri
 
         case opt_def[:argument]
         when :required
-          string << '=value'
+          string << '=<value>'
         when :optional
-          string << '=[value]'
+          string << '=[<value>]'
         end
 
         string.size
@@ -146,19 +146,16 @@ module Cri
       end
     end
 
-    def raw_value_postfix_for(opt_def)
-      case opt_def[:argument]
-      when :required
-        'value'
-      when :optional
-        '[value]'
-      else
-        nil
-      end
-    end
-
     def short_value_postfix_for(opt_def)
-      value_postfix = raw_value_postfix_for(opt_def)
+      value_postfix =
+        case opt_def[:argument]
+        when :required
+          '<value>'
+        when :optional
+          '[<value>]'
+        else
+          nil
+        end
 
       if value_postfix
         opt_def[:long] ? '' : ' ' + value_postfix
@@ -168,10 +165,18 @@ module Cri
     end
 
     def long_value_postfix_for(opt_def)
-      value_postfix = raw_value_postfix_for(opt_def)
+      value_postfix =
+        case opt_def[:argument]
+        when :required
+          '=<value>'
+        when :optional
+          '[=<value>]'
+        else
+          nil
+        end
 
       if value_postfix
-        opt_def[:long] ? '=' + value_postfix : ''
+        opt_def[:long] ? value_postfix : ''
       else
         ''
       end
