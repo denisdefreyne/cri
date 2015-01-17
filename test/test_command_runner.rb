@@ -10,7 +10,6 @@ class Cri::CommandRunnerTestCase < Cri::TestCase
   end
 
   def test_initialize
-
     runner = Cri::CommandRunner.new(@options, @arguments, @command)
 
     assert_equal @options,   runner.options

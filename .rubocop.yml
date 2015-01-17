@@ -116,8 +116,8 @@ Style/EmptyElse:
 
 # Offense count: 1
 # Cop supports --auto-correct.
-Style/EmptyLinesAroundMethodBody:
-  Enabled: false
+# Style/EmptyLinesAroundMethodBody:
+#   Enabled: false
 
 # Offense count: 25
 # Cop supports --auto-correct.
