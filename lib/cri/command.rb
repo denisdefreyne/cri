@@ -28,7 +28,7 @@ module Cri
       # @param [Cri::OptionParser] option_parser The option parser
       #
       # @return [void]
-      def option_added(key, value, option_parser)
+      def option_added(_key, _value, _option_parser)
       end
 
       # Called when an argument is parsed.

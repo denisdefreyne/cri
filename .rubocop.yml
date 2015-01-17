@@ -20,8 +20,8 @@ Lint/ShadowingOuterLocalVariable:
 
 # Offense count: 3
 # Cop supports --auto-correct.
-Lint/UnusedMethodArgument:
-  Enabled: false
+# Lint/UnusedMethodArgument:
+#   Enabled: false
 
 # Offense count: 16
 Lint/UselessAssignment:
