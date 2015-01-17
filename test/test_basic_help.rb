@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Cri::BasicHelpTestCase < Cri::TestCase
-
   def test_run_without_supercommand
     cmd = Cri::Command.new_basic_help
 
@@ -63,5 +62,4 @@ class Cri::BasicHelpTestCase < Cri::TestCase
     assert_equal '', stdout
     assert_match(/foo: unknown command 'mysterycmd'/, stderr)
   end
-
 end

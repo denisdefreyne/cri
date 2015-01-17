@@ -6,7 +6,6 @@ module Cri
   # arguments (`--`) but provides a `#raw` method to get the raw arguments
   # array, i.e. an array that includes the separator `--` arguments.
   class ArgumentArray < Array
-
     # Initializes the array using the given raw arguments.
     #
     # @param [Array<String>] raw_arguments A list of raw arguments, i.e.
@@ -21,7 +20,6 @@ module Cri
     def raw
       @raw_arguments
     end
-
   end
 
 end

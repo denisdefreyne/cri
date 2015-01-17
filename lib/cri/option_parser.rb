@@ -56,7 +56,6 @@ module Cri
   #       }
   #     }
   class OptionParser
-
     # Error that will be raised when an unknown option is encountered.
     class IllegalOptionError < Cri::Error
     end
@@ -275,7 +274,6 @@ module Cri
         delegate.argument_added(value, self) unless delegate.nil?
       end
     end
-
   end
 
 end

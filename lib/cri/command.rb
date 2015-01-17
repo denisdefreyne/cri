@@ -5,14 +5,12 @@ module Cri
   # Cri::Command represents a command that can be executed on the commandline.
   # It is also used for the commandline tool itself.
   class Command
-
     # Delegate used for partitioning the list of arguments and options. This
     # delegate will stop the parser as soon as the first argument, i.e. the
     # command, is found.
     #
     # @api private
     class OptionParserPartitioningDelegate
-
       # Returns the last parsed argument, which, in this case, will be the
       # first argument, which will be either nil or the command name.
       #
@@ -42,7 +40,6 @@ module Cri
         @last_argument = argument
         option_parser.stop
       end
-
     end
 
     # @return [Cri::Command, nil] This command’s supercommand, or nil if the
@@ -357,7 +354,6 @@ module Cri
         exit 1
       end
     end
-
   end
 
 end

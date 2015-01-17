@@ -111,8 +111,8 @@ Style/EmptyElse:
 # Offense count: 35
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/EmptyLinesAroundClassBody:
-  Enabled: false
+# Style/EmptyLinesAroundClassBody:
+#   Enabled: false
 
 # Offense count: 1
 # Cop supports --auto-correct.

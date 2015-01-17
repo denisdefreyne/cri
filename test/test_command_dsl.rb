@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Cri::CommandDSLTestCase < Cri::TestCase
-
   def test_create_command
     # Define
     dsl = Cri::CommandDSL.new
@@ -183,5 +182,4 @@ EOS
     command.run(%w( certainly ))
     assert_equal 'certainly', $works
   end
-
 end

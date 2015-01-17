@@ -5,7 +5,6 @@ module Cri
   # The command DSL is a class that is used for building and modifying
   # commands.
   class CommandDSL
-
     # Creates a new DSL, intended to be used for building a single command. A
     # {CommandDSL} instance is not reusable; create a new instance if you want
     # to build another command.

@@ -11,7 +11,6 @@ require 'cri'
 require 'stringio'
 
 class Cri::TestCase < Minitest::Test
-
   def setup
     @orig_io = capture_io
   end
@@ -48,7 +47,6 @@ class Cri::TestCase < Minitest::Test
     $stdout = orig_stdout
     $stderr = orig_stderr
   end
-
 end
 
 # Unexpected system exit is unexpected

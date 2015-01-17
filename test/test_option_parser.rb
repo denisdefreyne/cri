@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Cri::OptionParserTestCase < Cri::TestCase
-
   def test_parse_without_options
     input       = %w( foo bar baz )
     definitions = []
@@ -290,5 +289,4 @@ class Cri::OptionParserTestCase < Cri::TestCase
     assert_equal(['test', 'test2'], parser.options[:long])
     assert_equal(3, parser.options[:verbose].size)
   end
-
 end

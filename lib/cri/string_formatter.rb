@@ -5,7 +5,6 @@ require 'colored'
 module Cri
 
   class StringFormatter
-
     # Extracts individual paragraphs (separated by two newlines).
     #
     # @param [String] s The string to format
@@ -102,7 +101,6 @@ module Cri
         s
       end
     end
-
   end
 
 end

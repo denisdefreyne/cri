@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Cri::CommandTestCase < Cri::TestCase
-
   def simple_cmd
     Cri::Command.define do
       name        'moo'
@@ -532,5 +531,4 @@ class Cri::CommandTestCase < Cri::TestCase
 
     assert_equal [ bar, foo, qux ], [ foo, bar, qux ].sort
   end
-
 end

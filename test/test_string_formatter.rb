@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Cri::CoreExtTestCase < Cri::TestCase
-
   def formatter
     Cri::StringFormatter.new
   end
@@ -82,5 +81,4 @@ class Cri::CoreExtTestCase < Cri::TestCase
     actual = formatter.wrap_and_indent(original, 36, 4)
     assert_equal expected, actual
   end
-
 end

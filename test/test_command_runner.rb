@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 class Cri::CommandRunnerTestCase < Cri::TestCase
-
   def setup
     super
 
@@ -28,5 +27,4 @@ class Cri::CommandRunnerTestCase < Cri::TestCase
       Cri::CommandRunner.new(@options, @arguments, @command).run
     end
   end
-
 end
