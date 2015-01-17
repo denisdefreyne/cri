@@ -44,6 +44,10 @@ Style/EmptyElse:
 Style/IfUnlessModifier:
   Enabled: false
 
+# This doesn’t always make sense.
+Style/GuardClause:
+  Enabled: false
+
 # Will re-enable later.
 Metrics/AbcSize:
   Max: 45
@@ -61,9 +65,4 @@ Metrics/PerceivedComplexity:
 # Offense count: 8
 # Configuration parameters: AllowedVariables.
 Style/GlobalVars:
-  Enabled: false
-
-# Offense count: 3
-# Configuration parameters: MinBodyLength.
-Style/GuardClause:
   Enabled: false
