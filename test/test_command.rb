@@ -22,7 +22,7 @@ class Cri::CommandTestCase < Cri::TestCase
         $stdout.puts args.join(',')
 
         opts_strings = []
-        opts.each_pair { |k,v| opts_strings << "#{k}=#{v}" }
+        opts.each_pair { |k, v| opts_strings << "#{k}=#{v}" }
         $stdout.puts opts_strings.sort.join(',')
       end
     end
@@ -72,7 +72,7 @@ class Cri::CommandTestCase < Cri::TestCase
         $stdout.puts args.join(',')
 
         opts_strings = []
-        opts.each_pair { |k,v| opts_strings << "#{k}=#{v}" }
+        opts.each_pair { |k, v| opts_strings << "#{k}=#{v}" }
         $stdout.puts opts_strings.join(',')
       end
     end

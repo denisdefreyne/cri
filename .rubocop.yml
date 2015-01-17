@@ -208,15 +208,10 @@ Style/RaiseArgs:
 # Style/SingleLineMethods:
 #   Enabled: false
 
-# Offense count: 95
-# Cop supports --auto-correct.
-Style/SingleSpaceBeforeFirstArg:
-  Enabled: false
-
 # Offense count: 2
 # Cop supports --auto-correct.
-Style/SpaceAfterComma:
-  Enabled: false
+# Style/SpaceAfterComma:
+#   Enabled: false
 
 # Offense count: 13
 # Cop supports --auto-correct.
