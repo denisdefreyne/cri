@@ -54,11 +54,6 @@ Metrics/MethodLength:
 Metrics/PerceivedComplexity:
   Max: 9
 
-# Offense count: 1
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/FormatString:
-  Enabled: false
-
 # Offense count: 8
 # Configuration parameters: AllowedVariables.
 Style/GlobalVars:
