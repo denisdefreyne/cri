@@ -506,7 +506,7 @@ class Cri::CommandTestCase < Cri::TestCase
       end
     end
 
-    out, err = capture_io_while do
+    out, _err = capture_io_while do
       cmd.run(%w( foo -- bar ))
     end
     assert_equal "args=foo,bar args.raw=foo,--,bar\n", out
@@ -532,7 +532,7 @@ class Cri::CommandTestCase < Cri::TestCase
       end)
     end
 
-    out, err = capture_io_while do
+    out, _err = capture_io_while do
       cmd.run(%w( foo -- bar ))
     end
     assert_equal "args=foo,bar args.raw=foo,--,bar\n", out

@@ -34,10 +34,6 @@ Style/AsciiComments:
 
 
 
-# Offense count: 16
-Lint/UselessAssignment:
-  Enabled: false
-
 # Offense count: 1
 Lint/Void:
   Enabled: false

@@ -15,10 +15,8 @@ class Cri::OptionParserTestCase < Cri::TestCase
     input       = %w( foo -x )
     definitions = []
 
-    result = nil
-
     assert_raises(Cri::OptionParser::IllegalOptionError) do
-      parser = Cri::OptionParser.parse(input, definitions)
+      Cri::OptionParser.parse(input, definitions)
     end
   end
 
@@ -75,10 +73,8 @@ class Cri::OptionParserTestCase < Cri::TestCase
       { :long => 'aaa', :short => 'a', :argument => :required },
     ]
 
-    result = nil
-
     assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
-      parser = Cri::OptionParser.parse(input, definitions)
+      Cri::OptionParser.parse(input, definitions)
     end
   end
 
@@ -89,10 +85,8 @@ class Cri::OptionParserTestCase < Cri::TestCase
       { :long => 'port', :short => 'p', :argument => :required },
     ]
 
-    result = nil
-
     assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
-      parser = Cri::OptionParser.parse(input, definitions)
+      Cri::OptionParser.parse(input, definitions)
     end
   end
 
@@ -154,10 +148,8 @@ class Cri::OptionParserTestCase < Cri::TestCase
       { :long => 'aaa', :short => 'a', :argument => :required },
     ]
 
-    result = nil
-
     assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
-      parser = Cri::OptionParser.parse(input, definitions)
+      Cri::OptionParser.parse(input, definitions)
     end
   end
 
@@ -185,10 +177,8 @@ class Cri::OptionParserTestCase < Cri::TestCase
       { :long => 'ccc', :short => 'c', :argument => :forbidden },
     ]
 
-    result = nil
-
     assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
-      parser = Cri::OptionParser.parse(input, definitions)
+      Cri::OptionParser.parse(input, definitions)
     end
   end
 
@@ -199,10 +189,8 @@ class Cri::OptionParserTestCase < Cri::TestCase
       { :long => 'port', :short => 'p', :argument => :required },
     ]
 
-    result = nil
-
     assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
-      parser = Cri::OptionParser.parse(input, definitions)
+      Cri::OptionParser.parse(input, definitions)
     end
   end
 
@@ -274,7 +262,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
     ]
 
     assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
-      parser = Cri::OptionParser.parse(input, definitions)
+      Cri::OptionParser.parse(input, definitions)
     end
   end
 
