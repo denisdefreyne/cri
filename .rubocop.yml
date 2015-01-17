@@ -205,8 +205,8 @@ Style/RaiseArgs:
 # Offense count: 7
 # Cop supports --auto-correct.
 # Configuration parameters: AllowIfMethodIsEmpty.
-Style/SingleLineMethods:
-  Enabled: false
+# Style/SingleLineMethods:
+#   Enabled: false
 
 # Offense count: 95
 # Cop supports --auto-correct.

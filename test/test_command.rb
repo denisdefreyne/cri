@@ -252,7 +252,9 @@ class Cri::CommandTestCase < Cri::TestCase
   end
 
   def test_help_nested
-    def $stdout.tty? ; true ; end
+    def $stdout.tty?
+      true
+    end
 
     help = nested_cmd.subcommands.find { |cmd| cmd.name == 'sub' }.help
 
@@ -260,9 +262,13 @@ class Cri::CommandTestCase < Cri::TestCase
   end
 
   def test_help_with_and_without_colors
-    def $stdout.tty? ; true ; end
+    def $stdout.tty?
+      true
+    end
     help_on_tty = simple_cmd.help
-    def $stdout.tty? ; false ; end
+    def $stdout.tty?
+      false
+    end
     help_not_on_tty = simple_cmd.help
 
     assert_includes help_on_tty,     "\e[31mUSAGE\e[0m\e[0m\n    \e[32mmoo"
@@ -274,7 +280,9 @@ class Cri::CommandTestCase < Cri::TestCase
   end
 
   def test_help_with_optional_options
-    def $stdout.tty? ; true ; end
+    def $stdout.tty?
+      true
+    end
 
     cmd = Cri::Command.define do
       name 'build'
@@ -289,7 +297,9 @@ class Cri::CommandTestCase < Cri::TestCase
   end
 
   def test_help_with_different_option_types_short_and_long
-    def $stdout.tty? ; true ; end
+    def $stdout.tty?
+      true
+    end
 
     cmd = Cri::Command.define do
       name 'build'
@@ -305,7 +315,9 @@ class Cri::CommandTestCase < Cri::TestCase
   end
 
   def test_help_with_different_option_types_short
-    def $stdout.tty? ; true ; end
+    def $stdout.tty?
+      true
+    end
 
     cmd = Cri::Command.define do
       name 'build'
@@ -321,7 +333,9 @@ class Cri::CommandTestCase < Cri::TestCase
   end
 
   def test_help_with_different_option_types_long
-    def $stdout.tty? ; true ; end
+    def $stdout.tty?
+      true
+    end
 
     cmd = Cri::Command.define do
       name 'build'
