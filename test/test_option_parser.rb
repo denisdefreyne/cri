@@ -25,7 +25,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
   def test_parse_with_unused_options
     input       = %w( foo )
     definitions = [
-      { :long => 'aaa', :short => 'a', :argument => :forbidden }
+      { :long => 'aaa', :short => 'a', :argument => :forbidden },
     ]
 
     parser = Cri::OptionParser.parse(input, definitions)
@@ -36,7 +36,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
   def test_parse_with_long_valueless_option
     input       = %w( foo --aaa bar )
     definitions = [
-      { :long => 'aaa', :short => 'a', :argument => :forbidden }
+      { :long => 'aaa', :short => 'a', :argument => :forbidden },
     ]
 
     parser = Cri::OptionParser.parse(input, definitions)
@@ -48,7 +48,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
   def test_parse_with_long_valueful_option
     input       = %w( foo --aaa xxx bar )
     definitions = [
-      { :long => 'aaa', :short => 'a', :argument => :required }
+      { :long => 'aaa', :short => 'a', :argument => :required },
     ]
 
     parser = Cri::OptionParser.parse(input, definitions)
@@ -60,7 +60,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
   def test_parse_with_long_valueful_equalsign_option
     input       = %w( foo --aaa=xxx bar )
     definitions = [
-      { :long => 'aaa', :short => 'a', :argument => :required }
+      { :long => 'aaa', :short => 'a', :argument => :required },
     ]
 
     parser = Cri::OptionParser.parse(input, definitions)
@@ -72,7 +72,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
   def test_parse_with_long_valueful_option_with_missing_value
     input       = %w( foo --aaa )
     definitions = [
-      { :long => 'aaa', :short => 'a', :argument => :required }
+      { :long => 'aaa', :short => 'a', :argument => :required },
     ]
 
     result = nil
@@ -86,7 +86,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
     input       = %w( foo --all --port 2 )
     definitions = [
       { :long => 'all',  :short => 'a', :argument => :required  },
-      { :long => 'port', :short => 'p', :argument => :required }
+      { :long => 'port', :short => 'p', :argument => :required },
     ]
 
     result = nil
@@ -99,7 +99,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
   def test_parse_with_long_valueless_option_with_optional_value
     input       = %w( foo --aaa )
     definitions = [
-      { :long => 'aaa', :short => 'a', :argument => :optional }
+      { :long => 'aaa', :short => 'a', :argument => :optional },
     ]
 
     parser = Cri::OptionParser.parse(input, definitions)
@@ -111,7 +111,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
   def test_parse_with_long_valueful_option_with_optional_value
     input       = %w( foo --aaa xxx )
     definitions = [
-      { :long => 'aaa', :short => 'a', :argument => :optional }
+      { :long => 'aaa', :short => 'a', :argument => :optional },
     ]
 
     parser = Cri::OptionParser.parse(input, definitions)
@@ -125,7 +125,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
     definitions = [
       { :long => 'aaa', :short => 'a', :argument => :optional  },
       { :long => 'bbb', :short => 'b', :argument => :forbidden },
-      { :long => 'ccc', :short => 'c', :argument => :forbidden }
+      { :long => 'ccc', :short => 'c', :argument => :forbidden },
     ]
 
     parser = Cri::OptionParser.parse(input, definitions)
@@ -139,7 +139,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
   def test_parse_with_short_valueless_options
     input       = %w( foo -a bar )
     definitions = [
-      { :long => 'aaa', :short => 'a', :argument => :forbidden }
+      { :long => 'aaa', :short => 'a', :argument => :forbidden },
     ]
 
     parser = Cri::OptionParser.parse(input, definitions)
@@ -151,7 +151,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
   def test_parse_with_short_valueful_option_with_missing_value
     input       = %w( foo -a )
     definitions = [
-      { :long => 'aaa', :short => 'a', :argument => :required }
+      { :long => 'aaa', :short => 'a', :argument => :required },
     ]
 
     result = nil
@@ -166,7 +166,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
     definitions = [
       { :long => 'aaa', :short => 'a', :argument => :forbidden },
       { :long => 'bbb', :short => 'b', :argument => :forbidden },
-      { :long => 'ccc', :short => 'c', :argument => :forbidden }
+      { :long => 'ccc', :short => 'c', :argument => :forbidden },
     ]
 
     parser = Cri::OptionParser.parse(input, definitions)
@@ -182,7 +182,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
     definitions = [
       { :long => 'aaa', :short => 'a', :argument => :required  },
       { :long => 'bbb', :short => 'b', :argument => :forbidden },
-      { :long => 'ccc', :short => 'c', :argument => :forbidden }
+      { :long => 'ccc', :short => 'c', :argument => :forbidden },
     ]
 
     result = nil
@@ -196,7 +196,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
     input       = %w( foo -a -p 2 )
     definitions = [
       { :long => 'all',  :short => 'a', :argument => :required  },
-      { :long => 'port', :short => 'p', :argument => :required }
+      { :long => 'port', :short => 'p', :argument => :required },
     ]
 
     result = nil
@@ -209,7 +209,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
   def test_parse_with_short_valueless_option_with_optional_value
     input       = %w( foo -a )
     definitions = [
-      { :long => 'aaa', :short => 'a', :argument => :optional }
+      { :long => 'aaa', :short => 'a', :argument => :optional },
     ]
 
     parser = Cri::OptionParser.parse(input, definitions)
@@ -221,7 +221,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
   def test_parse_with_short_valueful_option_with_optional_value
     input       = %w( foo -a xxx )
     definitions = [
-      { :long => 'aaa', :short => 'a', :argument => :optional }
+      { :long => 'aaa', :short => 'a', :argument => :optional },
     ]
 
     parser = Cri::OptionParser.parse(input, definitions)
@@ -235,7 +235,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
     definitions = [
       { :long => 'aaa', :short => 'a', :argument => :optional  },
       { :long => 'bbb', :short => 'b', :argument => :forbidden },
-      { :long => 'ccc', :short => 'c', :argument => :forbidden }
+      { :long => 'ccc', :short => 'c', :argument => :forbidden },
     ]
 
     parser = Cri::OptionParser.parse(input, definitions)
@@ -270,7 +270,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
   def test_parse_with_end_marker_between_option_key_and_value
     input       = %w( foo --aaa -- zzz )
     definitions = [
-      { :long => 'aaa', :short => 'a', :argument => :required }
+      { :long => 'aaa', :short => 'a', :argument => :required },
     ]
 
     assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
@@ -282,7 +282,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
     input = %w( foo -o test -o test2 -v -v -v)
     definitions = [
       { :long => 'long', :short => 'o', :argument => :required, :multiple => true },
-      { :long => 'verbose', :short => 'v', :multiple => true }
+      { :long => 'verbose', :short => 'v', :multiple => true },
     ]
     parser = Cri::OptionParser.parse(input, definitions)
 

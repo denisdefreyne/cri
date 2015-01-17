@@ -338,7 +338,7 @@ module Cri
       [
         parser.options,
         delegate.last_argument,
-        parser.unprocessed_arguments_and_options
+        parser.unprocessed_arguments_and_options,
       ]
     end
 

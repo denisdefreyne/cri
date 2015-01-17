@@ -12,6 +12,9 @@ Style/SingleSpaceBeforeFirstArg:
 Style/HashSyntax:
   EnforcedStyle: hash_rockets
 
+# Trailing commas in a multiline context makes diffs nicer.
+Style/TrailingComma:
+  EnforcedStyleForMultiline: comma
 
 
 
@@ -249,12 +252,6 @@ Style/SpaceAroundEqualsInParameterDefault:
 # Cop supports --auto-correct.
 # Configuration parameters: IgnoredMethods.
 Style/SymbolProc:
-  Enabled: false
-
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleForMultiline, SupportedStyles.
-Style/TrailingComma:
   Enabled: false
 
 # Offense count: 3

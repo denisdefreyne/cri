@@ -39,7 +39,7 @@ class Cri::CommandDSLTestCase < Cri::TestCase
       { :short => 'b', :long => 'bbb', :desc => 'opt b', :argument => :required, :multiple => false,  :block => nil },
       { :short => 'c', :long => 'ccc', :desc => 'opt c', :argument => :optional, :multiple => false,  :block => nil },
       { :short => 'd', :long => 'ddd', :desc => 'opt d', :argument => :forbidden, :multiple => false, :block => nil },
-      { :short => 'e', :long => 'eee', :desc => 'opt e', :argument => :forbidden, :multiple => false, :block => nil }
+      { :short => 'e', :long => 'eee', :desc => 'opt e', :argument => :forbidden, :multiple => false, :block => nil },
       ])
     actual_option_definitions = Set.new(command.option_definitions)
     assert_equal expected_option_definitions, actual_option_definitions
@@ -71,7 +71,7 @@ class Cri::CommandDSLTestCase < Cri::TestCase
     # Check options
     expected_option_definitions = Set.new([
       { :short => 's', :long => nil,    :desc => 'short', :argument => :forbidden, :multiple => false, :block => nil },
-      { :short => nil, :long => 'long', :desc => 'long',  :argument => :forbidden, :multiple => false, :block => nil }
+      { :short => nil, :long => 'long', :desc => 'long',  :argument => :forbidden, :multiple => false, :block => nil },
     ])
     actual_option_definitions = Set.new(command.option_definitions)
     assert_equal expected_option_definitions, actual_option_definitions
