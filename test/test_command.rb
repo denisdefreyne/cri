@@ -436,7 +436,7 @@ class Cri::CommandTestCase < Cri::TestCase
       Cri::Command.define('raise "boom"', 'mycommand.rb')
     end
 
-    assert_match /mycommand.rb/, error.backtrace.join("\n")
+    assert_match(/mycommand.rb/, error.backtrace.join("\n"))
   end
 
   def test_hidden_commands_single
