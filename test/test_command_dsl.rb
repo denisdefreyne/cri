@@ -170,7 +170,7 @@ module Cri
       dsl.instance_eval <<-EOS
         class Cri::CommandDSLTestCaseCommandRunner < Cri::CommandRunner
           def run
-            $works = arguments[0]
+            $did_it_work = arguments[0]
           end
         end
 
@@ -179,9 +179,9 @@ module Cri
       command = dsl.command
 
       # Check
-      $works = false
+      $did_it_work = false
       command.run(%w( certainly ))
-      assert_equal 'certainly', $works
+      assert_equal 'certainly', $did_it_work
     end
   end
 end
