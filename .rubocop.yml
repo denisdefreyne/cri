@@ -32,32 +32,17 @@ Style/RaiseArgs:
 Style/AsciiComments:
   Enabled: false
 
-
-
-# Offense count: 25
+# Will re-enable later.
 Metrics/AbcSize:
   Max: 45
-
-# Offense count: 6
-# Configuration parameters: CountComments.
 Metrics/ClassLength:
-  Max: 423
-
-# Offense count: 2
+  Max: 436
 Metrics/CyclomaticComplexity:
   Max: 8
-
-# Offense count: 38
-# Configuration parameters: AllowURI, URISchemes.
 Metrics/LineLength:
-  Max: 139
-
-# Offense count: 33
-# Configuration parameters: CountComments.
+  Max: 141
 Metrics/MethodLength:
   Max: 41
-
-# Offense count: 1
 Metrics/PerceivedComplexity:
   Max: 9
 
