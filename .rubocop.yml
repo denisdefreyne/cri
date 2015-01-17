@@ -221,8 +221,8 @@ Style/SpaceAroundEqualsInParameterDefault:
 
 # Offense count: 1
 # Cop supports --auto-correct.
-Style/SpaceAroundOperators:
-  Enabled: false
+# Style/SpaceAroundOperators:
+#   Enabled: false
 
 # Offense count: 14
 # Cop supports --auto-correct.

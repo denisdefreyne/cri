@@ -80,7 +80,7 @@ module Cri
       shown_subcommands.sort_by { |cmd| cmd.name }.each do |cmd|
         text <<
           sprintf(
-            "    %-#{length+4}s %s\n",
+            "    %-#{length + 4}s %s\n",
             fmt.format_as_command(cmd.name, @io),
             cmd.summary)
       end
