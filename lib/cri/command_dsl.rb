@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 module Cri
-
   # The command DSL is a class that is used for building and modifying
   # commands.
   class CommandDSL

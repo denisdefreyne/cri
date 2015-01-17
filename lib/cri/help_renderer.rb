@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 module Cri
-
   # The {HelpRenderer} class is responsible for generating a string containing
   # the help for a given command, intended to be printed on the command line.
   class HelpRenderer
@@ -206,5 +205,4 @@ module Cri
       '    ' + opt_text + ' ' * (length + 6 - opt_text_len)
     end
   end
-
 end

@@ -1,9 +1,7 @@
 # encoding: utf-8
 
 module Cri
-
   module Platform
-
     # @return [Boolean] true if the current platform is Windows, false
     # otherwise.
     def self.windows?
@@ -24,7 +22,5 @@ module Cri
         true
       end
     end
-
   end
-
 end

@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 module Cri
-
   # Cri::OptionParser is used for parsing commandline options.
   #
   # Option definitions are hashes with the keys `:short`, `:long` and
@@ -275,5 +274,4 @@ module Cri
       end
     end
   end
-
 end

@@ -5,7 +5,6 @@ require 'cri/version'
 # The namespace for Cri, a library for building easy-to-use commandline tools
 # with support for nested commands.
 module Cri
-
   # A generic error class for all Cri-specific errors.
   class Error < ::StandardError
   end
@@ -27,7 +26,6 @@ module Cri
   autoload 'HelpRenderer',      'cri/help_renderer'
   autoload 'OptionParser',      'cri/option_parser'
   autoload 'Platform',          'cri/platform'
-
 end
 
 require 'set'

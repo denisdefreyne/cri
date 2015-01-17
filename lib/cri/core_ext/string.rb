@@ -3,10 +3,8 @@
 require 'colored'
 
 module Cri::CoreExtensions
-
   # @deprecated
   module String
-
     # @see Cri::StringFormatter#to_paragraphs
     def to_paragraphs
       Cri::StringFormatter.new.to_paragraphs(self)
@@ -31,7 +29,5 @@ module Cri::CoreExtensions
     def formatted_as_option
       Cri::StringFormatter.new.format_as_option(self)
     end
-
   end
-
 end
