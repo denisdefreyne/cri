@@ -24,6 +24,10 @@ Style/SymbolProc:
 Style/TrivialAccessors:
   Enabled: false
 
+# This allows for semantic exceptions
+Style/RaiseArgs:
+  Enabled: false
+
 
 
 # Offense count: 1
@@ -191,11 +195,6 @@ Style/IndentArray:
 # Cop supports --auto-correct.
 # Style/PerlBackrefs:
 #   Enabled: false
-
-# Offense count: 4
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/RaiseArgs:
-  Enabled: false
 
 # Offense count: 1
 # Cop supports --auto-correct.
