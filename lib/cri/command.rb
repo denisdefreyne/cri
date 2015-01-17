@@ -343,15 +343,13 @@ module Cri
     end
 
     def handle_parser_errors_while(&block)
-      begin
-        block.call
-      rescue Cri::OptionParser::IllegalOptionError => e
-        $stderr.puts "#{name}: illegal option -- #{e}"
-        exit 1
-      rescue Cri::OptionParser::OptionRequiresAnArgumentError => e
-        $stderr.puts "#{name}: option requires an argument -- #{e}"
-        exit 1
-      end
+      block.call
+    rescue Cri::OptionParser::IllegalOptionError => e
+      $stderr.puts "#{name}: illegal option -- #{e}"
+      exit 1
+    rescue Cri::OptionParser::OptionRequiresAnArgumentError => e
+      $stderr.puts "#{name}: option requires an argument -- #{e}"
+      exit 1
     end
   end
 end
