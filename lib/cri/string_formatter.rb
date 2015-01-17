@@ -12,7 +12,7 @@ module Cri
     def to_paragraphs(s)
       lines = s.scan(/([^\n]+\n|[^\n]*$)/).map { |s| s[0].strip }
 
-      paragraphs = [ [] ]
+      paragraphs = [[]]
       lines.each do |line|
         if line.empty?
           paragraphs << []

@@ -9,8 +9,8 @@ class Cri::CoreExtTestCase < Cri::TestCase
     original = "Lorem ipsum dolor sit amet,\nconsectetur adipisicing.\n\n" \
                "Sed do eiusmod\ntempor incididunt ut labore."
 
-    expected = [ "Lorem ipsum dolor sit amet, consectetur adipisicing.",
-                 "Sed do eiusmod tempor incididunt ut labore." ]
+    expected = ["Lorem ipsum dolor sit amet, consectetur adipisicing.",
+                "Sed do eiusmod tempor incididunt ut labore."]
 
     actual = formatter.to_paragraphs(original)
     assert_equal expected, actual

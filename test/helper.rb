@@ -22,7 +22,7 @@ class Cri::TestCase < Minitest::Test
   def capture_io_while(&block)
     orig_io = capture_io
     block.call
-    [ $stdout.string, $stderr.string ]
+    [$stdout.string, $stderr.string]
   ensure
     uncapture_io(*orig_io)
   end
@@ -40,7 +40,7 @@ class Cri::TestCase < Minitest::Test
     $stdout = StringIO.new
     $stderr = StringIO.new
 
-    [ orig_stdout, orig_stderr ]
+    [orig_stdout, orig_stderr]
   end
 
   def uncapture_io(orig_stdout, orig_stderr)

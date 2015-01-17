@@ -122,7 +122,7 @@ class Cri::CommandTestCase < Cri::TestCase
       simple_cmd.run(%w())
     end
 
-    assert_equal [ 'Awesome moo!', '', '' ], lines(out)
+    assert_equal ['Awesome moo!', '', ''], lines(out)
     assert_equal [], lines(err)
   end
 
@@ -131,7 +131,7 @@ class Cri::CommandTestCase < Cri::TestCase
       simple_cmd.run(%w(abc xyz))
     end
 
-    assert_equal [ 'Awesome moo!', 'abc,xyz', '' ], lines(out)
+    assert_equal ['Awesome moo!', 'abc,xyz', ''], lines(out)
     assert_equal [], lines(err)
   end
 
@@ -140,7 +140,7 @@ class Cri::CommandTestCase < Cri::TestCase
       simple_cmd.run(%w(-c -b x))
     end
 
-    assert_equal [ 'Awesome moo!', '', 'bbb=x,ccc=true' ], lines(out)
+    assert_equal ['Awesome moo!', '', 'bbb=x,ccc=true'], lines(out)
     assert_equal [], lines(err)
   end
 
@@ -152,7 +152,7 @@ class Cri::CommandTestCase < Cri::TestCase
     end
 
     assert_equal [], lines(out)
-    assert_equal [ "moo: option requires an argument -- b" ], lines(err)
+    assert_equal ["moo: option requires an argument -- b"], lines(err)
   end
 
   def test_invoke_simple_with_illegal_opt
@@ -163,7 +163,7 @@ class Cri::CommandTestCase < Cri::TestCase
     end
 
     assert_equal [], lines(out)
-    assert_equal [ "moo: illegal option -- z" ], lines(err)
+    assert_equal ["moo: illegal option -- z"], lines(err)
   end
 
   def test_invoke_simple_with_opt_with_block
@@ -171,7 +171,7 @@ class Cri::CommandTestCase < Cri::TestCase
       simple_cmd.run(%w( -a 123 ))
     end
 
-    assert_equal [ 'moo:123', 'Awesome moo!', '', 'aaa=123' ], lines(out)
+    assert_equal ['moo:123', 'Awesome moo!', '', 'aaa=123'], lines(out)
     assert_equal [], lines(err)
   end
 
@@ -182,8 +182,8 @@ class Cri::CommandTestCase < Cri::TestCase
       end
     end
 
-    assert_equal [ ], lines(out)
-    assert_equal [ 'super: no command given' ], lines(err)
+    assert_equal [], lines(out)
+    assert_equal ['super: no command given'], lines(err)
   end
 
   def test_invoke_nested_with_correct_command_name
@@ -191,8 +191,8 @@ class Cri::CommandTestCase < Cri::TestCase
       nested_cmd.run(%w( sub ))
     end
 
-    assert_equal [ 'Sub-awesome!', '', '' ], lines(out)
-    assert_equal [ ], lines(err)
+    assert_equal ['Sub-awesome!', '', ''], lines(out)
+    assert_equal [], lines(err)
   end
 
   def test_invoke_nested_with_incorrect_command_name
@@ -202,8 +202,8 @@ class Cri::CommandTestCase < Cri::TestCase
       end
     end
 
-    assert_equal [ ], lines(out)
-    assert_equal [ "super: unknown command 'oogabooga'" ], lines(err)
+    assert_equal [], lines(out)
+    assert_equal ["super: unknown command 'oogabooga'"], lines(err)
   end
 
   def test_invoke_nested_with_ambiguous_command_name
@@ -213,8 +213,8 @@ class Cri::CommandTestCase < Cri::TestCase
       end
     end
 
-    assert_equal [ ], lines(out)
-    assert_equal [ "super: 's' is ambiguous:", "  sink sub" ], lines(err)
+    assert_equal [], lines(out)
+    assert_equal ["super: 's' is ambiguous:", "  sink sub"], lines(err)
   end
 
   def test_invoke_nested_with_alias
@@ -222,8 +222,8 @@ class Cri::CommandTestCase < Cri::TestCase
       nested_cmd.run(%w( sup ))
     end
 
-    assert_equal [ 'Sub-awesome!', '', '' ], lines(out)
-    assert_equal [ ], lines(err)
+    assert_equal ['Sub-awesome!', '', ''], lines(out)
+    assert_equal [], lines(err)
   end
 
   def test_invoke_nested_with_options_before_command
@@ -231,8 +231,8 @@ class Cri::CommandTestCase < Cri::TestCase
       nested_cmd.run(%w( -a 666 sub ))
     end
 
-    assert_equal [ 'super:666', 'Sub-awesome!', '', 'aaa=666' ], lines(out)
-    assert_equal [ ], lines(err)
+    assert_equal ['super:666', 'Sub-awesome!', '', 'aaa=666'], lines(out)
+    assert_equal [], lines(err)
   end
 
   def test_invoke_nested_with_run_block
@@ -240,15 +240,15 @@ class Cri::CommandTestCase < Cri::TestCase
       nested_cmd_with_run_block.run(%w())
     end
 
-    assert_equal [ 'super' ], lines(out)
-    assert_equal [ ], lines(err)
+    assert_equal ['super'], lines(out)
+    assert_equal [], lines(err)
 
     out, err = capture_io_while do
       nested_cmd_with_run_block.run(%w( sub ))
     end
 
-    assert_equal [ 'sub' ], lines(out)
-    assert_equal [ ], lines(err)
+    assert_equal ['sub'], lines(out)
+    assert_equal [], lines(err)
   end
 
   def test_help_nested
@@ -543,6 +543,6 @@ class Cri::CommandTestCase < Cri::TestCase
     bar = Cri::Command.define { name 'bar' }
     qux = Cri::Command.define { name 'qux' }
 
-    assert_equal [ bar, foo, qux ], [ foo, bar, qux ].sort
+    assert_equal [bar, foo, qux], [foo, bar, qux].sort
   end
 end

@@ -48,7 +48,7 @@ module Cri
     def append_usage(text)
       return if @cmd.usage.nil?
 
-      path = [ @cmd.supercommand ]
+      path = [@cmd.supercommand]
       path.unshift(path[0].supercommand) until path[0].nil?
       formatted_usage = @cmd.usage.gsub(/^([^\s]+)/) { |m| fmt.format_as_command(m, @io) }
       full_usage = path[1..-1].map { |c| fmt.format_as_command(c.name, @io) + ' ' }.join + formatted_usage

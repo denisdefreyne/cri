@@ -94,9 +94,9 @@ module Cri
     def self.define(string=nil, filename=nil, &block)
       dsl = Cri::CommandDSL.new
       if string
-        args = filename ? [ string, filename ] : [ string ]
+        args = filename ? [string, filename] : [string]
         dsl.instance_eval(*args)
-      elsif [ -1, 0 ].include? block.arity
+      elsif [-1, 0].include? block.arity
         dsl.instance_eval(&block)
       else
         block.call(dsl)
@@ -137,7 +137,7 @@ module Cri
     # @return [Cri::Command] The command itself
     def modify(&block)
       dsl = Cri::CommandDSL.new(self)
-      if [ -1, 0 ].include? block.arity
+      if [-1, 0].include? block.arity
         dsl.instance_eval(&block)
       else
         block.call(dsl)
@@ -174,7 +174,7 @@ module Cri
       # Execute DSL
       dsl = Cri::CommandDSL.new
       dsl.name name unless name.nil?
-      if [ -1, 0 ].include? block.arity
+      if [-1, 0].include? block.arity
         dsl.instance_eval(&block)
       else
         block.call(dsl)
@@ -196,7 +196,7 @@ module Cri
       # Find by exact name or alias
       @commands.each do |cmd|
         found = cmd.name == name || cmd.aliases.include?(name)
-        return [ cmd ] if found
+        return [cmd] if found
       end
 
       # Find by approximation
