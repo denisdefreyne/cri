@@ -17,7 +17,7 @@ class Cri::CommandDSLTestCase < Cri::TestCase
       flag      :d, :ddd, 'opt d'
       forbidden :e, :eee, 'opt e'
 
-      run do |opts, args|
+      run do |_opts, _args|
         $did_it_work = :probably
       end
     end
@@ -58,7 +58,7 @@ class Cri::CommandDSLTestCase < Cri::TestCase
       flag :s,  nil,   'short'
       flag nil, :long, 'long'
 
-      run do |opts, args|
+      run do |_opts, _args|
         $did_it_work = :probably
       end
     end
@@ -86,7 +86,7 @@ class Cri::CommandDSLTestCase < Cri::TestCase
       required :r, :required, 'sample required option', :multiple => true
       optional :o, :optional, 'sample optional option', :multiple => true
 
-      run { |opts, args| }
+      run { |_opts, _args| }
     end
     command = dsl.command
 
@@ -158,7 +158,7 @@ class Cri::CommandDSLTestCase < Cri::TestCase
     dsl = Cri::CommandDSL.new
     assert_raises ArgumentError do
       dsl.instance_eval do
-        run do |a, b, c, d, e|
+        run do |_a, _b, _c, _d, _e|
         end
       end
     end

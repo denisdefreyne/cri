@@ -33,7 +33,7 @@ class Cri::CommandTestCase < Cri::TestCase
     Cri::Command.define do
       name        'moo'
 
-      run do |opts, args|
+      run do |_opts, _args|
       end
     end
   end
@@ -84,7 +84,7 @@ class Cri::CommandTestCase < Cri::TestCase
       summary     'sinks stuff'
       description 'Sinks stuff (like ships and the like).'
 
-      run do |opts, args|
+      run do |_opts, _args|
       end
     end
 
@@ -98,7 +98,7 @@ class Cri::CommandTestCase < Cri::TestCase
       summary     'does super stuff'
       description 'This command does super stuff.'
 
-      run do |opts, args|
+      run do |_opts, _args|
         $stdout.puts "super"
       end
     end
@@ -110,7 +110,7 @@ class Cri::CommandTestCase < Cri::TestCase
       summary     'does subby stuff'
       description 'This command does subby stuff.'
 
-      run do |opts, args|
+      run do |_opts, _args|
         $stdout.puts "sub"
       end
     end
@@ -488,7 +488,7 @@ class Cri::CommandTestCase < Cri::TestCase
   def test_run_with_raw_args
     cmd = Cri::Command.define do
       name 'moo'
-      run do |opts, args|
+      run do |_opts, args|
         puts "args=#{args.join(',')} args.raw=#{args.raw.join(',')}"
       end
     end
