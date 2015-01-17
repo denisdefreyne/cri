@@ -3,3 +3,4 @@
 /.yardoc/
 /coverage/
 /doc/
+*.gem
