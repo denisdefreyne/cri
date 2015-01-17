@@ -172,8 +172,8 @@ Style/IfUnlessModifier:
 
 # Offense count: 1
 # Cop supports --auto-correct.
-Style/IndentArray:
-  Enabled: false
+# Style/IndentArray:
+#   Enabled: false
 
 # Offense count: 31
 # Cop supports --auto-correct.
