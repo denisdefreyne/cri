@@ -28,6 +28,10 @@ Style/TrivialAccessors:
 Style/RaiseArgs:
   Enabled: false
 
+# We should embrace UTF-8, not shun it.
+Style/AsciiComments:
+  Enabled: false
+
 
 
 # Offense count: 1
@@ -100,10 +104,6 @@ Metrics/PerceivedComplexity:
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 # Style/AndOr:
 #   Enabled: false
-
-# Offense count: 11
-Style/AsciiComments:
-  Enabled: false
 
 # Offense count: 2
 # Cop supports --auto-correct.
