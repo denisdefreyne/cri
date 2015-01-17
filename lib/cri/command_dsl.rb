@@ -4,6 +4,9 @@ module Cri
   # The command DSL is a class that is used for building and modifying
   # commands.
   class CommandDSL
+    # @return [Cri::Command] The built command
+    attr_reader :command
+
     # Creates a new DSL, intended to be used for building a single command. A
     # {CommandDSL} instance is not reusable; create a new instance if you want
     # to build another command.
@@ -12,11 +15,6 @@ module Cri
     #   new command should be created
     def initialize(command=nil)
       @command = command || Cri::Command.new
-    end
-
-    # @return [Cri::Command] The built command
-    def command
-      @command
     end
 
     # Adds a subcommand to the current command. The command can either be

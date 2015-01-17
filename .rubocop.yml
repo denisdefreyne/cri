@@ -20,6 +20,10 @@ Style/TrailingComma:
 Style/SymbolProc:
   Enabled: false
 
+# This doesn’t always make sense (e.g. Cri::ArgumentArray#raw)
+Style/TrivialAccessors:
+  Enabled: false
+
 
 
 # Offense count: 1
@@ -251,12 +255,6 @@ Style/SpaceAroundEqualsInParameterDefault:
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 # Style/StringLiterals:
 #   Enabled: false
-
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: ExactNameMatch, AllowPredicates, AllowDSLWriters, Whitelist.
-Style/TrivialAccessors:
-  Enabled: false
 
 # Offense count: 10
 # Cop supports --auto-correct.
