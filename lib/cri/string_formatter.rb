@@ -10,7 +10,7 @@ module Cri
     #
     # @return [Array<String>] A list of paragraphs in the string
     def to_paragraphs(s)
-      lines = s.scan(/([^\n]+\n|[^\n]*$)/).map { |s| s[0].strip }
+      lines = s.scan(/([^\n]+\n|[^\n]*$)/).map { |l| l[0].strip }
 
       paragraphs = [[]]
       lines.each do |line|
