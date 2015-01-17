@@ -48,7 +48,7 @@ class Cri::BasicHelpTestCase < Cri::TestCase
 
     # Subcommand
     stdout, stderr = capture_io_while do
-      help_cmd.run(['foo', 'subsubby'])
+      help_cmd.run(%w(foo subsubby))
     end
     assert_match(/I am subsubby!/m, stdout)
     assert_equal('', stderr)
@@ -56,7 +56,7 @@ class Cri::BasicHelpTestCase < Cri::TestCase
     # Non-existing subcommand
     stdout, stderr = capture_io_while do
       assert_raises SystemExit do
-        help_cmd.run(['foo', 'mysterycmd'])
+        help_cmd.run(%w(foo mysterycmd))
       end
     end
     assert_equal '', stdout

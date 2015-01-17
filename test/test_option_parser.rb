@@ -8,7 +8,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
     parser = Cri::OptionParser.parse(input, definitions)
 
     assert_equal({},                      parser.options)
-    assert_equal(['foo', 'bar', 'baz'], parser.arguments)
+    assert_equal(%w(foo bar baz), parser.arguments)
   end
 
   def test_parse_with_invalid_option
@@ -42,7 +42,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
     parser = Cri::OptionParser.parse(input, definitions)
 
     assert(parser.options[:aaa])
-    assert_equal(['foo', 'bar'], parser.arguments)
+    assert_equal(%w(foo bar), parser.arguments)
   end
 
   def test_parse_with_long_valueful_option
@@ -54,7 +54,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
     parser = Cri::OptionParser.parse(input, definitions)
 
     assert_equal({ :aaa => 'xxx' },  parser.options)
-    assert_equal(['foo', 'bar'], parser.arguments)
+    assert_equal(%w(foo bar), parser.arguments)
   end
 
   def test_parse_with_long_valueful_equalsign_option
@@ -66,7 +66,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
     parser = Cri::OptionParser.parse(input, definitions)
 
     assert_equal({ :aaa => 'xxx' },  parser.options)
-    assert_equal(['foo', 'bar'], parser.arguments)
+    assert_equal(%w(foo bar), parser.arguments)
   end
 
   def test_parse_with_long_valueful_option_with_missing_value
@@ -145,7 +145,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
     parser = Cri::OptionParser.parse(input, definitions)
 
     assert(parser.options[:aaa])
-    assert_equal(['foo', 'bar'], parser.arguments)
+    assert_equal(%w(foo bar), parser.arguments)
   end
 
   def test_parse_with_short_valueful_option_with_missing_value
@@ -174,7 +174,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
     assert(parser.options[:aaa])
     assert(parser.options[:bbb])
     assert(parser.options[:ccc])
-    assert_equal(['foo', 'bar'], parser.arguments)
+    assert_equal(%w(foo bar), parser.arguments)
   end
 
   def test_parse_with_short_combined_valueful_options_with_missing_value
@@ -286,7 +286,7 @@ class Cri::OptionParserTestCase < Cri::TestCase
     ]
     parser = Cri::OptionParser.parse(input, definitions)
 
-    assert_equal(['test', 'test2'], parser.options[:long])
+    assert_equal(%w(test test2), parser.options[:long])
     assert_equal(3, parser.options[:verbose].size)
   end
 end
