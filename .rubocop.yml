@@ -158,8 +158,8 @@ Style/IndentArray:
 
 # Offense count: 31
 # Cop supports --auto-correct.
-Style/LineEndConcatenation:
-  Enabled: false
+# Style/LineEndConcatenation:
+#   Enabled: false
 
 # Offense count: 2
 # Cop supports --auto-correct.
