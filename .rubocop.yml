@@ -174,8 +174,8 @@ Style/MultilineOperationIndentation:
 
 # Offense count: 2
 # Cop supports --auto-correct.
-Style/PerlBackrefs:
-  Enabled: false
+# Style/PerlBackrefs:
+#   Enabled: false
 
 # Offense count: 4
 # Configuration parameters: EnforcedStyle, SupportedStyles.

@@ -190,8 +190,8 @@ module Cri
     def handle_dashdash_option(e)
       # Get option key, and option value if included
       if e =~ /^--([^=]+)=(.+)$/
-        option_key   = $1
-        option_value = $2
+        option_key   = Regexp.last_match[1]
+        option_value = Regexp.last_match[2]
       else
         option_key    = e[2..-1]
         option_value  = nil
