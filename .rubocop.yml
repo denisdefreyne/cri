@@ -40,6 +40,10 @@ Style/Documentation:
 Style/EmptyElse:
   Enabled: false
 
+# If/unless at the end of the line makes it harder to miss control flow.
+Style/IfUnlessModifier:
+  Enabled: false
+
 # Will re-enable later.
 Metrics/AbcSize:
   Max: 45
@@ -62,9 +66,4 @@ Style/GlobalVars:
 # Offense count: 3
 # Configuration parameters: MinBodyLength.
 Style/GuardClause:
-  Enabled: false
-
-# Offense count: 2
-# Configuration parameters: MaxLineLength.
-Style/IfUnlessModifier:
   Enabled: false
