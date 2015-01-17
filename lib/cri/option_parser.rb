@@ -167,9 +167,9 @@ module Cri
 
         if e == '--'
           handle_dashdash(e)
-        elsif e =~ /^--./ and !@no_more_options
+        elsif e =~ /^--./ && !@no_more_options
           handle_dashdash_option(e)
-        elsif e =~ /^-./ and !@no_more_options
+        elsif e =~ /^-./ && !@no_more_options
           handle_dash_option(e)
         else
           add_argument(e)
@@ -225,7 +225,7 @@ module Cri
         definition = @definitions.find { |d| d[:short] == option_key }
         fail IllegalOptionError.new(option_key) if definition.nil?
 
-        if option_keys.length > 1 and definition[:argument] == :required
+        if option_keys.length > 1 && definition[:argument] == :required
           # This is a combined option and it requires an argument, so complain
           fail OptionRequiresAnArgumentError.new(option_key)
         elsif [ :required, :optional ].include?(definition[:argument])
