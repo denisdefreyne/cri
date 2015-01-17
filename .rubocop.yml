@@ -226,8 +226,8 @@ Style/SpaceAroundEqualsInParameterDefault:
 
 # Offense count: 14
 # Cop supports --auto-correct.
-Style/SpaceBeforeSemicolon:
-  Enabled: false
+# Style/SpaceBeforeSemicolon:
+#   Enabled: false
 
 # Offense count: 116
 # Cop supports --auto-correct.
