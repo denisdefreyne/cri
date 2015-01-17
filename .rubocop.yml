@@ -32,6 +32,10 @@ Style/RaiseArgs:
 Style/AsciiComments:
   Enabled: false
 
+# This does not always make sense (e.g. for tests cases)
+Style/Documentation:
+  Enabled: false
+
 # Will re-enable later.
 Metrics/AbcSize:
   Max: 45
@@ -45,10 +49,6 @@ Metrics/MethodLength:
   Max: 41
 Metrics/PerceivedComplexity:
   Max: 9
-
-# Offense count: 15
-Style/Documentation:
-  Enabled: false
 
 # Offense count: 1
 Style/DoubleNegation:
