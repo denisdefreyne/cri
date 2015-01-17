@@ -182,7 +182,7 @@ module Cri
       @running = false
     end
 
-  private
+    private
 
     def handle_dashdash(e)
       add_argument(e)

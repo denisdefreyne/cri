@@ -32,7 +32,7 @@ class Cri::TestCase < Minitest::Test
     string.scan(/^.*\n/).map { |s| s.chomp }
   end
 
-private
+  private
 
   def capture_io
     orig_stdout = $stdout

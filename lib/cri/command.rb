@@ -320,7 +320,7 @@ module Cri
       self.name <=> other.name
     end
 
-  private
+    private
 
     def handle_options(opts)
       opts.each_pair do |key, value|
