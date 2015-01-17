@@ -108,8 +108,8 @@ Style/AsciiComments:
 # Offense count: 2
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/BracesAroundHashParameters:
-  Enabled: false
+# Style/BracesAroundHashParameters:
+#   Enabled: false
 
 # Offense count: 12
 # Configuration parameters: EnforcedStyle, SupportedStyles.

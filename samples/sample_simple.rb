@@ -23,7 +23,7 @@ EOS
 
   run do |opts, args|
     puts 'Executing!'
-    p({ :opts => opts, :args => args })
+    p(:opts => opts, :args => args)
   end
 end
 
