@@ -36,6 +36,10 @@ Style/AsciiComments:
 Style/Documentation:
   Enabled: false
 
+# Explicitly returning nil in an else is sometimes more clear.
+Style/EmptyElse:
+  Enabled: false
+
 # Will re-enable later.
 Metrics/AbcSize:
   Max: 45
@@ -49,10 +53,6 @@ Metrics/MethodLength:
   Max: 41
 Metrics/PerceivedComplexity:
   Max: 9
-
-# Offense count: 2
-Style/EmptyElse:
-  Enabled: false
 
 # Offense count: 1
 # Configuration parameters: EnforcedStyle, SupportedStyles.
