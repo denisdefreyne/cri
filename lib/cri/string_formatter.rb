@@ -56,7 +56,7 @@ module Cri
           end
 
           # Add word to line
-          line += (line == '' ? '' : ' ' ) + word
+          line += (line == '' ? '' : ' ') + word
         end
         lines << line
 

@@ -236,8 +236,8 @@ Style/SpaceAroundEqualsInParameterDefault:
 
 # Offense count: 1
 # Cop supports --auto-correct.
-Style/SpaceInsideParens:
-  Enabled: false
+# Style/SpaceInsideParens:
+#   Enabled: false
 
 # Offense count: 33
 # Cop supports --auto-correct.
