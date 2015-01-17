@@ -102,7 +102,7 @@ module Cri
     #
     # @return [Cri::OptionParser] The option parser self
     def self.parse(arguments_and_options, definitions)
-      self.new(arguments_and_options, definitions).run
+      new(arguments_and_options, definitions).run
     end
 
     # Creates a new parser with the given options/arguments and definitions.

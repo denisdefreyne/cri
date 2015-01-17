@@ -189,8 +189,8 @@ Style/RaiseArgs:
 
 # Offense count: 15
 # Cop supports --auto-correct.
-Style/RedundantSelf:
-  Enabled: false
+# Style/RedundantSelf:
+#   Enabled: false
 
 # Offense count: 9
 # Cop supports --auto-correct.

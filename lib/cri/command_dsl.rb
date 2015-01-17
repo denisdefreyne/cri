@@ -143,7 +143,7 @@ module Cri
     # @see {#option}
     def required(short, long, desc, params={}, &block)
       params = params.merge(:argument => :required)
-      self.option(short, long, desc, params, &block)
+      option(short, long, desc, params, &block)
     end
 
     # Adds a new option with a forbidden argument to the command. If a block
@@ -163,7 +163,7 @@ module Cri
     # @see {#option}
     def flag(short, long, desc, params={}, &block)
       params = params.merge(:argument => :forbidden)
-      self.option(short, long, desc, params, &block)
+      option(short, long, desc, params, &block)
     end
     alias_method :forbidden, :flag
 
@@ -184,7 +184,7 @@ module Cri
     # @see {#option}
     def optional(short, long, desc, params={}, &block)
       params = params.merge(:argument => :optional)
-      self.option(short, long, desc, params, &block)
+      option(short, long, desc, params, &block)
     end
 
     # Sets the run block to the given block. The given block should have two

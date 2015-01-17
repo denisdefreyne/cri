@@ -111,7 +111,7 @@ module Cri
     # @return [Cri::Command] A basic root command
     def self.new_basic_root
       filename = File.dirname(__FILE__) + '/commands/basic_root.rb'
-      self.define(File.read(filename))
+      define(File.read(filename))
     end
 
     # Returns a new command that implements showing help.
@@ -119,7 +119,7 @@ module Cri
     # @return [Cri::Command] A basic help command
     def self.new_basic_help
       filename = File.dirname(__FILE__) + '/commands/basic_help.rb'
-      self.define(File.read(filename))
+      define(File.read(filename))
     end
 
     def initialize
@@ -182,7 +182,7 @@ module Cri
 
       # Create command
       cmd = dsl.command
-      self.add_command(cmd)
+      add_command(cmd)
       cmd
     end
 
@@ -243,7 +243,7 @@ module Cri
       stuff = partition(opts_and_args)
       opts_before_subcmd, subcmd_name, opts_and_args_after_subcmd = *stuff
 
-      if subcommands.empty? || (subcmd_name.nil? && !self.block.nil?)
+      if subcommands.empty? || (subcmd_name.nil? && !block.nil?)
         run_this(opts_and_args, parent_opts)
       else
         # Handle options
@@ -254,7 +254,7 @@ module Cri
           $stderr.puts "#{name}: no command given"
           exit 1
         end
-        subcommand = self.command_named(subcmd_name)
+        subcommand = command_named(subcmd_name)
 
         # Run
         subcommand.run(opts_and_args_after_subcmd, opts_before_subcmd)
@@ -277,7 +277,7 @@ module Cri
     def run_this(opts_and_args, parent_opts={})
       # Parse
       parser = Cri::OptionParser.new(
-        opts_and_args, self.global_option_definitions)
+        opts_and_args, global_option_definitions)
       handle_parser_errors_while { parser.run }
       local_opts  = parser.options
       global_opts = parent_opts.merge(parser.options)
@@ -287,11 +287,11 @@ module Cri
       handle_options(local_opts)
 
       # Execute
-      if self.block.nil?
+      if block.nil?
         raise NotImplementedError,
-              "No implementation available for '#{self.name}'"
+              "No implementation available for '#{name}'"
       end
-      self.block.call(global_opts, args, self)
+      block.call(global_opts, args, self)
     end
 
     # @return [String] The help text for this command
@@ -313,7 +313,7 @@ module Cri
     #
     # @see Object<=>
     def <=>(other)
-      self.name <=> other.name
+      name <=> other.name
     end
 
     private

@@ -31,7 +31,7 @@ module Cri
     #
     # @return [void]
     def call
-      self.run
+      run
     end
 
     # Performs the actual execution of the command.
