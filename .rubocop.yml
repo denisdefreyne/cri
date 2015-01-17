@@ -169,8 +169,8 @@ Style/MultilineOperationIndentation:
 
 # Offense count: 1
 # Cop supports --auto-correct.
-Style/NegatedIf:
-  Enabled: false
+# Style/NegatedIf:
+#   Enabled: false
 
 # Offense count: 2
 # Cop supports --auto-correct.

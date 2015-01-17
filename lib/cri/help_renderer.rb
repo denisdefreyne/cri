@@ -86,7 +86,7 @@ module Cri
       end
 
       # Hidden notice
-      if !@is_verbose
+      unless @is_verbose
         diff = @cmd.subcommands.size - shown_subcommands.size
         case diff
         when 0
