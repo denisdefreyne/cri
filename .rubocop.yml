@@ -8,6 +8,9 @@
 Style/SingleSpaceBeforeFirstArg:
   Enabled: false
 
+# We require Ruby 1.8.6+ compatibility, so hash rockets is the enforced style.
+Style/HashSyntax:
+  EnforcedStyle: hash_rockets
 
 
 
@@ -146,12 +149,6 @@ Style/GlobalVars:
 # Configuration parameters: MinBodyLength.
 Style/GuardClause:
   Enabled: false
-
-# Offense count: 200
-# Cop supports --auto-correct.
-# Configuration parameters: SupportedStyles.
-Style/HashSyntax:
-  EnforcedStyle: hash_rockets
 
 # Offense count: 2
 # Configuration parameters: MaxLineLength.
