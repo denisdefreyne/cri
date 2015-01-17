@@ -332,7 +332,6 @@ module Cri
       parser = Cri::OptionParser.new(opts_and_args, global_option_definitions)
       parser.delegate = delegate
       handle_parser_errors_while { parser.run }
-      parser
 
       # Extract
       [

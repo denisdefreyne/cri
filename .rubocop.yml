@@ -34,10 +34,6 @@ Style/AsciiComments:
 
 
 
-# Offense count: 1
-Lint/Void:
-  Enabled: false
-
 # Offense count: 25
 Metrics/AbcSize:
   Max: 45
