@@ -13,7 +13,7 @@ module Cri
     #
     # @param [Cri::Command, nil] command The command to modify, or nil if a
     #   new command should be created
-    def initialize(command=nil)
+    def initialize(command = nil)
       @command = command || Cri::Command.new
     end
 
@@ -25,7 +25,7 @@ module Cri
     #   added as a subcommand
     #
     # @return [void]
-    def subcommand(command=nil, &block)
+    def subcommand(command = nil, &block)
       if command.nil?
         command = Cri::Command.define(&block)
       end
@@ -105,7 +105,7 @@ module Cri
     #   be multi-valued
     #
     # @return [void]
-    def option(short, long, desc, params={}, &block)
+    def option(short, long, desc, params = {}, &block)
       requiredness = params.fetch(:argument, :forbidden)
       multiple = params.fetch(:multiple, false)
 
@@ -139,7 +139,7 @@ module Cri
     # @return [void]
     #
     # @see {#option}
-    def required(short, long, desc, params={}, &block)
+    def required(short, long, desc, params = {}, &block)
       params = params.merge(:argument => :required)
       option(short, long, desc, params, &block)
     end
@@ -159,7 +159,7 @@ module Cri
     # @return [void]
     #
     # @see {#option}
-    def flag(short, long, desc, params={}, &block)
+    def flag(short, long, desc, params = {}, &block)
       params = params.merge(:argument => :forbidden)
       option(short, long, desc, params, &block)
     end
@@ -180,7 +180,7 @@ module Cri
     # @return [void]
     #
     # @see {#option}
-    def optional(short, long, desc, params={}, &block)
+    def optional(short, long, desc, params = {}, &block)
       params = params.merge(:argument => :optional)
       option(short, long, desc, params, &block)
     end

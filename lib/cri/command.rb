@@ -91,7 +91,7 @@ module Cri
     # @param [String, nil] filename The filename corresponding to the string parameter (only useful if a string is given)
     #
     # @return [Cri::Command] The newly defined command
-    def self.define(string=nil, filename=nil, &block)
+    def self.define(string = nil, filename = nil, &block)
       dsl = Cri::CommandDSL.new
       if string
         args = filename ? [string, filename] : [string]
@@ -170,7 +170,7 @@ module Cri
     #   should be set (yet)
     #
     # @return [Cri::Command] The subcommand
-    def define_command(name=nil, &block)
+    def define_command(name = nil, &block)
       # Execute DSL
       dsl = Cri::CommandDSL.new
       dsl.name name unless name.nil?
@@ -238,7 +238,7 @@ module Cri
     #   supercommand
     #
     # @return [void]
-    def run(opts_and_args, parent_opts={})
+    def run(opts_and_args, parent_opts = {})
       # Parse up to command name
       stuff = partition(opts_and_args)
       opts_before_subcmd, subcmd_name, opts_and_args_after_subcmd = *stuff
@@ -274,7 +274,7 @@ module Cri
     #   block
     #
     # @return [void]
-    def run_this(opts_and_args, parent_opts={})
+    def run_this(opts_and_args, parent_opts = {})
       # Parse
       parser = Cri::OptionParser.new(
         opts_and_args, global_option_definitions)
@@ -301,7 +301,7 @@ module Cri
     #
     # @option params [IO] :io ($stdout) the IO the help text is intended for.
     #   This influences the decision to enable/disable colored output.
-    def help(params={})
+    def help(params = {})
       HelpRenderer.new(self, params).render
     end
 
