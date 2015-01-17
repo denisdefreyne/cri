@@ -1,6 +1,7 @@
 # encoing: utf-8
 
 require 'rake/testtask'
+require 'rubocop/rake_task'
 require 'yard'
 
 YARD::Rake::YardocTask.new(:doc) do |yard|
@@ -13,12 +14,16 @@ YARD::Rake::YardocTask.new(:doc) do |yard|
   ]
 end
 
-task :test do
+task :test_unit do
   require './test/helper.rb'
 
   FileList['./test/**/test_*.rb', './test/**/*_spec.rb'].each do |fn|
     require fn
   end
 end
+
+RuboCop::RakeTask.new(:test_style)
+
+task :test => [:test_unit, :test_style]
 
 task :default => :test
