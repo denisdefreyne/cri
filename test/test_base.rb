@@ -1,6 +1,8 @@
 # encoding: utf-8
 
-class Cri::BaseTestCase < Cri::TestCase
-  def test_stub
+module Cri
+  class Cri::BaseTestCase < Cri::TestCase
+    def test_stub
+    end
   end
 end

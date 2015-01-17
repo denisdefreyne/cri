@@ -61,11 +61,6 @@ Metrics/MethodLength:
 Metrics/PerceivedComplexity:
   Max: 9
 
-# Offense count: 12
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/ClassAndModuleChildren:
-  Enabled: false
-
 # Offense count: 1
 # Configuration parameters: Keywords.
 Style/CommentAnnotation:
