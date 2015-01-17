@@ -38,10 +38,10 @@ module Cri
     def append_summary(text)
       return if @cmd.summary.nil?
 
-      text << fmt.format_as_title("name", @io) << "\n"
+      text << fmt.format_as_title('name', @io) << "\n"
       text << "    #{fmt.format_as_command(@cmd.name, @io)} - #{@cmd.summary}" << "\n"
       unless @cmd.aliases.empty?
-        text << "    aliases: " << @cmd.aliases.map { |a| fmt.format_as_command(a, @io) }.join(' ') << "\n"
+        text << '    aliases: ' << @cmd.aliases.map { |a| fmt.format_as_command(a, @io) }.join(' ') << "\n"
       end
     end
 
@@ -54,7 +54,7 @@ module Cri
       full_usage = path[1..-1].map { |c| fmt.format_as_command(c.name, @io) + ' ' }.join + formatted_usage
 
       text << "\n"
-      text << fmt.format_as_title("usage", @io) << "\n"
+      text << fmt.format_as_title('usage', @io) << "\n"
       text << fmt.wrap_and_indent(full_usage, 78, 4) << "\n"
     end
 
@@ -62,7 +62,7 @@ module Cri
       return if @cmd.description.nil?
 
       text << "\n"
-      text << fmt.format_as_title("description", @io) << "\n"
+      text << fmt.format_as_title('description', @io) << "\n"
       text << fmt.wrap_and_indent(@cmd.description, 78, 4) + "\n"
     end
 

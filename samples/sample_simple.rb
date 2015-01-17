@@ -22,7 +22,7 @@ EOS
   flag      nil, 'long', 'option with only a long form'
 
   run do |opts, args|
-    puts "Executing!"
+    puts 'Executing!'
     p({ :opts => opts, :args => args })
   end
 end

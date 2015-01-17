@@ -29,7 +29,7 @@ super_cmd.define_command do
   optional  :o, :ooo, 'opt o'
 
   run do |opts, args|
-    $stdout.puts "Sub-awesome!"
+    $stdout.puts 'Sub-awesome!'
 
     $stdout.puts "arguments: #{args.inspect}"
     $stdout.puts "options:   #{opts.inspect}"

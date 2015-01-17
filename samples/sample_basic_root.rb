@@ -17,9 +17,9 @@ cmd.define_command do
   description 'This loads all data, compiles it and writes it to the disk.'
 
   run do |_opts, _args|
-    puts "Compiling…"
+    puts 'Compiling…'
     sleep 1
-    puts "Done."
+    puts 'Done.'
   end
 end
 

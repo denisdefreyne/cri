@@ -112,7 +112,7 @@ module Cri
       multiple = params.fetch(:multiple, false)
 
       if short.nil? && long.nil?
-        fail ArgumentError, "short and long options cannot both be nil"
+        fail ArgumentError, 'short and long options cannot both be nil'
       end
 
       @command.option_definitions << {
@@ -202,7 +202,7 @@ module Cri
     def run(&block)
       unless [2, 3].include?(block.arity)
         fail ArgumentError,
-             "The block given to Cri::Command#run expects two or three args"
+             'The block given to Cri::Command#run expects two or three args'
       end
 
       @command.block = block

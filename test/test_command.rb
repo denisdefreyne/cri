@@ -67,7 +67,7 @@ class Cri::CommandTestCase < Cri::TestCase
       forbidden :q, :qqq, 'opt q'
 
       run do |opts, args|
-        $stdout.puts "Sub-awesome!"
+        $stdout.puts 'Sub-awesome!'
 
         $stdout.puts args.join(',')
 
@@ -98,7 +98,7 @@ class Cri::CommandTestCase < Cri::TestCase
       description 'This command does super stuff.'
 
       run do |_opts, _args|
-        $stdout.puts "super"
+        $stdout.puts 'super'
       end
     end
 
@@ -110,7 +110,7 @@ class Cri::CommandTestCase < Cri::TestCase
       description 'This command does subby stuff.'
 
       run do |_opts, _args|
-        $stdout.puts "sub"
+        $stdout.puts 'sub'
       end
     end
 
@@ -152,7 +152,7 @@ class Cri::CommandTestCase < Cri::TestCase
     end
 
     assert_equal [], lines(out)
-    assert_equal ["moo: option requires an argument -- b"], lines(err)
+    assert_equal ['moo: option requires an argument -- b'], lines(err)
   end
 
   def test_invoke_simple_with_illegal_opt
@@ -163,7 +163,7 @@ class Cri::CommandTestCase < Cri::TestCase
     end
 
     assert_equal [], lines(out)
-    assert_equal ["moo: illegal option -- z"], lines(err)
+    assert_equal ['moo: illegal option -- z'], lines(err)
   end
 
   def test_invoke_simple_with_opt_with_block
@@ -214,7 +214,7 @@ class Cri::CommandTestCase < Cri::TestCase
     end
 
     assert_equal [], lines(out)
-    assert_equal ["super: 's' is ambiguous:", "  sink sub"], lines(err)
+    assert_equal ["super: 's' is ambiguous:", '  sink sub'], lines(err)
   end
 
   def test_invoke_nested_with_alias
