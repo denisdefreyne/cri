@@ -1,18 +1,16 @@
 # encoding: utf-8
 
 module Cri
-
   # The {HelpRenderer} class is responsible for generating a string containing
   # the help for a given command, intended to be printed on the command line.
   class HelpRenderer
-
     # Creates a new help renderer for the given command.
     #
     # @param [Cri::Command] cmd The command to generate the help for
     #
     # @option params [Boolean] :verbose true if the help output should be
     #   verbose, false otherwise.
-    def initialize(cmd, params={})
+    def initialize(cmd, params = {})
       @cmd        = cmd
       @is_verbose = params.fetch(:verbose, false)
       @io         = params.fetch(:io, $stdout)
@@ -40,23 +38,23 @@ module Cri
     def append_summary(text)
       return if @cmd.summary.nil?
 
-      text << fmt.format_as_title("name", @io) << "\n"
+      text << fmt.format_as_title('name', @io) << "\n"
       text << "    #{fmt.format_as_command(@cmd.name, @io)} - #{@cmd.summary}" << "\n"
       unless @cmd.aliases.empty?
-        text << "    aliases: " << @cmd.aliases.map { |a| fmt.format_as_command(a, @io) }.join(' ') << "\n"
+        text << '    aliases: ' << @cmd.aliases.map { |a| fmt.format_as_command(a, @io) }.join(' ') << "\n"
       end
     end
 
     def append_usage(text)
       return if @cmd.usage.nil?
 
-      path = [ @cmd.supercommand ]
+      path = [@cmd.supercommand]
       path.unshift(path[0].supercommand) until path[0].nil?
       formatted_usage = @cmd.usage.gsub(/^([^\s]+)/) { |m| fmt.format_as_command(m, @io) }
       full_usage = path[1..-1].map { |c| fmt.format_as_command(c.name, @io) + ' ' }.join + formatted_usage
 
       text << "\n"
-      text << fmt.format_as_title("usage", @io) << "\n"
+      text << fmt.format_as_title('usage', @io) << "\n"
       text << fmt.wrap_and_indent(full_usage, 78, 4) << "\n"
     end
 
@@ -64,7 +62,7 @@ module Cri
       return if @cmd.description.nil?
 
       text << "\n"
-      text << fmt.format_as_title("description", @io) << "\n"
+      text << fmt.format_as_title('description', @io) << "\n"
       text << fmt.wrap_and_indent(@cmd.description, 78, 4) + "\n"
     end
 
@@ -80,13 +78,15 @@ module Cri
 
       # Command
       shown_subcommands.sort_by { |cmd| cmd.name }.each do |cmd|
-        text << sprintf("    %-#{length+4}s %s\n",
-          fmt.format_as_command(cmd.name, @io),
-          cmd.summary)
+        text <<
+          format(
+            "    %-#{length + 4}s %s\n",
+            fmt.format_as_command(cmd.name, @io),
+            cmd.summary)
       end
 
       # Hidden notice
-      if !@is_verbose
+      unless @is_verbose
         diff = @cmd.subcommands.size - shown_subcommands.size
         case diff
         when 0
@@ -204,7 +204,5 @@ module Cri
 
       '    ' + opt_text + ' ' * (length + 6 - opt_text_len)
     end
-
   end
-
 end

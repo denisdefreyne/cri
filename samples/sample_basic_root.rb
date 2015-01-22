@@ -16,10 +16,10 @@ cmd.define_command do
   summary     'compiles a web site'
   description 'This loads all data, compiles it and writes it to the disk.'
 
-  run do |opts, args|
-    puts "Compiling…"
+  run do |_opts, _args|
+    puts 'Compiling…'
     sleep 1
-    puts "Done."
+    puts 'Done.'
   end
 end
 

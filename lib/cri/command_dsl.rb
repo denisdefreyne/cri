@@ -1,10 +1,11 @@
 # encoding: utf-8
 
 module Cri
-
   # The command DSL is a class that is used for building and modifying
   # commands.
   class CommandDSL
+    # @return [Cri::Command] The built command
+    attr_reader :command
 
     # Creates a new DSL, intended to be used for building a single command. A
     # {CommandDSL} instance is not reusable; create a new instance if you want
@@ -12,13 +13,8 @@ module Cri
     #
     # @param [Cri::Command, nil] command The command to modify, or nil if a
     #   new command should be created
-    def initialize(command=nil)
+    def initialize(command = nil)
       @command = command || Cri::Command.new
-    end
-
-    # @return [Cri::Command] The built command
-    def command
-      @command
     end
 
     # Adds a subcommand to the current command. The command can either be
@@ -29,7 +25,7 @@ module Cri
     #   added as a subcommand
     #
     # @return [void]
-    def subcommand(command=nil, &block)
+    def subcommand(command = nil, &block)
       if command.nil?
         command = Cri::Command.define(&block)
       end
@@ -109,12 +105,12 @@ module Cri
     #   be multi-valued
     #
     # @return [void]
-    def option(short, long, desc, params={}, &block)
+    def option(short, long, desc, params = {}, &block)
       requiredness = params.fetch(:argument, :forbidden)
       multiple = params.fetch(:multiple, false)
 
       if short.nil? && long.nil?
-        raise ArgumentError, "short and long options cannot both be nil"
+        fail ArgumentError, 'short and long options cannot both be nil'
       end
 
       @command.option_definitions << {
@@ -143,9 +139,9 @@ module Cri
     # @return [void]
     #
     # @see {#option}
-    def required(short, long, desc, params={}, &block)
+    def required(short, long, desc, params = {}, &block)
       params = params.merge(:argument => :required)
-      self.option(short, long, desc, params, &block)
+      option(short, long, desc, params, &block)
     end
 
     # Adds a new option with a forbidden argument to the command. If a block
@@ -163,9 +159,9 @@ module Cri
     # @return [void]
     #
     # @see {#option}
-    def flag(short, long, desc, params={}, &block)
+    def flag(short, long, desc, params = {}, &block)
       params = params.merge(:argument => :forbidden)
-      self.option(short, long, desc, params, &block)
+      option(short, long, desc, params, &block)
     end
     alias_method :forbidden, :flag
 
@@ -184,9 +180,9 @@ module Cri
     # @return [void]
     #
     # @see {#option}
-    def optional(short, long, desc, params={}, &block)
+    def optional(short, long, desc, params = {}, &block)
       params = params.merge(:argument => :optional)
-      self.option(short, long, desc, params, &block)
+      option(short, long, desc, params, &block)
     end
 
     # Sets the run block to the given block. The given block should have two
@@ -203,8 +199,8 @@ module Cri
     # @return [void]
     def run(&block)
       unless [2, 3].include?(block.arity)
-        raise ArgumentError,
-          "The block given to Cri::Command#run expects two or three args"
+        fail ArgumentError,
+             'The block given to Cri::Command#run expects two or three args'
       end
 
       @command.block = block

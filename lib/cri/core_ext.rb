@@ -1,6 +1,8 @@
 # encoding: utf-8
 
-module Cri::CoreExtensions
+module Cri
+  module CoreExtensions
+  end
 end
 
 require 'cri/core_ext/string'

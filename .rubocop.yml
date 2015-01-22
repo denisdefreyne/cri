@@ -1,0 +1,68 @@
+# This makes DSLs a little uglier, since it makes sense to line up the first
+# arguments:
+#
+#   option    :a, :aaa, 'opt a', :argument => :optional, :multiple => true
+#   required  :b, :bbb, 'opt b'
+#   optional  :c, :ccc, 'opt c'
+#   flag      :d, :ddd, 'opt d'
+Style/SingleSpaceBeforeFirstArg:
+  Enabled: false
+
+# We require Ruby 1.8.6+ compatibility, so hash rockets is the enforced style.
+Style/HashSyntax:
+  EnforcedStyle: hash_rockets
+
+# Trailing commas in a multiline context makes diffs nicer.
+Style/TrailingComma:
+  EnforcedStyleForMultiline: comma
+
+# We require Ruby 1.8.6+ compatibility, so we can’t use symbol procs.
+Style/SymbolProc:
+  Enabled: false
+
+# This doesn’t always make sense (e.g. Cri::ArgumentArray#raw)
+Style/TrivialAccessors:
+  Enabled: false
+
+# This allows for semantic exceptions
+Style/RaiseArgs:
+  Enabled: false
+
+# We should embrace UTF-8, not shun it.
+Style/AsciiComments:
+  Enabled: false
+
+# This does not always make sense (e.g. for tests cases)
+Style/Documentation:
+  Enabled: false
+
+# Explicitly returning nil in an else is sometimes more clear.
+Style/EmptyElse:
+  Enabled: false
+
+# If/unless at the end of the line makes it harder to miss control flow.
+Style/IfUnlessModifier:
+  Enabled: false
+
+# This doesn’t always make sense.
+Style/GuardClause:
+  Enabled: false
+
+# For testing.
+Style/GlobalVars:
+  AllowedVariables:
+    - "$did_it_work"
+
+# Will re-enable later.
+Metrics/AbcSize:
+  Max: 45
+Metrics/ClassLength:
+  Max: 436
+Metrics/CyclomaticComplexity:
+  Max: 8
+Metrics/LineLength:
+  Max: 141
+Metrics/MethodLength:
+  Max: 41
+Metrics/PerceivedComplexity:
+  Max: 9

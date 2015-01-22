@@ -1,13 +1,11 @@
 # encoding: utf-8
 
 module Cri
-
   module Platform
-
     # @return [Boolean] true if the current platform is Windows, false
     # otherwise.
     def self.windows?
-      !!(RUBY_PLATFORM =~ /windows|bccwin|cygwin|djgpp|mingw|mswin|wince/i)
+      RUBY_PLATFORM =~ /windows|bccwin|cygwin|djgpp|mingw|mswin|wince/i
     end
 
     # Checks whether colors can be enabled. For colors to be enabled, the given
@@ -24,7 +22,5 @@ module Cri
         true
       end
     end
-
   end
-
 end

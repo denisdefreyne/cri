@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 module Cri
-
   # Cri::OptionParser is used for parsing commandline options.
   #
   # Option definitions are hashes with the keys `:short`, `:long` and
@@ -56,7 +55,6 @@ module Cri
   #       }
   #     }
   class OptionParser
-
     # Error that will be raised when an unknown option is encountered.
     class IllegalOptionError < Cri::Error
     end
@@ -104,7 +102,7 @@ module Cri
     #
     # @return [Cri::OptionParser] The option parser self
     def self.parse(arguments_and_options, definitions)
-      self.new(arguments_and_options, definitions).run
+      new(arguments_and_options, definitions).run
     end
 
     # Creates a new parser with the given options/arguments and definitions.
@@ -169,9 +167,9 @@ module Cri
 
         if e == '--'
           handle_dashdash(e)
-        elsif e =~ /^--./ and !@no_more_options
+        elsif e =~ /^--./ && !@no_more_options
           handle_dashdash_option(e)
-        elsif e =~ /^-./ and !@no_more_options
+        elsif e =~ /^-./ && !@no_more_options
           handle_dash_option(e)
         else
           add_argument(e)
@@ -182,7 +180,7 @@ module Cri
       @running = false
     end
 
-  private
+    private
 
     def handle_dashdash(e)
       add_argument(e)
@@ -192,8 +190,8 @@ module Cri
     def handle_dashdash_option(e)
       # Get option key, and option value if included
       if e =~ /^--([^=]+)=(.+)$/
-        option_key   = $1
-        option_value = $2
+        option_key   = Regexp.last_match[1]
+        option_value = Regexp.last_match[2]
       else
         option_key    = e[2..-1]
         option_value  = nil
@@ -201,9 +199,9 @@ module Cri
 
       # Find definition
       definition = @definitions.find { |d| d[:long] == option_key }
-      raise IllegalOptionError.new(option_key) if definition.nil?
+      fail IllegalOptionError.new(option_key) if definition.nil?
 
-      if [ :required, :optional ].include?(definition[:argument])
+      if [:required, :optional].include?(definition[:argument])
         # Get option value if necessary
         if option_value.nil?
           option_value = find_option_value(definition, option_key)
@@ -225,12 +223,12 @@ module Cri
       option_keys.each do |option_key|
         # Find definition
         definition = @definitions.find { |d| d[:short] == option_key }
-        raise IllegalOptionError.new(option_key) if definition.nil?
+        fail IllegalOptionError.new(option_key) if definition.nil?
 
-        if option_keys.length > 1 and definition[:argument] == :required
+        if option_keys.length > 1 && definition[:argument] == :required
           # This is a combined option and it requires an argument, so complain
-          raise OptionRequiresAnArgumentError.new(option_key)
-        elsif [ :required, :optional ].include?(definition[:argument])
+          fail OptionRequiresAnArgumentError.new(option_key)
+        elsif [:required, :optional].include?(definition[:argument])
           # Get option value
           option_value = find_option_value(definition, option_key)
 
@@ -247,7 +245,7 @@ module Cri
       option_value = @unprocessed_arguments_and_options.shift
       if option_value.nil? || option_value =~ /^-/
         if definition[:argument] == :required
-          raise OptionRequiresAnArgumentError.new(option_key)
+          fail OptionRequiresAnArgumentError.new(option_key)
         else
           @unprocessed_arguments_and_options.unshift(option_value)
           option_value = true
@@ -275,7 +273,5 @@ module Cri
         delegate.argument_added(value, self) unless delegate.nil?
       end
     end
-
   end
-
 end

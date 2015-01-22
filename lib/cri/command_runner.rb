@@ -1,11 +1,9 @@
 # encoding: utf-8
 
 module Cri
-
   # A command runner is responsible for the execution of a command. Using it
   # is optional, but it is useful for commands whose execution block is large.
   class CommandRunner
-
     # @return [Hash] A hash contain the options and their values
     attr_reader :options
 
@@ -33,7 +31,7 @@ module Cri
     #
     # @return [void]
     def call
-      self.run
+      run
     end
 
     # Performs the actual execution of the command.
@@ -42,9 +40,7 @@ module Cri
     #
     # @abstract
     def run
-      raise NotImplementedError, 'Cri::CommandRunner subclasses must implement #run'
+      fail NotImplementedError, 'Cri::CommandRunner subclasses must implement #run'
     end
-
   end
-
 end

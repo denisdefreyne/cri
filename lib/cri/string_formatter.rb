@@ -3,18 +3,16 @@
 require 'colored'
 
 module Cri
-
   class StringFormatter
-
     # Extracts individual paragraphs (separated by two newlines).
     #
     # @param [String] s The string to format
     #
     # @return [Array<String>] A list of paragraphs in the string
     def to_paragraphs(s)
-      lines = s.scan(/([^\n]+\n|[^\n]*$)/).map { |s| s[0].strip }
+      lines = s.scan(/([^\n]+\n|[^\n]*$)/).map { |l| l[0].strip }
 
-      paragraphs = [ [] ]
+      paragraphs = [[]]
       lines.each do |line|
         if line.empty?
           paragraphs << []
@@ -58,7 +56,7 @@ module Cri
           end
 
           # Add word to line
-          line += (line == '' ? '' : ' ' ) + word
+          line += (line == '' ? '' : ' ') + word
         end
         lines << line
 
@@ -102,7 +100,5 @@ module Cri
         s
       end
     end
-
   end
-
 end

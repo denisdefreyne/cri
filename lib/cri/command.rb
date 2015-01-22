@@ -1,18 +1,15 @@
 # encoding: utf-8
 
 module Cri
-
   # Cri::Command represents a command that can be executed on the commandline.
   # It is also used for the commandline tool itself.
   class Command
-
     # Delegate used for partitioning the list of arguments and options. This
     # delegate will stop the parser as soon as the first argument, i.e. the
     # command, is found.
     #
     # @api private
     class OptionParserPartitioningDelegate
-
       # Returns the last parsed argument, which, in this case, will be the
       # first argument, which will be either nil or the command name.
       #
@@ -28,7 +25,7 @@ module Cri
       # @param [Cri::OptionParser] option_parser The option parser
       #
       # @return [void]
-      def option_added(key, value, option_parser)
+      def option_added(_key, _value, _option_parser)
       end
 
       # Called when an argument is parsed.
@@ -42,7 +39,6 @@ module Cri
         @last_argument = argument
         option_parser.stop
       end
-
     end
 
     # @return [Cri::Command, nil] This command’s supercommand, or nil if the
@@ -95,12 +91,12 @@ module Cri
     # @param [String, nil] filename The filename corresponding to the string parameter (only useful if a string is given)
     #
     # @return [Cri::Command] The newly defined command
-    def self.define(string=nil, filename=nil, &block)
+    def self.define(string = nil, filename = nil, &block)
       dsl = Cri::CommandDSL.new
       if string
-        args = filename ? [ string, filename ] : [ string ]
+        args = filename ? [string, filename] : [string]
         dsl.instance_eval(*args)
-      elsif [ -1, 0 ].include? block.arity
+      elsif [-1, 0].include? block.arity
         dsl.instance_eval(&block)
       else
         block.call(dsl)
@@ -115,7 +111,7 @@ module Cri
     # @return [Cri::Command] A basic root command
     def self.new_basic_root
       filename = File.dirname(__FILE__) + '/commands/basic_root.rb'
-      self.define(File.read(filename))
+      define(File.read(filename))
     end
 
     # Returns a new command that implements showing help.
@@ -123,7 +119,7 @@ module Cri
     # @return [Cri::Command] A basic help command
     def self.new_basic_help
       filename = File.dirname(__FILE__) + '/commands/basic_help.rb'
-      self.define(File.read(filename))
+      define(File.read(filename))
     end
 
     def initialize
@@ -141,7 +137,7 @@ module Cri
     # @return [Cri::Command] The command itself
     def modify(&block)
       dsl = Cri::CommandDSL.new(self)
-      if [ -1, 0 ].include? block.arity
+      if [-1, 0].include? block.arity
         dsl.instance_eval(&block)
       else
         block.call(dsl)
@@ -174,11 +170,11 @@ module Cri
     #   should be set (yet)
     #
     # @return [Cri::Command] The subcommand
-    def define_command(name=nil, &block)
+    def define_command(name = nil, &block)
       # Execute DSL
       dsl = Cri::CommandDSL.new
       dsl.name name unless name.nil?
-      if [ -1, 0 ].include? block.arity
+      if [-1, 0].include? block.arity
         dsl.instance_eval(&block)
       else
         block.call(dsl)
@@ -186,7 +182,7 @@ module Cri
 
       # Create command
       cmd = dsl.command
-      self.add_command(cmd)
+      add_command(cmd)
       cmd
     end
 
@@ -200,7 +196,7 @@ module Cri
       # Find by exact name or alias
       @commands.each do |cmd|
         found = cmd.name == name || cmd.aliases.include?(name)
-        return [ cmd ] if found
+        return [cmd] if found
       end
 
       # Find by approximation
@@ -242,12 +238,12 @@ module Cri
     #   supercommand
     #
     # @return [void]
-    def run(opts_and_args, parent_opts={})
+    def run(opts_and_args, parent_opts = {})
       # Parse up to command name
       stuff = partition(opts_and_args)
       opts_before_subcmd, subcmd_name, opts_and_args_after_subcmd = *stuff
 
-      if subcommands.empty? || (subcmd_name.nil? && !self.block.nil?)
+      if subcommands.empty? || (subcmd_name.nil? && !block.nil?)
         run_this(opts_and_args, parent_opts)
       else
         # Handle options
@@ -258,7 +254,7 @@ module Cri
           $stderr.puts "#{name}: no command given"
           exit 1
         end
-        subcommand = self.command_named(subcmd_name)
+        subcommand = command_named(subcmd_name)
 
         # Run
         subcommand.run(opts_and_args_after_subcmd, opts_before_subcmd)
@@ -278,10 +274,10 @@ module Cri
     #   block
     #
     # @return [void]
-    def run_this(opts_and_args, parent_opts={})
+    def run_this(opts_and_args, parent_opts = {})
       # Parse
       parser = Cri::OptionParser.new(
-        opts_and_args, self.global_option_definitions)
+        opts_and_args, global_option_definitions)
       handle_parser_errors_while { parser.run }
       local_opts  = parser.options
       global_opts = parent_opts.merge(parser.options)
@@ -291,11 +287,11 @@ module Cri
       handle_options(local_opts)
 
       # Execute
-      if self.block.nil?
-        raise NotImplementedError,
-          "No implementation available for '#{self.name}'"
+      if block.nil?
+        fail NotImplementedError,
+             "No implementation available for '#{name}'"
       end
-      self.block.call(global_opts, args, self)
+      block.call(global_opts, args, self)
     end
 
     # @return [String] The help text for this command
@@ -305,7 +301,7 @@ module Cri
     #
     # @option params [IO] :io ($stdout) the IO the help text is intended for.
     #   This influences the decision to enable/disable colored output.
-    def help(params={})
+    def help(params = {})
       HelpRenderer.new(self, params).render
     end
 
@@ -317,10 +313,10 @@ module Cri
     #
     # @see Object<=>
     def <=>(other)
-      self.name <=> other.name
+      name <=> other.name
     end
 
-  private
+    private
 
     def handle_options(opts)
       opts.each_pair do |key, value|
@@ -336,28 +332,23 @@ module Cri
       parser = Cri::OptionParser.new(opts_and_args, global_option_definitions)
       parser.delegate = delegate
       handle_parser_errors_while { parser.run }
-      parser
 
       # Extract
       [
         parser.options,
         delegate.last_argument,
-        parser.unprocessed_arguments_and_options
+        parser.unprocessed_arguments_and_options,
       ]
     end
 
     def handle_parser_errors_while(&block)
-      begin
-        block.call
-      rescue Cri::OptionParser::IllegalOptionError => e
-        $stderr.puts "#{name}: illegal option -- #{e}"
-        exit 1
-      rescue Cri::OptionParser::OptionRequiresAnArgumentError => e
-        $stderr.puts "#{name}: option requires an argument -- #{e}"
-        exit 1
-      end
+      block.call
+    rescue Cri::OptionParser::IllegalOptionError => e
+      $stderr.puts "#{name}: illegal option -- #{e}"
+      exit 1
+    rescue Cri::OptionParser::OptionRequiresAnArgumentError => e
+      $stderr.puts "#{name}: option requires an argument -- #{e}"
+      exit 1
     end
-
   end
-
 end
