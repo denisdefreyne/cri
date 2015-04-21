@@ -104,10 +104,14 @@ module Cri
     # @option params [Boolean] :multiple Whether or not the option should
     #   be multi-valued
     #
+    # @option params [Boolean] :hidden Whether or not the option should
+    #   be printed in the help output
+    #
     # @return [void]
     def option(short, long, desc, params = {}, &block)
       requiredness = params.fetch(:argument, :forbidden)
       multiple = params.fetch(:multiple, false)
+      hidden = params.fetch(:hidden, false)
 
       if short.nil? && long.nil?
         fail ArgumentError, 'short and long options cannot both be nil'
@@ -120,6 +124,7 @@ module Cri
         :argument => requiredness,
         :multiple => multiple,
         :block    => block,
+        :hidden   => hidden,
       }
     end
     alias_method :opt, :option
@@ -135,6 +140,9 @@ module Cri
     #
     # @option params [Boolean] :multiple Whether or not the option should
     #   be multi-valued
+    #
+    # @option params [Boolean] :hidden Whether or not the option should
+    #   be printed in the help output
     #
     # @return [void]
     #
@@ -156,6 +164,9 @@ module Cri
     # @option params [Boolean] :multiple Whether or not the option should
     #   be multi-valued
     #
+    # @option params [Boolean] :hidden Whether or not the option should
+    #   be printed in the help output
+    #
     # @return [void]
     #
     # @see {#option}
@@ -176,6 +187,9 @@ module Cri
     #
     # @option params [Boolean] :multiple Whether or not the option should
     #   be multi-valued
+    #
+    # @option params [Boolean] :hidden Whether or not the option should
+    #   be printed in the help output
     #
     # @return [void]
     #

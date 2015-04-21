@@ -141,8 +141,10 @@ module Cri
 
       ordered_defs = defs.sort_by { |x| x[:short] || x[:long] }
       ordered_defs.each do |opt_def|
-        text << format_opt_def(opt_def, length)
-        text << opt_def[:desc] << "\n"
+        unless opt_def[:hidden]
+          text << format_opt_def(opt_def, length)
+          text << opt_def[:desc] << "\n"
+        end
       end
     end
 
