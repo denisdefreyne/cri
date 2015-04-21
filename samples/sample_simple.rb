@@ -18,6 +18,7 @@ EOS
   optional  :c,  :ccc,   'opt c'
   flag      :d,  :ddd,   'opt d'
   forbidden :e,  :eee,   'opt e'
+  flag      :f,  :fff,   'opt f', :hidden => true
   flag      :s,  nil,    'option with only a short form'
   flag      nil, 'long', 'option with only a long form'
 
