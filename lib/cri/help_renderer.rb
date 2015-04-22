@@ -143,7 +143,7 @@ module Cri
       ordered_defs.each do |opt_def|
         unless opt_def[:hidden]
           text << format_opt_def(opt_def, length)
-          text << opt_def[:desc] << "\n"
+          text << fmt.wrap_and_indent(opt_def[:desc], 78, length + 10, true) << "\n"
         end
       end
     end
