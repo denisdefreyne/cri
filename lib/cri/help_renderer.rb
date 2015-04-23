@@ -4,6 +4,15 @@ module Cri
   # The {HelpRenderer} class is responsible for generating a string containing
   # the help for a given command, intended to be printed on the command line.
   class HelpRenderer
+    # The line width of the help output
+    LINE_WIDTH = 78
+
+    # The indentation of descriptions
+    DESC_INDENT = 4
+
+    # The spacing between an option name and option description
+    OPT_DESC_SPACING = 6
+
     # Creates a new help renderer for the given command.
     #
     # @param [Cri::Command] cmd The command to generate the help for
@@ -55,7 +64,7 @@ module Cri
 
       text << "\n"
       text << fmt.format_as_title('usage', @io) << "\n"
-      text << fmt.wrap_and_indent(full_usage, 78, 4) << "\n"
+      text << fmt.wrap_and_indent(full_usage, LINE_WIDTH, DESC_INDENT) << "\n"
     end
 
     def append_description(text)
@@ -63,7 +72,7 @@ module Cri
 
       text << "\n"
       text << fmt.format_as_title('description', @io) << "\n"
-      text << fmt.wrap_and_indent(@cmd.description, 78, 4) + "\n"
+      text << fmt.wrap_and_indent(@cmd.description, LINE_WIDTH, DESC_INDENT) + "\n"
     end
 
     def append_subcommands(text)
@@ -80,7 +89,7 @@ module Cri
       shown_subcommands.sort_by { |cmd| cmd.name }.each do |cmd|
         text <<
           format(
-            "    %-#{length + 4}s %s\n",
+            "    %-#{length + DESC_INDENT}s %s\n",
             fmt.format_as_command(cmd.name, @io),
             cmd.summary)
       end
@@ -143,7 +152,7 @@ module Cri
       ordered_defs.each do |opt_def|
         unless opt_def[:hidden]
           text << format_opt_def(opt_def, length)
-          text << fmt.wrap_and_indent(opt_def[:desc], 78, length + 10, true) << "\n"
+          text << fmt.wrap_and_indent(opt_def[:desc], LINE_WIDTH, length + OPT_DESC_SPACING + DESC_INDENT, true) << "\n"
         end
       end
     end
@@ -204,7 +213,7 @@ module Cri
       opt_text_len += 2 + opt_def[:long].size if opt_def[:long]
       opt_text_len += long_value_postfix.size
 
-      '    ' + opt_text + ' ' * (length + 6 - opt_text_len)
+      '    ' + opt_text + ' ' * (length + OPT_DESC_SPACING - opt_text_len)
     end
   end
 end
