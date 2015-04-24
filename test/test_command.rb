@@ -370,6 +370,21 @@ module Cri
       assert_equal 'compile', cmd.name
     end
 
+    def test_help_with_wrapped_options
+      def $stdout.tty?
+        true
+      end
+
+      cmd = Cri::Command.define do
+        name 'build'
+        flag     nil, :longflag,     'This is an option with a very long description that should be wrapped'
+      end
+      help = cmd.help
+
+      assert_match(/^       \e\[33m--longflag\e\[0m      This is an option with a very long description that$/, help)
+      assert_match(/^                       should be wrapped$/, help)
+    end
+
     def test_modify_without_block_argument
       cmd = Cri::Command.define do
         name 'build'
