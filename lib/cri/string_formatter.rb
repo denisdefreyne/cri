@@ -34,15 +34,18 @@ module Cri
     #
     # @param [Number] indentation The number of spaces to indent each line.
     #
+    # @param [Boolean] first_line_already_indented Whether or not the first
+    #   line is already indented
+    #
     # @return [String] The word-wrapped and indented string
-    def wrap_and_indent(s, width, indentation)
+    def wrap_and_indent(s, width, indentation, first_line_already_indented = false)
       indented_width = width - indentation
       indent = ' ' * indentation
       # Split into paragraphs
       paragraphs = to_paragraphs(s)
 
       # Wrap and indent each paragraph
-      paragraphs.map do |paragraph|
+      text = paragraphs.map do |paragraph|
         # Initialize
         lines = []
         line = ''
@@ -63,6 +66,12 @@ module Cri
         # Join lines
         lines.map { |l| indent + l }.join("\n")
       end.join("\n\n")
+
+      if first_line_already_indented
+        text[indentation..-1]
+      else
+        text
+      end
     end
 
     # @param [String] s The string to format

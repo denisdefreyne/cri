@@ -46,6 +46,21 @@ module Cri
       assert_equal expected, actual
     end
 
+    def test_string_wrap_and_indent_excluding_first_line
+      original = 'Lorem ipsum dolor sit amet, consectetur adipisicing ' \
+                 'elit, sed do eiusmod tempor incididunt ut labore et dolore ' \
+                 'magna aliqua.'
+
+      expected = "Lorem ipsum dolor sit amet,\n" \
+                 "    consectetur adipisicing elit,\n" \
+                 "    sed do eiusmod tempor\n" \
+                 "    incididunt ut labore et dolore\n" \
+                 '    magna aliqua.'
+
+      actual = formatter.wrap_and_indent(original, 36, 4, true)
+      assert_equal expected, actual
+    end
+
     def test_string_wrap_and_indent_with_large_indent
       original = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, ' \
                  'sed do eiusmod tempor incididunt ut labore et dolore ' \

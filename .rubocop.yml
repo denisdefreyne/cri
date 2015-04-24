@@ -57,6 +57,7 @@ Style/GlobalVars:
 Metrics/AbcSize:
   Max: 45
 Metrics/ClassLength:
+  Enabled: false
   Max: 436
 Metrics/CyclomaticComplexity:
   Max: 8
