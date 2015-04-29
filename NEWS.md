@@ -1,6 +1,18 @@
 Cri News
 ========
 
+2.7.0
+-----
+
+Features:
+
+* Added support for hidden options (#43, #44) [Bart Mesuere]
+
+Enhancements:
+
+* Added option values to help output (#37, #40, #41)
+* Made option descriptions wrap (#36, #45) [Bart Mesuere]
+
 2.6.1
 -----
 
