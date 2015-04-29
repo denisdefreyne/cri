@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cri (2.6.1)
+    cri (2.7.0)
       colored (~> 1.2)
 
 GEM
