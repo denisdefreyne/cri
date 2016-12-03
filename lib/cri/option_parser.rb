@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module Cri
   # Cri::OptionParser is used for parsing command-line options.
   #

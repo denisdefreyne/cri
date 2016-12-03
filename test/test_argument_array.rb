@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module Cri
   class ArgumentArrayTestCase < Cri::TestCase
     def test_initialize

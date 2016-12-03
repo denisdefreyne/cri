@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require 'cri/version'
 
 # The namespace for Cri, a library for building easy-to-use command-line tools

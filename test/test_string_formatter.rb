@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module Cri
   class CoreExtTestCase < Cri::TestCase
     def formatter

@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module Cri
   class OptionParserTestCase < Cri::TestCase
     def test_parse_without_options

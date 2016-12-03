@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module Cri
   class BasicRootTestCase < Cri::TestCase
     def test_run_with_help

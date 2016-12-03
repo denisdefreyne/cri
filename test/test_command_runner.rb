@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module Cri
   class CommandRunnerTestCase < Cri::TestCase
     def setup

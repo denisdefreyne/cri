@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module Cri
   # A command runner is responsible for the execution of a command. Using it
   # is optional, but it is useful for commands whose execution block is large.

@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 name        'help'
 usage       'help [command_name]'
 summary     'show help'
