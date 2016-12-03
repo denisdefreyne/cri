@@ -1,6 +1,13 @@
 Cri News
 ========
 
+2.7.1
+-----
+
+Fixes:
+
+* Fixed some grammatical mistakes
+
 2.7.0
 -----
 
