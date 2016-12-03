@@ -8,10 +8,6 @@
 Style/SpaceBeforeFirstArg:
   Enabled: false
 
-# We require Ruby 1.8.6+ compatibility, so hash rockets is the enforced style.
-Style/HashSyntax:
-  EnforcedStyle: hash_rockets
-
 # Trailing commas in a multiline context makes diffs nicer.
 Style/TrailingCommaInLiteral:
   EnforcedStyleForMultiline: comma

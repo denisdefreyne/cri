@@ -3,7 +3,7 @@ module Cri
     def setup
       super
 
-      @options   = { :vehicle => 'pig' }
+      @options   = { vehicle: 'pig' }
       @arguments = %w(baby_monkey)
       @command   = Cri::Command.new
     end

@@ -9,12 +9,12 @@ module Cri
         summary     'does stuff'
         description 'This command does a lot of stuff.'
 
-        option    :a, :aaa, 'opt a', :argument => :optional, :multiple => true
+        option    :a, :aaa, 'opt a', argument: :optional, multiple: true
         required  :b, :bbb, 'opt b'
         optional  :c, :ccc, 'opt c'
         flag      :d, :ddd, 'opt d'
         forbidden :e, :eee, 'opt e'
-        flag      :f, :fff, 'opt f', :hidden => true
+        flag      :f, :fff, 'opt f', hidden: true
 
         run do |_opts, _args|
           $did_it_work = :probably
@@ -35,12 +35,12 @@ module Cri
 
       # Check options
       expected_option_definitions = Set.new([
-                                              { :short => 'a', :long => 'aaa', :desc => 'opt a', :argument => :optional,  :multiple => true, :hidden => false, :block => nil },
-                                              { :short => 'b', :long => 'bbb', :desc => 'opt b', :argument => :required,  :multiple => false, :hidden => false, :block => nil },
-                                              { :short => 'c', :long => 'ccc', :desc => 'opt c', :argument => :optional,  :multiple => false, :hidden => false, :block => nil },
-                                              { :short => 'd', :long => 'ddd', :desc => 'opt d', :argument => :forbidden, :multiple => false, :hidden => false, :block => nil },
-                                              { :short => 'e', :long => 'eee', :desc => 'opt e', :argument => :forbidden, :multiple => false, :hidden => false, :block => nil },
-                                              { :short => 'f', :long => 'fff', :desc => 'opt f', :argument => :forbidden, :multiple => false, :hidden => true,  :block => nil },
+                                              { short: 'a', long: 'aaa', desc: 'opt a', argument: :optional,  multiple: true, hidden: false, block: nil },
+                                              { short: 'b', long: 'bbb', desc: 'opt b', argument: :required,  multiple: false, hidden: false, block: nil },
+                                              { short: 'c', long: 'ccc', desc: 'opt c', argument: :optional,  multiple: false, hidden: false, block: nil },
+                                              { short: 'd', long: 'ddd', desc: 'opt d', argument: :forbidden, multiple: false, hidden: false, block: nil },
+                                              { short: 'e', long: 'eee', desc: 'opt e', argument: :forbidden, multiple: false, hidden: false, block: nil },
+                                              { short: 'f', long: 'fff', desc: 'opt f', argument: :forbidden, multiple: false, hidden: true,  block: nil },
                                             ])
       actual_option_definitions = Set.new(command.option_definitions)
       assert_equal expected_option_definitions, actual_option_definitions
@@ -71,8 +71,8 @@ module Cri
 
       # Check options
       expected_option_definitions = Set.new([
-                                              { :short => 's', :long => nil, :desc => 'short', :argument => :forbidden, :multiple => false, :hidden => false, :block => nil },
-                                              { :short => nil, :long => 'long', :desc => 'long', :argument => :forbidden, :multiple => false, :hidden => false, :block => nil },
+                                              { short: 's', long: nil, desc: 'short', argument: :forbidden, multiple: false, hidden: false, block: nil },
+                                              { short: nil, long: 'long', desc: 'long', argument: :forbidden, multiple: false, hidden: false, block: nil },
                                             ])
       actual_option_definitions = Set.new(command.option_definitions)
       assert_equal expected_option_definitions, actual_option_definitions
@@ -82,9 +82,9 @@ module Cri
       # Define
       dsl = Cri::CommandDSL.new
       dsl.instance_eval do
-        flag     :f, :flag,     'flag', :multiple => true
-        required :r, :required, 'req',  :multiple => true
-        optional :o, :optional, 'opt',  :multiple => true
+        flag     :f, :flag,     'flag', multiple: true
+        required :r, :required, 'req',  multiple: true
+        optional :o, :optional, 'opt',  multiple: true
 
         run { |_opts, _args| }
       end
@@ -92,9 +92,9 @@ module Cri
 
       # Check options
       expected_option_definitions = Set.new([
-                                              { :short => 'f', :long => 'flag',     :desc => 'flag', :argument => :forbidden, :multiple => true, :hidden => false, :block => nil },
-                                              { :short => 'r', :long => 'required', :desc => 'req',  :argument => :required,  :multiple => true, :hidden => false, :block => nil },
-                                              { :short => 'o', :long => 'optional', :desc => 'opt',  :argument => :optional,  :multiple => true, :hidden => false, :block => nil },
+                                              { short: 'f', long: 'flag',     desc: 'flag', argument: :forbidden, multiple: true, hidden: false, block: nil },
+                                              { short: 'r', long: 'required', desc: 'req',  argument: :required,  multiple: true, hidden: false, block: nil },
+                                              { short: 'o', long: 'optional', desc: 'opt',  argument: :optional,  multiple: true, hidden: false, block: nil },
                                             ])
       actual_option_definitions = Set.new(command.option_definitions)
       assert_equal expected_option_definitions, actual_option_definitions
@@ -104,9 +104,9 @@ module Cri
       # Define
       dsl = Cri::CommandDSL.new
       dsl.instance_eval do
-        flag     :f, :flag,     'flag', :hidden => true
-        required :r, :required, 'req',  :hidden => true
-        optional :o, :optional, 'opt',  :hidden => true
+        flag     :f, :flag,     'flag', hidden: true
+        required :r, :required, 'req',  hidden: true
+        optional :o, :optional, 'opt',  hidden: true
 
         run { |_opts, _args| }
       end
@@ -114,9 +114,9 @@ module Cri
 
       # Check options
       expected_option_definitions = Set.new([
-                                              { :short => 'f', :long => 'flag',     :desc => 'flag', :argument => :forbidden, :multiple => false, :hidden => true, :block => nil },
-                                              { :short => 'r', :long => 'required', :desc => 'req',  :argument => :required,  :multiple => false, :hidden => true, :block => nil },
-                                              { :short => 'o', :long => 'optional', :desc => 'opt',  :argument => :optional,  :multiple => false, :hidden => true, :block => nil },
+                                              { short: 'f', long: 'flag',     desc: 'flag', argument: :forbidden, multiple: false, hidden: true, block: nil },
+                                              { short: 'r', long: 'required', desc: 'req',  argument: :required,  multiple: false, hidden: true, block: nil },
+                                              { short: 'o', long: 'optional', desc: 'opt',  argument: :optional,  multiple: false, hidden: true, block: nil },
                                             ])
       actual_option_definitions = Set.new(command.option_definitions)
       assert_equal expected_option_definitions, actual_option_definitions

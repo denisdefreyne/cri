@@ -7,7 +7,7 @@ super_cmd = Cri::Command.define do
   summary     'does super stuff'
   description 'This command does super stuff.'
 
-  option    :a, :aaa, 'opt a', :argument => :optional
+  option    :a, :aaa, 'opt a', argument: :optional
   required  :b, :bbb, 'opt b'
   flag      :d, :ddd, 'opt d'
   optional  :c, :ccc, 'opt c'
@@ -20,7 +20,7 @@ super_cmd.define_command do
   summary     'does subby stuff'
   description 'This command does subby stuff.'
 
-  option    :m, :mmm, 'opt m', :argument => :optional
+  option    :m, :mmm, 'opt m', argument: :optional
   required  :n, :nnn, 'opt n'
   flag      :p, :ppp, 'opt p'
   forbidden :q, :qqq, 'opt q'

@@ -7,7 +7,7 @@ module Cri
         summary     'does stuff'
         description 'This command does a lot of stuff.'
 
-        option :a, :aaa, 'opt a', :argument => :optional do |value, cmd|
+        option :a, :aaa, 'opt a', argument: :optional do |value, cmd|
           $stdout.puts "#{cmd.name}:#{value}"
         end
         required  :b, :bbb, 'opt b'
@@ -43,7 +43,7 @@ module Cri
         summary     'does super stuff'
         description 'This command does super stuff.'
 
-        option :a, :aaa, 'opt a', :argument => :optional do |value, cmd|
+        option :a, :aaa, 'opt a', argument: :optional do |value, cmd|
           $stdout.puts "#{cmd.name}:#{value}"
         end
         required  :b, :bbb, 'opt b'
@@ -59,7 +59,7 @@ module Cri
         summary     'does subby stuff'
         description 'This command does subby stuff.'
 
-        option    :m, :mmm, 'opt m', :argument => :optional
+        option    :m, :mmm, 'opt m', argument: :optional
         required  :n, :nnn, 'opt n'
         optional  :o, :ooo, 'opt o'
         flag      :p, :ppp, 'opt p'
@@ -467,9 +467,9 @@ module Cri
       assert cmd.help.include?('hidden command omitted')
       refute cmd.help.include?('old-and-deprecated')
 
-      refute cmd.help(:verbose => true).include?('hidden commands omitted')
-      refute cmd.help(:verbose => true).include?('hidden command omitted')
-      assert cmd.help(:verbose => true).include?('old-and-deprecated')
+      refute cmd.help(verbose: true).include?('hidden commands omitted')
+      refute cmd.help(verbose: true).include?('hidden command omitted')
+      assert cmd.help(verbose: true).include?('old-and-deprecated')
     end
 
     def test_hidden_commands_multiple
@@ -503,13 +503,13 @@ module Cri
       refute cmd.help.include?('old-and-deprecated')
       refute cmd.help.include?('ancient-and-deprecated')
 
-      refute cmd.help(:verbose => true).include?('hidden commands omitted')
-      refute cmd.help(:verbose => true).include?('hidden command omitted')
-      assert cmd.help(:verbose => true).include?('old-and-deprecated')
-      assert cmd.help(:verbose => true).include?('ancient-and-deprecated')
+      refute cmd.help(verbose: true).include?('hidden commands omitted')
+      refute cmd.help(verbose: true).include?('hidden command omitted')
+      assert cmd.help(verbose: true).include?('old-and-deprecated')
+      assert cmd.help(verbose: true).include?('ancient-and-deprecated')
 
       pattern = /ancient-and-deprecated.*first.*old-and-deprecated/m
-      assert_match(pattern, cmd.help(:verbose => true))
+      assert_match(pattern, cmd.help(verbose: true))
     end
 
     def test_run_with_raw_args

@@ -116,13 +116,13 @@ module Cri
       end
 
       @command.option_definitions << {
-        :short    => short.nil? ? nil : short.to_s,
-        :long     => long.nil? ? nil : long.to_s,
-        :desc     => desc,
-        :argument => requiredness,
-        :multiple => multiple,
-        :block    => block,
-        :hidden   => hidden,
+        short: short.nil? ? nil : short.to_s,
+        long: long.nil? ? nil : long.to_s,
+        desc: desc,
+        argument: requiredness,
+        multiple: multiple,
+        block: block,
+        hidden: hidden,
       }
     end
     alias opt option
@@ -146,7 +146,7 @@ module Cri
     #
     # @see {#option}
     def required(short, long, desc, params = {}, &block)
-      params = params.merge(:argument => :required)
+      params = params.merge(argument: :required)
       option(short, long, desc, params, &block)
     end
 
@@ -169,7 +169,7 @@ module Cri
     #
     # @see {#option}
     def flag(short, long, desc, params = {}, &block)
-      params = params.merge(:argument => :forbidden)
+      params = params.merge(argument: :forbidden)
       option(short, long, desc, params, &block)
     end
     alias forbidden flag
@@ -193,7 +193,7 @@ module Cri
     #
     # @see {#option}
     def optional(short, long, desc, params = {}, &block)
-      params = params.merge(:argument => :optional)
+      params = params.merge(argument: :optional)
       option(short, long, desc, params, &block)
     end
 
