@@ -4,7 +4,7 @@ module Cri
       super
 
       @options   = { :vehicle => 'pig' }
-      @arguments = %w( baby_monkey )
+      @arguments = %w(baby_monkey)
       @command   = Cri::Command.new
     end
 

@@ -5,7 +5,7 @@
 #   required  :b, :bbb, 'opt b'
 #   optional  :c, :ccc, 'opt c'
 #   flag      :d, :ddd, 'opt d'
-Style/SingleSpaceBeforeFirstArg:
+Style/SpaceBeforeFirstArg:
   Enabled: false
 
 # We require Ruby 1.8.6+ compatibility, so hash rockets is the enforced style.
@@ -13,12 +13,12 @@ Style/HashSyntax:
   EnforcedStyle: hash_rockets
 
 # Trailing commas in a multiline context makes diffs nicer.
-Style/TrailingComma:
+Style/TrailingCommaInLiteral:
   EnforcedStyleForMultiline: comma
 
-# We require Ruby 1.8.6+ compatibility, so we can’t use symbol procs.
-Style/SymbolProc:
-  Enabled: false
+# Trailing commas in a multiline context makes diffs nicer.
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma
 
 # This doesn’t always make sense (e.g. Cri::ArgumentArray#raw)
 Style/TrivialAccessors:
@@ -53,6 +53,11 @@ Style/GlobalVars:
   AllowedVariables:
     - "$did_it_work"
 
+# Not accurate in tests
+Lint/NestedMethodDefinition:
+  Exclude:
+    - 'test/**/*.rb'
+
 # Will re-enable later.
 Metrics/AbcSize:
   Max: 45
@@ -62,6 +67,7 @@ Metrics/ClassLength:
 Metrics/CyclomaticComplexity:
   Max: 8
 Metrics/LineLength:
+  Enabled: false
   Max: 141
 Metrics/MethodLength:
   Max: 41

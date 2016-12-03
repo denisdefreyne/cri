@@ -24,7 +24,7 @@ module Cri
 
       # Run
       $did_it_work = :sadly_not
-      command.run(%w( -a x -b y -c -d -e ))
+      command.run(%w(-a x -b y -c -d -e))
       assert_equal :probably, $did_it_work
 
       # Check
@@ -35,13 +35,13 @@ module Cri
 
       # Check options
       expected_option_definitions = Set.new([
-        { :short => 'a', :long => 'aaa', :desc => 'opt a', :argument => :optional,  :multiple => true,  :hidden => false, :block => nil },
-        { :short => 'b', :long => 'bbb', :desc => 'opt b', :argument => :required,  :multiple => false, :hidden => false, :block => nil },
-        { :short => 'c', :long => 'ccc', :desc => 'opt c', :argument => :optional,  :multiple => false, :hidden => false, :block => nil },
-        { :short => 'd', :long => 'ddd', :desc => 'opt d', :argument => :forbidden, :multiple => false, :hidden => false, :block => nil },
-        { :short => 'e', :long => 'eee', :desc => 'opt e', :argument => :forbidden, :multiple => false, :hidden => false, :block => nil },
-        { :short => 'f', :long => 'fff', :desc => 'opt f', :argument => :forbidden, :multiple => false, :hidden => true,  :block => nil },
-      ])
+                                              { :short => 'a', :long => 'aaa', :desc => 'opt a', :argument => :optional,  :multiple => true, :hidden => false, :block => nil },
+                                              { :short => 'b', :long => 'bbb', :desc => 'opt b', :argument => :required,  :multiple => false, :hidden => false, :block => nil },
+                                              { :short => 'c', :long => 'ccc', :desc => 'opt c', :argument => :optional,  :multiple => false, :hidden => false, :block => nil },
+                                              { :short => 'd', :long => 'ddd', :desc => 'opt d', :argument => :forbidden, :multiple => false, :hidden => false, :block => nil },
+                                              { :short => 'e', :long => 'eee', :desc => 'opt e', :argument => :forbidden, :multiple => false, :hidden => false, :block => nil },
+                                              { :short => 'f', :long => 'fff', :desc => 'opt f', :argument => :forbidden, :multiple => false, :hidden => true,  :block => nil },
+                                            ])
       actual_option_definitions = Set.new(command.option_definitions)
       assert_equal expected_option_definitions, actual_option_definitions
     end
@@ -66,14 +66,14 @@ module Cri
 
       # Run
       $did_it_work = :sadly_not
-      command.run(%w( -s --long ))
+      command.run(%w(-s --long))
       assert_equal :probably, $did_it_work
 
       # Check options
       expected_option_definitions = Set.new([
-        { :short => 's', :long => nil,    :desc => 'short', :argument => :forbidden, :multiple => false, :hidden => false, :block => nil },
-        { :short => nil, :long => 'long', :desc => 'long',  :argument => :forbidden, :multiple => false, :hidden => false, :block => nil },
-      ])
+                                              { :short => 's', :long => nil, :desc => 'short', :argument => :forbidden, :multiple => false, :hidden => false, :block => nil },
+                                              { :short => nil, :long => 'long', :desc => 'long', :argument => :forbidden, :multiple => false, :hidden => false, :block => nil },
+                                            ])
       actual_option_definitions = Set.new(command.option_definitions)
       assert_equal expected_option_definitions, actual_option_definitions
     end
@@ -92,10 +92,10 @@ module Cri
 
       # Check options
       expected_option_definitions = Set.new([
-        { :short => 'f', :long => 'flag',     :desc => 'flag', :argument => :forbidden, :multiple => true, :hidden => false, :block => nil },
-        { :short => 'r', :long => 'required', :desc => 'req',  :argument => :required,  :multiple => true, :hidden => false, :block => nil },
-        { :short => 'o', :long => 'optional', :desc => 'opt',  :argument => :optional,  :multiple => true, :hidden => false, :block => nil },
-      ])
+                                              { :short => 'f', :long => 'flag',     :desc => 'flag', :argument => :forbidden, :multiple => true, :hidden => false, :block => nil },
+                                              { :short => 'r', :long => 'required', :desc => 'req',  :argument => :required,  :multiple => true, :hidden => false, :block => nil },
+                                              { :short => 'o', :long => 'optional', :desc => 'opt',  :argument => :optional,  :multiple => true, :hidden => false, :block => nil },
+                                            ])
       actual_option_definitions = Set.new(command.option_definitions)
       assert_equal expected_option_definitions, actual_option_definitions
     end
@@ -114,10 +114,10 @@ module Cri
 
       # Check options
       expected_option_definitions = Set.new([
-        { :short => 'f', :long => 'flag',     :desc => 'flag', :argument => :forbidden, :multiple => false, :hidden => true, :block => nil },
-        { :short => 'r', :long => 'required', :desc => 'req',  :argument => :required,  :multiple => false, :hidden => true, :block => nil },
-        { :short => 'o', :long => 'optional', :desc => 'opt',  :argument => :optional,  :multiple => false, :hidden => true, :block => nil },
-      ])
+                                              { :short => 'f', :long => 'flag',     :desc => 'flag', :argument => :forbidden, :multiple => false, :hidden => true, :block => nil },
+                                              { :short => 'r', :long => 'required', :desc => 'req',  :argument => :required,  :multiple => false, :hidden => true, :block => nil },
+                                              { :short => 'o', :long => 'optional', :desc => 'opt',  :argument => :optional,  :multiple => false, :hidden => true, :block => nil },
+                                            ])
       actual_option_definitions = Set.new(command.option_definitions)
       assert_equal expected_option_definitions, actual_option_definitions
     end
@@ -173,7 +173,7 @@ module Cri
       command = dsl.command
 
       # Check
-      assert_equal %w( aah moo ), command.aliases.sort
+      assert_equal %w(aah moo), command.aliases.sort
     end
 
     def test_run_arity
@@ -202,7 +202,7 @@ module Cri
 
       # Check
       $did_it_work = false
-      command.run(%w( certainly ))
+      command.run(%w(certainly))
       assert_equal 'certainly', $did_it_work
     end
   end

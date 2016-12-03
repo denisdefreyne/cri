@@ -1,4 +1,4 @@
 module Cri
   # The current Cri version.
-  VERSION = '2.7.1'
+  VERSION = '2.7.1'.freeze
 end

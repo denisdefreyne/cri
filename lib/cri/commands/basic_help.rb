@@ -12,8 +12,8 @@ flag :v, :verbose, 'show more detailed help'
 
 run do |opts, args, cmd|
   if cmd.supercommand.nil?
-    fail NoHelpAvailableError,
-         'No help available because the help command has no supercommand'
+    raise NoHelpAvailableError,
+          'No help available because the help command has no supercommand'
   end
 
   is_verbose = opts.fetch(:verbose, false)

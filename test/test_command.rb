@@ -7,7 +7,7 @@ module Cri
         summary     'does stuff'
         description 'This command does a lot of stuff.'
 
-        option    :a, :aaa, 'opt a', :argument => :optional do |value, cmd|
+        option :a, :aaa, 'opt a', :argument => :optional do |value, cmd|
           $stdout.puts "#{cmd.name}:#{value}"
         end
         required  :b, :bbb, 'opt b'
@@ -29,7 +29,7 @@ module Cri
 
     def bare_cmd
       Cri::Command.define do
-        name        'moo'
+        name 'moo'
 
         run do |_opts, _args|
         end
@@ -43,7 +43,7 @@ module Cri
         summary     'does super stuff'
         description 'This command does super stuff.'
 
-        option    :a, :aaa, 'opt a', :argument => :optional do |value, cmd|
+        option :a, :aaa, 'opt a', :argument => :optional do |value, cmd|
           $stdout.puts "#{cmd.name}:#{value}"
         end
         required  :b, :bbb, 'opt b'
@@ -146,7 +146,7 @@ module Cri
     def test_invoke_simple_with_missing_opt_arg
       out, err = capture_io_while do
         assert_raises SystemExit do
-          simple_cmd.run(%w( -b ))
+          simple_cmd.run(%w(-b))
         end
       end
 
@@ -157,7 +157,7 @@ module Cri
     def test_invoke_simple_with_illegal_opt
       out, err = capture_io_while do
         assert_raises SystemExit do
-          simple_cmd.run(%w( -z ))
+          simple_cmd.run(%w(-z))
         end
       end
 
@@ -167,7 +167,7 @@ module Cri
 
     def test_invoke_simple_with_opt_with_block
       out, err = capture_io_while do
-        simple_cmd.run(%w( -a 123 ))
+        simple_cmd.run(%w(-a 123))
       end
 
       assert_equal ['moo:123', 'Awesome moo!', '', 'aaa=123'], lines(out)
@@ -187,7 +187,7 @@ module Cri
 
     def test_invoke_nested_with_correct_command_name
       out, err = capture_io_while do
-        nested_cmd.run(%w( sub ))
+        nested_cmd.run(%w(sub))
       end
 
       assert_equal ['Sub-awesome!', '', ''], lines(out)
@@ -197,7 +197,7 @@ module Cri
     def test_invoke_nested_with_incorrect_command_name
       out, err = capture_io_while do
         assert_raises SystemExit do
-          nested_cmd.run(%w( oogabooga ))
+          nested_cmd.run(%w(oogabooga))
         end
       end
 
@@ -208,7 +208,7 @@ module Cri
     def test_invoke_nested_with_ambiguous_command_name
       out, err = capture_io_while do
         assert_raises SystemExit do
-          nested_cmd.run(%w( s ))
+          nested_cmd.run(%w(s))
         end
       end
 
@@ -218,7 +218,7 @@ module Cri
 
     def test_invoke_nested_with_alias
       out, err = capture_io_while do
-        nested_cmd.run(%w( sup ))
+        nested_cmd.run(%w(sup))
       end
 
       assert_equal ['Sub-awesome!', '', ''], lines(out)
@@ -227,7 +227,7 @@ module Cri
 
     def test_invoke_nested_with_options_before_command
       out, err = capture_io_while do
-        nested_cmd.run(%w( -a 666 sub ))
+        nested_cmd.run(%w(-a 666 sub))
       end
 
       assert_equal ['super:666', 'Sub-awesome!', '', 'aaa=666'], lines(out)
@@ -243,7 +243,7 @@ module Cri
       assert_equal [], lines(err)
 
       out, err = capture_io_while do
-        nested_cmd_with_run_block.run(%w( sub ))
+        nested_cmd_with_run_block.run(%w(sub))
       end
 
       assert_equal ['sub'], lines(out)
@@ -352,7 +352,7 @@ module Cri
     def test_help_with_multiple_groups
       help = nested_cmd.subcommands.find { |cmd| cmd.name == 'sub' }.help
 
-      assert_match(/OPTIONS.*OPTIONS FOR SUPER/m,  help)
+      assert_match(/OPTIONS.*OPTIONS FOR SUPER/m, help)
     end
 
     def test_modify_with_block_argument
@@ -375,7 +375,7 @@ module Cri
 
       cmd = Cri::Command.define do
         name 'build'
-        flag     nil, :longflag,     'This is an option with a very long description that should be wrapped'
+        flag nil, :longflag, 'This is an option with a very long description that should be wrapped'
       end
       help = cmd.help
 
@@ -521,7 +521,7 @@ module Cri
       end
 
       out, _err = capture_io_while do
-        cmd.run(%w( foo -- bar ))
+        cmd.run(%w(foo -- bar))
       end
       assert_equal "args=foo,bar args.raw=foo,--,bar\n", out
     end
@@ -547,7 +547,7 @@ module Cri
       end
 
       out, _err = capture_io_while do
-        cmd.run(%w( foo -- bar ))
+        cmd.run(%w(foo -- bar))
       end
       assert_equal "args=foo,bar args.raw=foo,--,bar\n", out
     end

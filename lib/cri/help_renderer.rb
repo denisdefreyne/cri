@@ -84,22 +84,21 @@ module Cri
       length = shown_subcommands.map { |c| fmt.format_as_command(c.name, @io).size }.max
 
       # Command
-      shown_subcommands.sort_by { |cmd| cmd.name }.each do |cmd|
+      shown_subcommands.sort_by(&:name).each do |cmd|
         text <<
           format(
             "    %-#{length + DESC_INDENT}s %s\n",
             fmt.format_as_command(cmd.name, @io),
-            cmd.summary)
+            cmd.summary,
+          )
       end
 
       # Hidden notice
       unless @is_verbose
         diff = @cmd.subcommands.size - shown_subcommands.size
-        case diff
-        when 0
-        when 1
+        if diff == 1
           text << "    (1 hidden command omitted; show it with --verbose)\n"
-        else
+        elsif diff > 1
           text << "    (#{diff} hidden commands omitted; show them with --verbose)\n"
         end
       end
@@ -143,7 +142,7 @@ module Cri
       return if defs.empty?
 
       text << "\n"
-      text << fmt.format_as_title("#{name}", @io)
+      text << fmt.format_as_title(name.to_s, @io)
       text << "\n"
 
       ordered_defs = defs.sort_by { |x| x[:short] || x[:long] }
@@ -162,8 +161,6 @@ module Cri
           '<value>'
         when :optional
           '[<value>]'
-        else
-          nil
         end
 
       if value_postfix
@@ -180,8 +177,6 @@ module Cri
           '=<value>'
         when :optional
           '[=<value>]'
-        else
-          nil
         end
 
       if value_postfix

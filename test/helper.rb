@@ -18,16 +18,16 @@ module Cri
       uncapture_io(*@orig_io)
     end
 
-    def capture_io_while(&block)
+    def capture_io_while
       orig_io = capture_io
-      block.call
+      yield
       [$stdout.string, $stderr.string]
     ensure
       uncapture_io(*orig_io)
     end
 
     def lines(string)
-      string.scan(/^.*\n/).map { |s| s.chomp }
+      string.scan(/^.*\n/).map(&:chomp)
     end
 
     private

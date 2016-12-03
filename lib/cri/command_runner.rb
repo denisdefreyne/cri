@@ -38,7 +38,7 @@ module Cri
     #
     # @abstract
     def run
-      fail NotImplementedError, 'Cri::CommandRunner subclasses must implement #run'
+      raise NotImplementedError, 'Cri::CommandRunner subclasses must implement #run'
     end
   end
 end

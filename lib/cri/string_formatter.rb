@@ -19,7 +19,7 @@ module Cri
         end
       end
 
-      paragraphs.reject { |p| p.empty? }.map { |p| p.join(' ') }
+      paragraphs.reject(&:empty?).map { |p| p.join(' ') }
     end
 
     # Word-wraps and indents the string.

@@ -23,8 +23,7 @@ module Cri
       # @param [Cri::OptionParser] option_parser The option parser
       #
       # @return [void]
-      def option_added(_key, _value, _option_parser)
-      end
+      def option_added(_key, _value, _option_parser); end
 
       # Called when an argument is parsed.
       #
@@ -45,7 +44,7 @@ module Cri
 
     # @return [Set<Cri::Command>] This command’s subcommands
     attr_accessor :commands
-    alias_method :subcommands, :commands
+    alias subcommands commands
 
     # @return [String] The name
     attr_accessor :name
@@ -67,7 +66,7 @@ module Cri
     # @return [Boolean] true if the command is hidden (e.g. because it is
     #   deprecated), false otherwise
     attr_accessor :hidden
-    alias_method :hidden?, :hidden
+    alias hidden? hidden
 
     # @return [Array<Hash>] The list of option definitions
     attr_accessor :option_definitions
@@ -138,7 +137,7 @@ module Cri
       if [-1, 0].include? block.arity
         dsl.instance_eval(&block)
       else
-        block.call(dsl)
+        yield(dsl)
       end
       self
     end
@@ -175,7 +174,7 @@ module Cri
       if [-1, 0].include? block.arity
         dsl.instance_eval(&block)
       else
-        block.call(dsl)
+        yield(dsl)
       end
 
       # Create command
@@ -215,12 +214,12 @@ module Cri
     def command_named(name)
       commands = commands_named(name)
 
-      if commands.size < 1
+      if commands.empty?
         $stderr.puts "#{self.name}: unknown command '#{name}'\n"
         exit 1
       elsif commands.size > 1
         $stderr.puts "#{self.name}: '#{name}' is ambiguous:"
-        $stderr.puts "  #{commands.map { |c| c.name }.sort.join(' ') }"
+        $stderr.puts "  #{commands.map(&:name).sort.join(' ')}"
         exit 1
       else
         commands[0]
@@ -275,7 +274,8 @@ module Cri
     def run_this(opts_and_args, parent_opts = {})
       # Parse
       parser = Cri::OptionParser.new(
-        opts_and_args, global_option_definitions)
+        opts_and_args, global_option_definitions
+      )
       handle_parser_errors_while { parser.run }
       local_opts  = parser.options
       global_opts = parent_opts.merge(parser.options)
@@ -286,8 +286,8 @@ module Cri
 
       # Execute
       if block.nil?
-        fail NotImplementedError,
-             "No implementation available for '#{name}'"
+        raise NotImplementedError,
+              "No implementation available for '#{name}'"
       end
       block.call(global_opts, args, self)
     end
@@ -339,8 +339,8 @@ module Cri
       ]
     end
 
-    def handle_parser_errors_while(&block)
-      block.call
+    def handle_parser_errors_while
+      yield
     rescue Cri::OptionParser::IllegalOptionError => e
       $stderr.puts "#{name}: illegal option -- #{e}"
       exit 1

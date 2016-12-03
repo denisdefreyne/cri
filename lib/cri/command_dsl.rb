@@ -46,7 +46,7 @@ module Cri
     #
     # @return [void]
     def aliases(*args)
-      @command.aliases = args.flatten.map { |a| a.to_s }
+      @command.aliases = args.flatten.map(&:to_s)
     end
 
     # Sets the command summary.
@@ -112,7 +112,7 @@ module Cri
       hidden = params.fetch(:hidden, false)
 
       if short.nil? && long.nil?
-        fail ArgumentError, 'short and long options cannot both be nil'
+        raise ArgumentError, 'short and long options cannot both be nil'
       end
 
       @command.option_definitions << {
@@ -125,7 +125,7 @@ module Cri
         :hidden   => hidden,
       }
     end
-    alias_method :opt, :option
+    alias opt option
 
     # Adds a new option with a required argument to the command. If a block is
     # given, it will be executed when the option is successfully parsed.
@@ -172,7 +172,7 @@ module Cri
       params = params.merge(:argument => :forbidden)
       option(short, long, desc, params, &block)
     end
-    alias_method :forbidden, :flag
+    alias forbidden flag
 
     # Adds a new option with an optional argument to the command. If a block
     # is given, it will be executed when the option is successfully parsed.
@@ -211,8 +211,8 @@ module Cri
     # @return [void]
     def run(&block)
       unless [2, 3].include?(block.arity)
-        fail ArgumentError,
-             'The block given to Cri::Command#run expects two or three args'
+        raise ArgumentError,
+              'The block given to Cri::Command#run expects two or three args'
       end
 
       @command.block = block

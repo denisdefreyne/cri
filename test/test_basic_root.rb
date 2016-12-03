@@ -5,7 +5,7 @@ module Cri
 
       stdout, _stderr = capture_io_while do
         assert_raises SystemExit do
-          cmd.run(%w( -h ))
+          cmd.run(%w(-h))
         end
       end
 

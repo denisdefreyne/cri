@@ -197,7 +197,7 @@ module Cri
 
       # Find definition
       definition = @definitions.find { |d| d[:long] == option_key }
-      fail IllegalOptionError.new(option_key) if definition.nil?
+      raise IllegalOptionError.new(option_key) if definition.nil?
 
       if [:required, :optional].include?(definition[:argument])
         # Get option value if necessary
@@ -221,11 +221,11 @@ module Cri
       option_keys.each do |option_key|
         # Find definition
         definition = @definitions.find { |d| d[:short] == option_key }
-        fail IllegalOptionError.new(option_key) if definition.nil?
+        raise IllegalOptionError.new(option_key) if definition.nil?
 
         if option_keys.length > 1 && definition[:argument] == :required
           # This is a combined option and it requires an argument, so complain
-          fail OptionRequiresAnArgumentError.new(option_key)
+          raise OptionRequiresAnArgumentError.new(option_key)
         elsif [:required, :optional].include?(definition[:argument])
           # Get option value
           option_value = find_option_value(definition, option_key)
@@ -243,7 +243,7 @@ module Cri
       option_value = @unprocessed_arguments_and_options.shift
       if option_value.nil? || option_value =~ /^-/
         if definition[:argument] == :required
-          fail OptionRequiresAnArgumentError.new(option_key)
+          raise OptionRequiresAnArgumentError.new(option_key)
         else
           @unprocessed_arguments_and_options.unshift(option_value)
           option_value = true
