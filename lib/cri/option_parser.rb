@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 module Cri
-  # Cri::OptionParser is used for parsing commandline options.
+  # Cri::OptionParser is used for parsing command-line options.
   #
   # Option definitions are hashes with the keys `:short`, `:long` and
   # `:argument` (optionally `:description` but this is not used by the
@@ -19,7 +19,7 @@ module Cri
   #       { :short => 'p', :long => 'port', :argument => :required, :multiple => false },
   #     ]
   #
-  # For example, the following commandline options (which should not be
+  # For example, the following command-line options (which should not be
   # passed as a string, but as an array of strings):
   #
   #     foo -xyz -a hiss -s -m please --level 50 --father=ani -n luke squeak
@@ -92,11 +92,11 @@ module Cri
     # @return [Array] The not yet parsed options and arguments.
     attr_reader :unprocessed_arguments_and_options
 
-    # Parses the commandline arguments. See the instance `parse` method for
+    # Parses the command-line arguments. See the instance `parse` method for
     # details.
     #
     # @param [Array<String>] arguments_and_options An array containing the
-    #   commandline arguments (will probably be `ARGS` for a root command)
+    #   command-line arguments (will probably be `ARGS` for a root command)
     #
     # @param [Array<Hash>] definitions An array of option definitions
     #
@@ -108,7 +108,7 @@ module Cri
     # Creates a new parser with the given options/arguments and definitions.
     #
     # @param [Array<String>] arguments_and_options An array containing the
-    #   commandline arguments (will probably be `ARGS` for a root command)
+    #   command-line arguments (will probably be `ARGS` for a root command)
     #
     # @param [Array<Hash>] definitions An array of option definitions
     def initialize(arguments_and_options, definitions)
@@ -146,7 +146,7 @@ module Cri
       @running = false
     end
 
-    # Parses the commandline arguments into options and arguments.
+    # Parses the command-line arguments into options and arguments.
     #
     # During parsing, two errors can be raised:
     #

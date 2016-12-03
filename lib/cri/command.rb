@@ -1,8 +1,8 @@
 # encoding: utf-8
 
 module Cri
-  # Cri::Command represents a command that can be executed on the commandline.
-  # It is also used for the commandline tool itself.
+  # Cri::Command represents a command that can be executed on the command line.
+  # It is also used for the command-line tool itself.
   class Command
     # Delegate used for partitioning the list of arguments and options. This
     # delegate will stop the parser as soon as the first argument, i.e. the
@@ -229,7 +229,7 @@ module Cri
       end
     end
 
-    # Runs the command with the given commandline arguments, possibly invoking
+    # Runs the command with the given command-line arguments, possibly invoking
     # subcommands and passing on the options and arguments.
     #
     # @param [Array<String>] opts_and_args A list of unparsed arguments
@@ -261,7 +261,7 @@ module Cri
       end
     end
 
-    # Runs the actual command with the given commandline arguments, not
+    # Runs the actual command with the given command-line arguments, not
     # invoking any subcommands. If the command does not have an execution
     # block, an error ir raised.
     #

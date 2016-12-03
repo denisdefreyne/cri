@@ -2,7 +2,7 @@
 
 require 'cri/version'
 
-# The namespace for Cri, a library for building easy-to-use commandline tools
+# The namespace for Cri, a library for building easy-to-use command-line tools
 # with support for nested commands.
 module Cri
   # A generic error class for all Cri-specific errors.

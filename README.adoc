@@ -6,13 +6,13 @@ link:https://coveralls.io/r/ddfreyne/cri[image:http://img.shields.io/coveralls/d
 link:https://codeclimate.com/github/ddfreyne/cri[image:http://img.shields.io/codeclimate/github/ddfreyne/cri.svg[]]
 link:http://inch-ci.org/github/ddfreyne/cri/[image:http://inch-ci.org/github/ddfreyne/cri.svg[]]
 
-Cri is a library for building easy-to-use commandline tools with support for
+Cri is a library for building easy-to-use command-line tools with support for
 nested commands.
 
 == Usage ==
 
 The central concept in Cri is the _command_, which has option definitions as
-well as code for actually executing itself. In Cri, the commandline tool
+well as code for actually executing itself. In Cri, the command-line tool
 itself is a command as well.
 
 Here’s a sample command definition:
@@ -45,7 +45,7 @@ end
 --------------------------------------------------------------------------------
 
 To run this command, invoke the `#run` method with the raw arguments. For
-example, for a root command (the commandline tool itself), the command could
+example, for a root command (the command-line tool itself), the command could
 be called like this:
 
 [source,ruby]
@@ -84,7 +84,7 @@ description 'This command does a lot of stuff. I really mean a lot.'
 --------------------------------------------------------------------------------
 
 These lines of the command definition specify the name of the command (or the
-commandline tool, if the command is the root command), the usage, a list of
+command-line tool, if the command is the root command), the usage, a list of
 aliases that can be used to call this command, a one-line summary and a (long)
 description. The usage should not include a “usage:” prefix nor the name of
 the supercommand, because the latter will be automatically prepended.
@@ -174,7 +174,7 @@ into manageable pieces.
 
 === Subcommands ===
 
-Commands can have subcommands. For example, the `git` commandline tool would be
+Commands can have subcommands. For example, the `git` command-line tool would be
 represented by a command that has subcommands named `commit`, `add`, and so on.
 Commands with subcommands do not use a run block; execution will always be
 dispatched to a subcommand (or none, if no subcommand is found).
