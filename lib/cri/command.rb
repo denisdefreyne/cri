@@ -38,6 +38,20 @@ module Cri
       end
     end
 
+    # Signals that Cri should abort execution. Unless otherwise specified using the `exit_on_error`
+    # param, this exception will cause Cri to exit the running process.
+    #
+    # @api private
+    class CriExitException < StandardError
+      def initialize(is_error:)
+        @is_error = is_error
+      end
+
+      def error?
+        @is_error
+      end
+    end
+
     # @return [Cri::Command, nil] This command’s supercommand, or nil if the
     #   command has no supercommand
     attr_accessor :supercommand
@@ -211,19 +225,21 @@ module Cri
     # @param [String] name The full, partial or aliases name of the command
     #
     # @return [Cri::Command] The command with the given name
-    def command_named(name)
+    def command_named(name, exit_on_error: true)
       commands = commands_named(name)
 
       if commands.empty?
         $stderr.puts "#{self.name}: unknown command '#{name}'\n"
-        exit 1
+        raise CriExitException.new(is_error: true)
       elsif commands.size > 1
         $stderr.puts "#{self.name}: '#{name}' is ambiguous:"
         $stderr.puts "  #{commands.map(&:name).sort.join(' ')}"
-        exit 1
+        raise CriExitException.new(is_error: true)
       else
         commands[0]
       end
+    rescue CriExitException => e
+      exit(e.error? ? 1 : 0) if exit_on_error
     end
 
     # Runs the command with the given command-line arguments, possibly invoking
@@ -235,7 +251,7 @@ module Cri
     #   supercommand
     #
     # @return [void]
-    def run(opts_and_args, parent_opts = {})
+    def run(opts_and_args, parent_opts = {}, exit_on_error: true)
       # Parse up to command name
       stuff = partition(opts_and_args)
       opts_before_subcmd, subcmd_name, opts_and_args_after_subcmd = *stuff
@@ -249,13 +265,16 @@ module Cri
         # Get command
         if subcmd_name.nil?
           $stderr.puts "#{name}: no command given"
-          exit 1
+          raise CriExitException.new(is_error: true)
         end
-        subcommand = command_named(subcmd_name)
+        subcommand = command_named(subcmd_name, exit_on_error: exit_on_error)
+        return if subcommand.nil?
 
         # Run
-        subcommand.run(opts_and_args_after_subcmd, opts_before_subcmd)
+        subcommand.run(opts_and_args_after_subcmd, opts_before_subcmd, exit_on_error: exit_on_error)
       end
+    rescue CriExitException => e
+      exit(e.error? ? 1 : 0) if exit_on_error
     end
 
     # Runs the actual command with the given command-line arguments, not
@@ -343,10 +362,10 @@ module Cri
       yield
     rescue Cri::OptionParser::IllegalOptionError => e
       $stderr.puts "#{name}: illegal option -- #{e}"
-      exit 1
+      raise CriExitException.new(is_error: true)
     rescue Cri::OptionParser::OptionRequiresAnArgumentError => e
       $stderr.puts "#{name}: option requires an argument -- #{e}"
-      exit 1
+      raise CriExitException.new(is_error: true)
     end
   end
 end
