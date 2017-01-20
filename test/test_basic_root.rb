@@ -17,7 +17,7 @@ module Cri
       cmd = Cri::Command.new_basic_root
 
       stdout, _stderr = capture_io_while do
-        cmd.run(%w(-h), {}, exit_on_error: false)
+        cmd.run(%w(-h), {}, hard_exit: false)
       end
 
       assert stdout =~ /COMMANDS.*\n.*help.*show help/

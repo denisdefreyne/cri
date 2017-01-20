@@ -38,7 +38,7 @@ module Cri
       end
     end
 
-    # Signals that Cri should abort execution. Unless otherwise specified using the `exit_on_error`
+    # Signals that Cri should abort execution. Unless otherwise specified using the `hard_exit`
     # param, this exception will cause Cri to exit the running process.
     #
     # @api private
@@ -225,7 +225,7 @@ module Cri
     # @param [String] name The full, partial or aliases name of the command
     #
     # @return [Cri::Command] The command with the given name
-    def command_named(name, exit_on_error: true)
+    def command_named(name, hard_exit: true)
       commands = commands_named(name)
 
       if commands.empty?
@@ -239,7 +239,7 @@ module Cri
         commands[0]
       end
     rescue CriExitException => e
-      exit(e.error? ? 1 : 0) if exit_on_error
+      exit(e.error? ? 1 : 0) if hard_exit
     end
 
     # Runs the command with the given command-line arguments, possibly invoking
@@ -251,7 +251,7 @@ module Cri
     #   supercommand
     #
     # @return [void]
-    def run(opts_and_args, parent_opts = {}, exit_on_error: true)
+    def run(opts_and_args, parent_opts = {}, hard_exit: true)
       # Parse up to command name
       stuff = partition(opts_and_args)
       opts_before_subcmd, subcmd_name, opts_and_args_after_subcmd = *stuff
@@ -267,14 +267,14 @@ module Cri
           $stderr.puts "#{name}: no command given"
           raise CriExitException.new(is_error: true)
         end
-        subcommand = command_named(subcmd_name, exit_on_error: exit_on_error)
+        subcommand = command_named(subcmd_name, hard_exit: hard_exit)
         return if subcommand.nil?
 
         # Run
-        subcommand.run(opts_and_args_after_subcmd, opts_before_subcmd, exit_on_error: exit_on_error)
+        subcommand.run(opts_and_args_after_subcmd, opts_before_subcmd, hard_exit: hard_exit)
       end
     rescue CriExitException => e
-      exit(e.error? ? 1 : 0) if exit_on_error
+      exit(e.error? ? 1 : 0) if hard_exit
     end
 
     # Runs the actual command with the given command-line arguments, not
