@@ -1,3 +1,6 @@
+AllCops:
+  TargetRubyVersion: 2.2
+
 # This makes DSLs a little uglier, since it makes sense to line up the first
 # arguments:
 #
