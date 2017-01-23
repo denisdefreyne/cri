@@ -4,3 +4,4 @@
 /coverage/
 /doc/
 *.gem
+/Gemfile.lock
