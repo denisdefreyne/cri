@@ -9,6 +9,10 @@ link:http://inch-ci.org/github/ddfreyne/cri/[image:http://inch-ci.org/github/ddf
 Cri is a library for building easy-to-use command-line tools with support for
 nested commands.
 
+== Requirements ==
+
+Cri requires Ruby 2.1 or newer.
+
 == Usage ==
 
 The central concept in Cri is the _command_, which has option definitions as
