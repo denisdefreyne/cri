@@ -145,9 +145,19 @@ module Cri
 
     def test_invoke_simple_with_missing_opt_arg
       out, err = capture_io_while do
-        assert_raises SystemExit do
+        err = assert_raises SystemExit do
           simple_cmd.run(%w(-b))
         end
+        assert_equal 1, err.status
+      end
+
+      assert_equal [], lines(out)
+      assert_equal ['moo: option requires an argument -- b'], lines(err)
+    end
+
+    def test_invoke_simple_with_missing_opt_arg_no_exit
+      out, err = capture_io_while do
+        simple_cmd.run(%w(-b), {}, hard_exit: false)
       end
 
       assert_equal [], lines(out)
@@ -156,9 +166,19 @@ module Cri
 
     def test_invoke_simple_with_illegal_opt
       out, err = capture_io_while do
-        assert_raises SystemExit do
+        err = assert_raises SystemExit do
           simple_cmd.run(%w(-z))
         end
+        assert_equal 1, err.status
+      end
+
+      assert_equal [], lines(out)
+      assert_equal ['moo: illegal option -- z'], lines(err)
+    end
+
+    def test_invoke_simple_with_illegal_opt_no_exit
+      out, err = capture_io_while do
+        simple_cmd.run(%w(-z), {}, hard_exit: false)
       end
 
       assert_equal [], lines(out)
@@ -176,9 +196,19 @@ module Cri
 
     def test_invoke_nested_without_opts_or_args
       out, err = capture_io_while do
-        assert_raises SystemExit do
+        err = assert_raises SystemExit do
           nested_cmd.run(%w())
         end
+        assert_equal 1, err.status
+      end
+
+      assert_equal [], lines(out)
+      assert_equal ['super: no command given'], lines(err)
+    end
+
+    def test_invoke_nested_without_opts_or_args_no_exit
+      out, err = capture_io_while do
+        nested_cmd.run(%w(), {}, hard_exit: false)
       end
 
       assert_equal [], lines(out)
@@ -196,9 +226,19 @@ module Cri
 
     def test_invoke_nested_with_incorrect_command_name
       out, err = capture_io_while do
-        assert_raises SystemExit do
+        err = assert_raises SystemExit do
           nested_cmd.run(%w(oogabooga))
         end
+        assert_equal 1, err.status
+      end
+
+      assert_equal [], lines(out)
+      assert_equal ["super: unknown command 'oogabooga'"], lines(err)
+    end
+
+    def test_invoke_nested_with_incorrect_command_name_no_exit
+      out, err = capture_io_while do
+        nested_cmd.run(%w(oogabooga), {}, hard_exit: false)
       end
 
       assert_equal [], lines(out)
@@ -207,9 +247,19 @@ module Cri
 
     def test_invoke_nested_with_ambiguous_command_name
       out, err = capture_io_while do
-        assert_raises SystemExit do
+        err = assert_raises SystemExit do
           nested_cmd.run(%w(s))
         end
+        assert_equal 1, err.status
+      end
+
+      assert_equal [], lines(out)
+      assert_equal ["super: 's' is ambiguous:", '  sink sub'], lines(err)
+    end
+
+    def test_invoke_nested_with_ambiguous_command_name_no_exit
+      out, err = capture_io_while do
+        nested_cmd.run(%w(s), {}, hard_exit: false)
       end
 
       assert_equal [], lines(out)
