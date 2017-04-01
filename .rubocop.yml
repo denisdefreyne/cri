@@ -62,17 +62,21 @@ Style/IndentHeredoc:
   Enabled: false
 
 # Will re-enable later.
+
 Metrics/AbcSize:
-  Max: 45
+  Enabled: false
+
 Metrics/ClassLength:
   Enabled: false
-  Max: 436
+
 Metrics/CyclomaticComplexity:
-  Max: 9
+  Enabled: false
+
 Metrics/LineLength:
   Enabled: false
-  Max: 141
+
 Metrics/MethodLength:
-  Max: 41
+  Enabled: false
+
 Metrics/PerceivedComplexity:
-  Max: 10
+  Enabled: false

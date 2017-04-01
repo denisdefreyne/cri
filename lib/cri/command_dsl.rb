@@ -31,6 +31,17 @@ module Cri
       @command.add_command(command)
     end
 
+    # Sets the name of the default subcommand, i.e. the subcommand that will
+    # be executed if no subcommand is explicitly specified. This is `nil` by
+    # default, and will typically only be set for the root command.
+    #
+    # @param [String, nil] name The name of the default subcommand
+    #
+    # @return [void]
+    def default_subcommand(name)
+      @command.default_subcommand_name = name
+    end
+
     # Sets the command name.
     #
     # @param [String] arg The new command name
