@@ -193,6 +193,14 @@ root_cmd.add_command(cmd_commit)
 root.cmd.add_command(cmd_init)
 --------------------------------------------------------------------------------
 
+You can specify a default subcommand. This subcommand will be executed when the
+command has subcommands, and no subcommands are otherwise explicitly specified:
+
+[source,ruby]
+--------------------------------------------------------------------------------
+default_subcommand 'compile'
+--------------------------------------------------------------------------------
+
 == Contributors ==
 
 * Toon Willems
