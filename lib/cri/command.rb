@@ -60,6 +60,9 @@ module Cri
     attr_accessor :commands
     alias subcommands commands
 
+    # @return [Symbol] The name of the default subcommand
+    attr_accessor :default_subcommand_name
+
     # @return [String] The name
     attr_accessor :name
 
@@ -137,6 +140,7 @@ module Cri
       @aliases            = Set.new
       @commands           = Set.new
       @option_definitions = Set.new
+      @default_subcommand_name = nil
     end
 
     # Modifies the command using the DSL.
@@ -264,8 +268,12 @@ module Cri
 
         # Get command
         if subcmd_name.nil?
-          $stderr.puts "#{name}: no command given"
-          raise CriExitException.new(is_error: true)
+          if default_subcommand_name
+            subcmd_name = default_subcommand_name
+          else
+            $stderr.puts "#{name}: no command given"
+            raise CriExitException.new(is_error: true)
+          end
         end
         subcommand = command_named(subcmd_name, hard_exit: hard_exit)
         return if subcommand.nil?

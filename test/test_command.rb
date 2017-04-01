@@ -609,5 +609,26 @@ module Cri
 
       assert_equal [bar, foo, qux], [foo, bar, qux].sort
     end
+
+    def test_default_subcommand
+      subcommand = Cri::Command.define do
+        name 'sub'
+
+        run do |_opts, _args, _c|
+          $stdout.puts 'I am the subcommand!'
+        end
+      end
+
+      cmd = Cri::Command.define do
+        name 'super'
+        default_subcommand 'sub'
+        subcommand subcommand
+      end
+
+      out, _err = capture_io_while do
+        cmd.run([])
+      end
+      assert_equal "I am the subcommand!\n", out
+    end
   end
 end
