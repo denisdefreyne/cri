@@ -57,6 +57,10 @@ Lint/NestedMethodDefinition:
   Exclude:
     - 'test/**/*.rb'
 
+# Older versions of Ruby do not support this.
+Style/IndentHeredoc:
+  Enabled: false
+
 # Will re-enable later.
 Metrics/AbcSize:
   Max: 45
