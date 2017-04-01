@@ -1,6 +1,14 @@
 Cri News
 ========
 
+2.8.0
+-----
+
+Features:
+
+* Allow passing `hard_exit: false` to `Command#run` to prevent `SystemExit` (#51)
+* Allow specifying the default subcommand (#54)
+
 2.7.1
 -----
 
