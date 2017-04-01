@@ -1,3 +1,5 @@
+require 'helper'
+
 module Cri
   class ArgumentArrayTestCase < Cri::TestCase
     def test_initialize

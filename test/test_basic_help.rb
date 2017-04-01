@@ -1,3 +1,5 @@
+require 'helper'
+
 module Cri
   class BasicHelpTestCase < Cri::TestCase
     def test_run_without_supercommand

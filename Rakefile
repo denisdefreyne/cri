@@ -14,12 +14,9 @@ YARD::Rake::YardocTask.new(:doc) do |yard|
   ]
 end
 
-task :test_unit do
-  require './test/helper.rb'
-
-  FileList['./test/**/test_*.rb', './test/**/*_spec.rb'].each do |fn|
-    require fn
-  end
+Rake::TestTask.new(:test_unit) do |t|
+  t.test_files = Dir['test/**/*_spec.rb'] + Dir['test/**/test_*.rb']
+  t.libs << 'test'
 end
 
 RuboCop::RakeTask.new(:test_style) do |task|

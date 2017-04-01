@@ -1,3 +1,5 @@
+require 'helper'
+
 module Cri
   class CoreExtTestCase < Cri::TestCase
     def formatter

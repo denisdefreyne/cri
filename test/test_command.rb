@@ -1,3 +1,5 @@
+require 'helper'
+
 module Cri
   class CommandTestCase < Cri::TestCase
     def simple_cmd

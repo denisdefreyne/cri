@@ -1,3 +1,5 @@
+require 'helper'
+
 module Cri
   class CommandDSLTestCase < Cri::TestCase
     def test_create_command

@@ -1,3 +1,5 @@
+require 'helper'
+
 module Cri
   class CommandRunnerTestCase < Cri::TestCase
     def setup

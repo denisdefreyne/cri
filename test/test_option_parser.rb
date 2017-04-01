@@ -1,3 +1,5 @@
+require 'helper'
+
 module Cri
   class OptionParserTestCase < Cri::TestCase
     def test_parse_without_options
