@@ -171,16 +171,19 @@ module Cri
     end
 
     def test_parse_with_short_combined_valueful_options_with_missing_value
-      input       = %w[foo -abc bar]
+      input       = %w[foo -abc bar qux]
       definitions = [
         { long: 'aaa', short: 'a', argument: :required  },
         { long: 'bbb', short: 'b', argument: :forbidden },
         { long: 'ccc', short: 'c', argument: :forbidden },
       ]
 
-      assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
-        Cri::OptionParser.parse(input, definitions)
-      end
+      parser = Cri::OptionParser.parse(input, definitions)
+
+      assert_equal('bar', parser.options[:aaa])
+      assert(parser.options[:bbb])
+      assert(parser.options[:ccc])
+      assert_equal(%w[foo qux], parser.arguments)
     end
 
     def test_parse_with_two_short_valueful_options
@@ -336,6 +339,48 @@ module Cri
 
       assert_equal({ animal: 'gi' }, parser.options)
       assert_equal(%w[foo raffe], parser.arguments)
+    end
+
+    def test_parse_with_combined_required_options
+      input       = %w[foo -abc xxx yyy zzz]
+      definitions = [
+        { long: 'aaa', short: 'a', argument: :forbidden },
+        { long: 'bbb', short: 'b', argument: :required },
+        { long: 'ccc', short: 'c', argument: :required },
+      ]
+
+      parser = Cri::OptionParser.parse(input, definitions)
+
+      assert_equal({ aaa: true, bbb: 'xxx', ccc: 'yyy' }, parser.options)
+      assert_equal(%w[foo zzz], parser.arguments)
+    end
+
+    def test_parse_with_combined_optional_options
+      input       = %w[foo -abc xxx yyy zzz]
+      definitions = [
+        { long: 'aaa', short: 'a', argument: :forbidden },
+        { long: 'bbb', short: 'b', argument: :optional },
+        { long: 'ccc', short: 'c', argument: :required },
+      ]
+
+      parser = Cri::OptionParser.parse(input, definitions)
+
+      assert_equal({ aaa: true, bbb: 'xxx', ccc: 'yyy' }, parser.options)
+      assert_equal(%w[foo zzz], parser.arguments)
+    end
+
+    def test_parse_with_combined_optional_options_with_missing_value
+      input       = %w[foo -abc xxx]
+      definitions = [
+        { long: 'aaa', short: 'a', argument: :forbidden },
+        { long: 'bbb', short: 'b', argument: :required },
+        { long: 'ccc', short: 'c', argument: :optional, default: 'c default' },
+      ]
+
+      parser = Cri::OptionParser.parse(input, definitions)
+
+      assert_equal({ aaa: true, bbb: 'xxx', ccc: 'c default' }, parser.options)
+      assert_equal(%w[foo], parser.arguments)
     end
   end
 end
