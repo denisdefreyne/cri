@@ -1,6 +1,12 @@
 Cri News
 ========
 
+## 2.9.1
+
+Fixes:
+
+* Made default values be always returned, even when not explicitly specified (#57, #58)
+
 ## 2.9.0
 
 Features:
