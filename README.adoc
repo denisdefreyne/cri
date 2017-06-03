@@ -116,18 +116,41 @@ Options can be defined using the following methods:
 * `Cri::CommandDSL#required` (implies required argument)
 * `Cri::CommandDSL#optional` (implies optional argument)
 
-All these methods take the short option form as their first argument, and a
-long option form as their second argument. Either the short or the long form
-can be nil, but not both (because that would not make any sense). In the
-example above, the `--more` option has no short form.
+All these methods take these arguments:
+
+1. a short option
+2. a long option
+3. a description
+4. optional extra parameters
+
+Either the short or the long form can be nil, but not both (because that
+would not make any sense). In the example above, the `--more` option has no
+short form.
 
 Each of the above methods also take a block, which will be executed when the
 option is found. The argument to the block are the option value (`true` in
 case the option does not have an argument) and the command.
 
+==== Options with default values ====
+
+The `:default` parameter sets the option value that will be used if no explicit value is provided:
+
+[source,ruby]
+--------------------------------------------------------------------------------
+optional :a, :animal, 'add animal', default: 'giraffe'
+--------------------------------------------------------------------------------
+
+In the example above, the value for the `--animal` option will be the string
+`"giraffe"`, unless otherwise specified:
+
+--------------------------------------------------------------------------------
+OPTIONS
+    -a --animal[=<value>]      add animal (default: giraffe)
+--------------------------------------------------------------------------------
+
 ==== Multivalued options ====
 
-Each of these four methods take a `:multiple` option. When set to true, multiple
+Each of these four methods take a `:multiple` parameter. When set to true, multiple
 option valus are accepted, and the option values will be stored in an array.
 
 For example, to parse the command line options string `-o foo.txt -o bar.txt`
