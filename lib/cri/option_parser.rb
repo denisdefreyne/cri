@@ -242,7 +242,9 @@ module Cri
     def find_option_value(definition, option_key)
       option_value = @unprocessed_arguments_and_options.shift
       if option_value.nil? || option_value =~ /^-/
-        if definition[:argument] == :required
+        if definition[:argument] == :optional && definition[:default]
+          option_value = definition[:default]
+        elsif definition[:argument] == :required
           raise OptionRequiresAnArgumentError.new(option_key)
         else
           @unprocessed_arguments_and_options.unshift(option_value)

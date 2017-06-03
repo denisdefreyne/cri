@@ -278,5 +278,64 @@ module Cri
       assert_equal(%w[test test2], parser.options[:long])
       assert_equal(3, parser.options[:verbose].size)
     end
+
+    def test_parse_with_default_required_no_value
+      input       = %w[foo -a]
+      definitions = [
+        { long: 'animal', short: 'a', argument: :required, default: 'donkey' },
+      ]
+
+      assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
+        Cri::OptionParser.parse(input, definitions)
+      end
+    end
+
+    def test_parse_with_default_required_value
+      input       = %w[foo -a giraffe]
+      definitions = [
+        { long: 'animal', short: 'a', argument: :required, default: 'donkey' },
+      ]
+
+      parser = Cri::OptionParser.parse(input, definitions)
+
+      assert_equal({ animal: 'giraffe' }, parser.options)
+      assert_equal(['foo'], parser.arguments)
+    end
+
+    def test_parse_with_default_optional_no_value
+      input       = %w[foo -a]
+      definitions = [
+        { long: 'animal', short: 'a', argument: :optional, default: 'donkey' },
+      ]
+
+      parser = Cri::OptionParser.parse(input, definitions)
+
+      assert_equal({ animal: 'donkey' }, parser.options)
+      assert_equal(['foo'], parser.arguments)
+    end
+
+    def test_parse_with_default_optional_value
+      input       = %w[foo -a giraffe]
+      definitions = [
+        { long: 'animal', short: 'a', argument: :optional, default: 'donkey' },
+      ]
+
+      parser = Cri::OptionParser.parse(input, definitions)
+
+      assert_equal({ animal: 'giraffe' }, parser.options)
+      assert_equal(['foo'], parser.arguments)
+    end
+
+    def test_parse_with_default_optional_value_and_arg
+      input       = %w[foo -a gi raffe]
+      definitions = [
+        { long: 'animal', short: 'a', argument: :optional, default: 'donkey' },
+      ]
+
+      parser = Cri::OptionParser.parse(input, definitions)
+
+      assert_equal({ animal: 'gi' }, parser.options)
+      assert_equal(%w[foo raffe], parser.arguments)
+    end
   end
 end

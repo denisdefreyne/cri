@@ -20,6 +20,7 @@ EOS
   flag      :g,  :ggg,   'this is an option with a very long description that should reflow nicely'
   flag      :s,  nil,    'option with only a short form'
   flag      nil, 'long', 'option with only a long form'
+  optional  :i,  :iii,   'opt i', default: 'donkey'
 
   run do |opts, args|
     puts 'Executing!'
