@@ -146,11 +146,10 @@ module Cri
       text << "\n"
 
       ordered_defs = defs.sort_by { |x| x[:short] || x[:long] }
-      ordered_defs.each do |opt_def|
-        unless opt_def[:hidden]
-          text << format_opt_def(opt_def, length)
-          text << fmt.wrap_and_indent(opt_def[:desc], LINE_WIDTH, length + OPT_DESC_SPACING + DESC_INDENT, true) << "\n"
-        end
+      ordered_defs.reject { |opt_def| opt_def[:hidden] }.each do |opt_def|
+        text << format_opt_def(opt_def, length)
+        desc = opt_def[:desc] + (opt_def[:default] ? " (default: #{opt_def[:default]})" : '')
+        text << fmt.wrap_and_indent(desc, LINE_WIDTH, length + OPT_DESC_SPACING + DESC_INDENT, true) << "\n"
       end
     end
 

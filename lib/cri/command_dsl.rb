@@ -121,9 +121,14 @@ module Cri
       requiredness = params.fetch(:argument, :forbidden)
       multiple = params.fetch(:multiple, false)
       hidden = params.fetch(:hidden, false)
+      default = params.fetch(:default, nil)
 
       if short.nil? && long.nil?
         raise ArgumentError, 'short and long options cannot both be nil'
+      end
+
+      if default && requiredness != :optional
+        raise ArgumentError, "a default value cannot be specified for options with #{requiredness} values"
       end
 
       @command.option_definitions << {
@@ -134,6 +139,7 @@ module Cri
         multiple: multiple,
         block: block,
         hidden: hidden,
+        default: default,
       }
     end
     alias opt option

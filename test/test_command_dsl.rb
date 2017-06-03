@@ -39,12 +39,12 @@ module Cri
       expected_option_definitions =
         Set.new(
           [
-            { short: 'a', long: 'aaa', desc: 'opt a', argument: :optional, multiple: true, hidden: false, block: nil },
-            { short: 'b', long: 'bbb', desc: 'opt b', argument: :required,  multiple: false, hidden: false, block: nil },
-            { short: 'c', long: 'ccc', desc: 'opt c', argument: :optional,  multiple: false, hidden: false, block: nil },
-            { short: 'd', long: 'ddd', desc: 'opt d', argument: :forbidden, multiple: false, hidden: false, block: nil },
-            { short: 'e', long: 'eee', desc: 'opt e', argument: :forbidden, multiple: false, hidden: false, block: nil },
-            { short: 'f', long: 'fff', desc: 'opt f', argument: :forbidden, multiple: false, hidden: true,  block: nil },
+            { short: 'a', long: 'aaa', desc: 'opt a', argument: :optional,  multiple: true, hidden: false, block: nil, default: nil },
+            { short: 'b', long: 'bbb', desc: 'opt b', argument: :required,  multiple: false, hidden: false, block: nil, default: nil },
+            { short: 'c', long: 'ccc', desc: 'opt c', argument: :optional,  multiple: false, hidden: false, block: nil, default: nil },
+            { short: 'd', long: 'ddd', desc: 'opt d', argument: :forbidden, multiple: false, hidden: false, block: nil, default: nil },
+            { short: 'e', long: 'eee', desc: 'opt e', argument: :forbidden, multiple: false, hidden: false, block: nil, default: nil },
+            { short: 'f', long: 'fff', desc: 'opt f', argument: :forbidden, multiple: false, hidden: true,  block: nil, default: nil },
           ],
         )
       actual_option_definitions = Set.new(command.option_definitions)
@@ -78,8 +78,8 @@ module Cri
       expected_option_definitions =
         Set.new(
           [
-            { short: 's', long: nil, desc: 'short', argument: :forbidden, multiple: false, hidden: false, block: nil },
-            { short: nil, long: 'long', desc: 'long', argument: :forbidden, multiple: false, hidden: false, block: nil },
+            { short: 's', long: nil, desc: 'short', argument: :forbidden, multiple: false, hidden: false, block: nil, default: nil },
+            { short: nil, long: 'long', desc: 'long', argument: :forbidden, multiple: false, hidden: false, block: nil, default: nil },
           ],
         )
       actual_option_definitions = Set.new(command.option_definitions)
@@ -102,9 +102,9 @@ module Cri
       expected_option_definitions =
         Set.new(
           [
-            { short: 'f', long: 'flag',     desc: 'flag', argument: :forbidden, multiple: true, hidden: false, block: nil },
-            { short: 'r', long: 'required', desc: 'req',  argument: :required,  multiple: true, hidden: false, block: nil },
-            { short: 'o', long: 'optional', desc: 'opt',  argument: :optional,  multiple: true, hidden: false, block: nil },
+            { short: 'f', long: 'flag',     desc: 'flag', argument: :forbidden, multiple: true, hidden: false, block: nil, default: nil },
+            { short: 'r', long: 'required', desc: 'req',  argument: :required,  multiple: true, hidden: false, block: nil, default: nil },
+            { short: 'o', long: 'optional', desc: 'opt',  argument: :optional,  multiple: true, hidden: false, block: nil, default: nil },
           ],
         )
       actual_option_definitions = Set.new(command.option_definitions)
@@ -127,9 +127,9 @@ module Cri
       expected_option_definitions =
         Set.new(
           [
-            { short: 'f', long: 'flag',     desc: 'flag', argument: :forbidden, multiple: false, hidden: true, block: nil },
-            { short: 'r', long: 'required', desc: 'req',  argument: :required,  multiple: false, hidden: true, block: nil },
-            { short: 'o', long: 'optional', desc: 'opt',  argument: :optional,  multiple: false, hidden: true, block: nil },
+            { short: 'f', long: 'flag',     desc: 'flag', argument: :forbidden, multiple: false, hidden: true, block: nil, default: nil },
+            { short: 'r', long: 'required', desc: 'req',  argument: :required,  multiple: false, hidden: true, block: nil, default: nil },
+            { short: 'o', long: 'optional', desc: 'opt',  argument: :optional,  multiple: false, hidden: true, block: nil, default: nil },
           ],
         )
       actual_option_definitions = Set.new(command.option_definitions)
@@ -159,6 +159,28 @@ module Cri
           optional nil, nil, 'meh'
         end
       end
+    end
+
+    def test_default_value_errors_when_requiredness_is_required
+      dsl = Cri::CommandDSL.new
+
+      err = assert_raises ArgumentError do
+        dsl.instance_eval do
+          required 'a', 'animal', 'Specify animal', default: 'giraffe'
+        end
+      end
+      assert_equal('a default value cannot be specified for options with required values', err.message)
+    end
+
+    def test_default_value_errors_when_requiredness_is_forbidden
+      dsl = Cri::CommandDSL.new
+
+      err = assert_raises ArgumentError do
+        dsl.instance_eval do
+          flag 'a', 'animal', 'Allow animal', default: 'giraffe'
+        end
+      end
+      assert_equal('a default value cannot be specified for options with forbidden values', err.message)
     end
 
     def test_subcommand
