@@ -127,8 +127,8 @@ module Cri
         raise ArgumentError, 'short and long options cannot both be nil'
       end
 
-      if default && requiredness != :optional
-        raise ArgumentError, "a default value cannot be specified for options with #{requiredness} values"
+      if default && requiredness == :forbidden
+        raise ArgumentError, 'a default value cannot be specified for flag options'
       end
 
       @command.option_definitions << {
