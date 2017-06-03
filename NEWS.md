@@ -15,8 +15,8 @@ Enhancements:
 
 Features:
 
-* Allow passing `hard_exit: false` to `Command#run` to prevent `SystemExit` (#51)
-* Allow specifying the default subcommand (#54)
+* Allowed passing `hard_exit: false` to `Command#run` to prevent `SystemExit` (#51)
+* Allowed specifying the default subcommand (#54)
 
 ## 2.7.1
 
