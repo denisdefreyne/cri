@@ -36,14 +36,17 @@ module Cri
       assert_equal 'This command does a lot of stuff.', command.description
 
       # Check options
-      expected_option_definitions = Set.new([
-                                              { short: 'a', long: 'aaa', desc: 'opt a', argument: :optional,  multiple: true, hidden: false, block: nil },
-                                              { short: 'b', long: 'bbb', desc: 'opt b', argument: :required,  multiple: false, hidden: false, block: nil },
-                                              { short: 'c', long: 'ccc', desc: 'opt c', argument: :optional,  multiple: false, hidden: false, block: nil },
-                                              { short: 'd', long: 'ddd', desc: 'opt d', argument: :forbidden, multiple: false, hidden: false, block: nil },
-                                              { short: 'e', long: 'eee', desc: 'opt e', argument: :forbidden, multiple: false, hidden: false, block: nil },
-                                              { short: 'f', long: 'fff', desc: 'opt f', argument: :forbidden, multiple: false, hidden: true,  block: nil },
-                                            ])
+      expected_option_definitions =
+        Set.new(
+          [
+            { short: 'a', long: 'aaa', desc: 'opt a', argument: :optional, multiple: true, hidden: false, block: nil },
+            { short: 'b', long: 'bbb', desc: 'opt b', argument: :required,  multiple: false, hidden: false, block: nil },
+            { short: 'c', long: 'ccc', desc: 'opt c', argument: :optional,  multiple: false, hidden: false, block: nil },
+            { short: 'd', long: 'ddd', desc: 'opt d', argument: :forbidden, multiple: false, hidden: false, block: nil },
+            { short: 'e', long: 'eee', desc: 'opt e', argument: :forbidden, multiple: false, hidden: false, block: nil },
+            { short: 'f', long: 'fff', desc: 'opt f', argument: :forbidden, multiple: false, hidden: true,  block: nil },
+          ],
+        )
       actual_option_definitions = Set.new(command.option_definitions)
       assert_equal expected_option_definitions, actual_option_definitions
     end
@@ -72,10 +75,13 @@ module Cri
       assert_equal :probably, $did_it_work
 
       # Check options
-      expected_option_definitions = Set.new([
-                                              { short: 's', long: nil, desc: 'short', argument: :forbidden, multiple: false, hidden: false, block: nil },
-                                              { short: nil, long: 'long', desc: 'long', argument: :forbidden, multiple: false, hidden: false, block: nil },
-                                            ])
+      expected_option_definitions =
+        Set.new(
+          [
+            { short: 's', long: nil, desc: 'short', argument: :forbidden, multiple: false, hidden: false, block: nil },
+            { short: nil, long: 'long', desc: 'long', argument: :forbidden, multiple: false, hidden: false, block: nil },
+          ],
+        )
       actual_option_definitions = Set.new(command.option_definitions)
       assert_equal expected_option_definitions, actual_option_definitions
     end
@@ -93,11 +99,14 @@ module Cri
       command = dsl.command
 
       # Check options
-      expected_option_definitions = Set.new([
-                                              { short: 'f', long: 'flag',     desc: 'flag', argument: :forbidden, multiple: true, hidden: false, block: nil },
-                                              { short: 'r', long: 'required', desc: 'req',  argument: :required,  multiple: true, hidden: false, block: nil },
-                                              { short: 'o', long: 'optional', desc: 'opt',  argument: :optional,  multiple: true, hidden: false, block: nil },
-                                            ])
+      expected_option_definitions =
+        Set.new(
+          [
+            { short: 'f', long: 'flag',     desc: 'flag', argument: :forbidden, multiple: true, hidden: false, block: nil },
+            { short: 'r', long: 'required', desc: 'req',  argument: :required,  multiple: true, hidden: false, block: nil },
+            { short: 'o', long: 'optional', desc: 'opt',  argument: :optional,  multiple: true, hidden: false, block: nil },
+          ],
+        )
       actual_option_definitions = Set.new(command.option_definitions)
       assert_equal expected_option_definitions, actual_option_definitions
     end
@@ -115,11 +124,14 @@ module Cri
       command = dsl.command
 
       # Check options
-      expected_option_definitions = Set.new([
-                                              { short: 'f', long: 'flag',     desc: 'flag', argument: :forbidden, multiple: false, hidden: true, block: nil },
-                                              { short: 'r', long: 'required', desc: 'req',  argument: :required,  multiple: false, hidden: true, block: nil },
-                                              { short: 'o', long: 'optional', desc: 'opt',  argument: :optional,  multiple: false, hidden: true, block: nil },
-                                            ])
+      expected_option_definitions =
+        Set.new(
+          [
+            { short: 'f', long: 'flag',     desc: 'flag', argument: :forbidden, multiple: false, hidden: true, block: nil },
+            { short: 'r', long: 'required', desc: 'req',  argument: :required,  multiple: false, hidden: true, block: nil },
+            { short: 'o', long: 'optional', desc: 'opt',  argument: :optional,  multiple: false, hidden: true, block: nil },
+          ],
+        )
       actual_option_definitions = Set.new(command.option_definitions)
       assert_equal expected_option_definitions, actual_option_definitions
     end
