@@ -173,12 +173,19 @@ module Cri
           add_argument(e)
         end
       end
+
+      add_defaults
+
       self
     ensure
       @running = false
     end
 
     private
+
+    def add_defaults
+      @definitions.each { |d| add_default_option(d) }
+    end
 
     def handle_dashdash(e)
       add_argument(e)
@@ -252,7 +259,8 @@ module Cri
     end
 
     def add_option(definition, value)
-      key = (definition[:long] || definition[:short]).to_sym
+      key = key_for(definition)
+
       if definition[:multiple]
         options[key] ||= []
         options[key] << value
@@ -261,6 +269,25 @@ module Cri
       end
 
       delegate.option_added(key, value, self) unless delegate.nil?
+    end
+
+    def add_default_option(definition)
+      key = key_for(definition)
+      return if options.key?(key)
+
+      value = definition[:default]
+      return unless value
+
+      if definition[:multiple]
+        options[key] ||= []
+        options[key] << value
+      else
+        options[key] = value
+      end
+    end
+
+    def key_for(definition)
+      (definition[:long] || definition[:short]).to_sym
     end
 
     def add_argument(value)

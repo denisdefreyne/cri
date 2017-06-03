@@ -282,6 +282,18 @@ module Cri
       assert_equal(3, parser.options[:verbose].size)
     end
 
+    def test_parse_with_default_required_unspecified
+      input       = %w[foo]
+      definitions = [
+        { long: 'animal', short: 'a', argument: :required, default: 'donkey' },
+      ]
+
+      parser = Cri::OptionParser.parse(input, definitions)
+
+      assert_equal({ animal: 'donkey' }, parser.options)
+      assert_equal(['foo'], parser.arguments)
+    end
+
     def test_parse_with_default_required_no_value
       input       = %w[foo -a]
       definitions = [
@@ -302,6 +314,18 @@ module Cri
       parser = Cri::OptionParser.parse(input, definitions)
 
       assert_equal({ animal: 'giraffe' }, parser.options)
+      assert_equal(['foo'], parser.arguments)
+    end
+
+    def test_parse_with_default_optional_unspecified
+      input       = %w[foo]
+      definitions = [
+        { long: 'animal', short: 'a', argument: :optional, default: 'donkey' },
+      ]
+
+      parser = Cri::OptionParser.parse(input, definitions)
+
+      assert_equal({ animal: 'donkey' }, parser.options)
       assert_equal(['foo'], parser.arguments)
     end
 

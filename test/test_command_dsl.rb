@@ -161,15 +161,12 @@ module Cri
       end
     end
 
-    def test_default_value_errors_when_requiredness_is_required
+    def test_default_value_with_equiredness_is_required
       dsl = Cri::CommandDSL.new
 
-      err = assert_raises ArgumentError do
-        dsl.instance_eval do
-          required 'a', 'animal', 'Specify animal', default: 'giraffe'
-        end
+      dsl.instance_eval do
+        required 'a', 'animal', 'Specify animal', default: 'giraffe'
       end
-      assert_equal('a default value cannot be specified for options with required values', err.message)
     end
 
     def test_default_value_errors_when_requiredness_is_forbidden
@@ -180,7 +177,7 @@ module Cri
           flag 'a', 'animal', 'Allow animal', default: 'giraffe'
         end
       end
-      assert_equal('a default value cannot be specified for options with forbidden values', err.message)
+      assert_equal('a default value cannot be specified for flag options', err.message)
     end
 
     def test_subcommand
