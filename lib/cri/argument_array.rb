@@ -8,7 +8,7 @@ module Cri
     # @param [Array<String>] raw_arguments A list of raw arguments, i.e.
     #   including any separator arguments (`--`).
     def initialize(raw_arguments)
-      super(raw_arguments.reject { |a| '--' == a })
+      super(raw_arguments.reject { |a| a == '--' })
       @raw_arguments = raw_arguments
     end
 

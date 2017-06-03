@@ -120,7 +120,7 @@ module Cri
 
     def test_invoke_simple_without_opts_or_args
       out, err = capture_io_while do
-        simple_cmd.run(%w())
+        simple_cmd.run(%w[])
       end
 
       assert_equal ['Awesome moo!', '', ''], lines(out)
@@ -129,7 +129,7 @@ module Cri
 
     def test_invoke_simple_with_args
       out, err = capture_io_while do
-        simple_cmd.run(%w(abc xyz))
+        simple_cmd.run(%w[abc xyz])
       end
 
       assert_equal ['Awesome moo!', 'abc,xyz', ''], lines(out)
@@ -138,7 +138,7 @@ module Cri
 
     def test_invoke_simple_with_opts
       out, err = capture_io_while do
-        simple_cmd.run(%w(-c -b x))
+        simple_cmd.run(%w[-c -b x])
       end
 
       assert_equal ['Awesome moo!', '', 'bbb=x,ccc=true'], lines(out)
@@ -148,7 +148,7 @@ module Cri
     def test_invoke_simple_with_missing_opt_arg
       out, err = capture_io_while do
         err = assert_raises SystemExit do
-          simple_cmd.run(%w(-b))
+          simple_cmd.run(%w[-b])
         end
         assert_equal 1, err.status
       end
@@ -159,7 +159,7 @@ module Cri
 
     def test_invoke_simple_with_missing_opt_arg_no_exit
       out, err = capture_io_while do
-        simple_cmd.run(%w(-b), {}, hard_exit: false)
+        simple_cmd.run(%w[-b], {}, hard_exit: false)
       end
 
       assert_equal [], lines(out)
@@ -169,7 +169,7 @@ module Cri
     def test_invoke_simple_with_illegal_opt
       out, err = capture_io_while do
         err = assert_raises SystemExit do
-          simple_cmd.run(%w(-z))
+          simple_cmd.run(%w[-z])
         end
         assert_equal 1, err.status
       end
@@ -180,7 +180,7 @@ module Cri
 
     def test_invoke_simple_with_illegal_opt_no_exit
       out, err = capture_io_while do
-        simple_cmd.run(%w(-z), {}, hard_exit: false)
+        simple_cmd.run(%w[-z], {}, hard_exit: false)
       end
 
       assert_equal [], lines(out)
@@ -189,7 +189,7 @@ module Cri
 
     def test_invoke_simple_with_opt_with_block
       out, err = capture_io_while do
-        simple_cmd.run(%w(-a 123))
+        simple_cmd.run(%w[-a 123])
       end
 
       assert_equal ['moo:123', 'Awesome moo!', '', 'aaa=123'], lines(out)
@@ -199,7 +199,7 @@ module Cri
     def test_invoke_nested_without_opts_or_args
       out, err = capture_io_while do
         err = assert_raises SystemExit do
-          nested_cmd.run(%w())
+          nested_cmd.run(%w[])
         end
         assert_equal 1, err.status
       end
@@ -210,7 +210,7 @@ module Cri
 
     def test_invoke_nested_without_opts_or_args_no_exit
       out, err = capture_io_while do
-        nested_cmd.run(%w(), {}, hard_exit: false)
+        nested_cmd.run(%w[], {}, hard_exit: false)
       end
 
       assert_equal [], lines(out)
@@ -219,7 +219,7 @@ module Cri
 
     def test_invoke_nested_with_correct_command_name
       out, err = capture_io_while do
-        nested_cmd.run(%w(sub))
+        nested_cmd.run(%w[sub])
       end
 
       assert_equal ['Sub-awesome!', '', ''], lines(out)
@@ -229,7 +229,7 @@ module Cri
     def test_invoke_nested_with_incorrect_command_name
       out, err = capture_io_while do
         err = assert_raises SystemExit do
-          nested_cmd.run(%w(oogabooga))
+          nested_cmd.run(%w[oogabooga])
         end
         assert_equal 1, err.status
       end
@@ -240,7 +240,7 @@ module Cri
 
     def test_invoke_nested_with_incorrect_command_name_no_exit
       out, err = capture_io_while do
-        nested_cmd.run(%w(oogabooga), {}, hard_exit: false)
+        nested_cmd.run(%w[oogabooga], {}, hard_exit: false)
       end
 
       assert_equal [], lines(out)
@@ -250,7 +250,7 @@ module Cri
     def test_invoke_nested_with_ambiguous_command_name
       out, err = capture_io_while do
         err = assert_raises SystemExit do
-          nested_cmd.run(%w(s))
+          nested_cmd.run(%w[s])
         end
         assert_equal 1, err.status
       end
@@ -261,7 +261,7 @@ module Cri
 
     def test_invoke_nested_with_ambiguous_command_name_no_exit
       out, err = capture_io_while do
-        nested_cmd.run(%w(s), {}, hard_exit: false)
+        nested_cmd.run(%w[s], {}, hard_exit: false)
       end
 
       assert_equal [], lines(out)
@@ -270,7 +270,7 @@ module Cri
 
     def test_invoke_nested_with_alias
       out, err = capture_io_while do
-        nested_cmd.run(%w(sup))
+        nested_cmd.run(%w[sup])
       end
 
       assert_equal ['Sub-awesome!', '', ''], lines(out)
@@ -279,7 +279,7 @@ module Cri
 
     def test_invoke_nested_with_options_before_command
       out, err = capture_io_while do
-        nested_cmd.run(%w(-a 666 sub))
+        nested_cmd.run(%w[-a 666 sub])
       end
 
       assert_equal ['super:666', 'Sub-awesome!', '', 'aaa=666'], lines(out)
@@ -288,14 +288,14 @@ module Cri
 
     def test_invoke_nested_with_run_block
       out, err = capture_io_while do
-        nested_cmd_with_run_block.run(%w())
+        nested_cmd_with_run_block.run(%w[])
       end
 
       assert_equal ['super'], lines(out)
       assert_equal [], lines(err)
 
       out, err = capture_io_while do
-        nested_cmd_with_run_block.run(%w(sub))
+        nested_cmd_with_run_block.run(%w[sub])
       end
 
       assert_equal ['sub'], lines(out)
@@ -573,7 +573,7 @@ module Cri
       end
 
       out, _err = capture_io_while do
-        cmd.run(%w(foo -- bar))
+        cmd.run(%w[foo -- bar])
       end
       assert_equal "args=foo,bar args.raw=foo,--,bar\n", out
     end
@@ -599,7 +599,7 @@ module Cri
       end
 
       out, _err = capture_io_while do
-        cmd.run(%w(foo -- bar))
+        cmd.run(%w[foo -- bar])
       end
       assert_equal "args=foo,bar args.raw=foo,--,bar\n", out
     end

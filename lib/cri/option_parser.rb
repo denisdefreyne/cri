@@ -199,7 +199,7 @@ module Cri
       definition = @definitions.find { |d| d[:long] == option_key }
       raise IllegalOptionError.new(option_key) if definition.nil?
 
-      if %i(required optional).include?(definition[:argument])
+      if %i[required optional].include?(definition[:argument])
         # Get option value if necessary
         if option_value.nil?
           option_value = find_option_value(definition, option_key)
@@ -226,7 +226,7 @@ module Cri
         if option_keys.length > 1 && definition[:argument] == :required
           # This is a combined option and it requires an argument, so complain
           raise OptionRequiresAnArgumentError.new(option_key)
-        elsif %i(required optional).include?(definition[:argument])
+        elsif %i[required optional].include?(definition[:argument])
           # Get option value
           option_value = find_option_value(definition, option_key)
 
@@ -267,7 +267,7 @@ module Cri
     def add_argument(value)
       @raw_arguments << value
 
-      unless '--' == value
+      unless value == '--'
         delegate.argument_added(value, self) unless delegate.nil?
       end
     end

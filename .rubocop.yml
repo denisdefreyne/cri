@@ -8,7 +8,7 @@ AllCops:
 #   required  :b, :bbb, 'opt b'
 #   optional  :c, :ccc, 'opt c'
 #   flag      :d, :ddd, 'opt d'
-Style/SpaceBeforeFirstArg:
+Layout/SpaceBeforeFirstArg:
   Enabled: false
 
 # Trailing commas in a multiline context makes diffs nicer.
@@ -58,7 +58,7 @@ Lint/NestedMethodDefinition:
     - 'test/**/*.rb'
 
 # Older versions of Ruby do not support this.
-Style/IndentHeredoc:
+Layout/IndentHeredoc:
   Enabled: false
 
 # Will re-enable later.

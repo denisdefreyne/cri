@@ -26,7 +26,7 @@ module Cri
 
       # Run
       $did_it_work = :sadly_not
-      command.run(%w(-a x -b y -c -d -e))
+      command.run(%w[-a x -b y -c -d -e])
       assert_equal :probably, $did_it_work
 
       # Check
@@ -68,7 +68,7 @@ module Cri
 
       # Run
       $did_it_work = :sadly_not
-      command.run(%w(-s --long))
+      command.run(%w[-s --long])
       assert_equal :probably, $did_it_work
 
       # Check options
@@ -175,7 +175,7 @@ module Cri
       command = dsl.command
 
       # Check
-      assert_equal %w(aah moo), command.aliases.sort
+      assert_equal %w[aah moo], command.aliases.sort
     end
 
     def test_run_arity
@@ -204,7 +204,7 @@ module Cri
 
       # Check
       $did_it_work = false
-      command.run(%w(certainly))
+      command.run(%w[certainly])
       assert_equal 'certainly', $did_it_work
     end
   end

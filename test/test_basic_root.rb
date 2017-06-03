@@ -7,7 +7,7 @@ module Cri
 
       stdout, _stderr = capture_io_while do
         err = assert_raises SystemExit do
-          cmd.run(%w(-h))
+          cmd.run(%w[-h])
         end
         assert_equal 0, err.status
       end
@@ -19,7 +19,7 @@ module Cri
       cmd = Cri::Command.new_basic_root
 
       stdout, _stderr = capture_io_while do
-        cmd.run(%w(-h), {}, hard_exit: false)
+        cmd.run(%w[-h], {}, hard_exit: false)
       end
 
       assert stdout =~ /COMMANDS.*\n.*help.*show help/
