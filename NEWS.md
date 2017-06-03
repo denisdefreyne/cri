@@ -1,6 +1,16 @@
 Cri News
 ========
 
+## 2.9.0
+
+Features:
+
+* Allowed specifying default option value (#55)
+
+Enhancements:
+
+* Added support for specifying values for combined options (#56)
+
 ## 2.8.0
 
 Features:
