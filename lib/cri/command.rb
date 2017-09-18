@@ -43,7 +43,7 @@ module Cri
     #
     # @api private
     class CriExitException < StandardError
-      def initialize(is_error:)
+      def initialize(is_error)
         @is_error = is_error
       end
 
