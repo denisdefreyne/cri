@@ -98,6 +98,14 @@ module Cri
       @command.hidden = true
     end
 
+    # Skips option parsing for the command. Allows option-like arguments to be
+    # passed in, avoiding the {Cri::OptionParser} validation.
+    #
+    # @return [void]
+    def skip_option_parsing
+      @command.all_opts_as_args = true
+    end
+
     # Adds a new option to the command. If a block is given, it will be
     # executed when the option is successfully parsed.
     #
