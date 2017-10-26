@@ -233,11 +233,11 @@ module Cri
       commands = commands_named(name)
 
       if commands.empty?
-        $stderr.puts "#{self.name}: unknown command '#{name}'\n"
+        warn "#{self.name}: unknown command '#{name}'\n"
         raise CriExitException.new(is_error: true)
       elsif commands.size > 1
-        $stderr.puts "#{self.name}: '#{name}' is ambiguous:"
-        $stderr.puts "  #{commands.map(&:name).sort.join(' ')}"
+        warn "#{self.name}: '#{name}' is ambiguous:"
+        warn "  #{commands.map(&:name).sort.join(' ')}"
         raise CriExitException.new(is_error: true)
       else
         commands[0]
@@ -271,7 +271,7 @@ module Cri
           if default_subcommand_name
             subcmd_name = default_subcommand_name
           else
-            $stderr.puts "#{name}: no command given"
+            warn "#{name}: no command given"
             raise CriExitException.new(is_error: true)
           end
         end
@@ -369,10 +369,10 @@ module Cri
     def handle_parser_errors_while
       yield
     rescue Cri::OptionParser::IllegalOptionError => e
-      $stderr.puts "#{name}: illegal option -- #{e}"
+      warn "#{name}: illegal option -- #{e}"
       raise CriExitException.new(is_error: true)
     rescue Cri::OptionParser::OptionRequiresAnArgumentError => e
-      $stderr.puts "#{name}: option requires an argument -- #{e}"
+      warn "#{name}: option requires an argument -- #{e}"
       raise CriExitException.new(is_error: true)
     end
   end

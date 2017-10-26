@@ -9,7 +9,7 @@ def run(*args)
   print 'Is this correct? [y/N] '
   res = gets
   unless res.strip.casecmp('y').zero?
-    $stderr.puts 'Answer was not Y; release aborted.'
+    warn 'Answer was not Y; release aborted.'
     exit 1
   end
 
@@ -19,7 +19,7 @@ def run(*args)
   print 'Continue? [y/N] '
   res = gets
   unless res.strip.casecmp('y').zero?
-    $stderr.puts 'Answer was not Y; release aborted.'
+    warn 'Answer was not Y; release aborted.'
     exit 1
   end
 end
@@ -48,8 +48,8 @@ puts '=== Verifying that release does not yet exist…'
 releases = client.releases('ddfreyne/cri')
 release = releases.find { |r| r.tag_name == Cri::VERSION }
 if release
-  $stderr.puts 'Release already exists!'
-  $stderr.puts 'ABORTED!'
+  warn 'Release already exists!'
+  warn 'ABORTED!'
   exit 1
 end
 puts
