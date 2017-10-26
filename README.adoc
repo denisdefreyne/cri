@@ -253,8 +253,10 @@ default_subcommand 'compile'
 
 == Contributors ==
 
-* Toon Willems
+* Bart Mesuere
 * Ken Coar
+* Tim Sharpe
+* Toon Willems
 
 Thanks for Lee “injekt” Jarvis for link:https://github.com/injekt/slop[Slop],
 which has inspired the design of Cri 2.0.
