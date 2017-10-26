@@ -1,6 +1,14 @@
 Cri News
 ========
 
+## 2.10.0
+
+Features:
+
+* Added support for skipping option parsing (#62) [Tim Sharpe]
+
+This release drops support for Ruby 2.1, which is no longer supported.
+
 ## 2.9.1
 
 Fixes:
