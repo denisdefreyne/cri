@@ -92,6 +92,11 @@ module Cri
     #   command (ignored for commands with subcommands)
     attr_accessor :block
 
+    # @return [Boolean] true if the command should skip option parsing and
+    # treat all options as arguments.
+    attr_accessor :all_opts_as_args
+    alias all_opts_as_args? all_opts_as_args
+
     # Creates a new command using the DSL. If a string is given, the command
     # will be defined using the string; if a block is given, the block will be
     # used instead.
@@ -299,17 +304,22 @@ module Cri
     #
     # @return [void]
     def run_this(opts_and_args, parent_opts = {})
-      # Parse
-      parser = Cri::OptionParser.new(
-        opts_and_args, global_option_definitions
-      )
-      handle_parser_errors_while { parser.run }
-      local_opts  = parser.options
-      global_opts = parent_opts.merge(parser.options)
-      args = parser.arguments
+      if all_opts_as_args?
+        args = opts_and_args
+        global_opts = parent_opts
+      else
+        # Parse
+        parser = Cri::OptionParser.new(
+          opts_and_args, global_option_definitions
+        )
+        handle_parser_errors_while { parser.run }
+        local_opts  = parser.options
+        global_opts = parent_opts.merge(parser.options)
+        args = parser.arguments
 
-      # Handle options
-      handle_options(local_opts)
+        # Handle options
+        handle_options(local_opts)
+      end
 
       # Execute
       if block.nil?
@@ -352,6 +362,8 @@ module Cri
     end
 
     def partition(opts_and_args)
+      return [{}, opts_and_args.first, opts_and_args] if all_opts_as_args?
+
       # Parse
       delegate = Cri::Command::OptionParserPartitioningDelegate.new
       parser = Cri::OptionParser.new(opts_and_args, global_option_definitions)

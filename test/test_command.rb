@@ -632,5 +632,46 @@ module Cri
       end
       assert_equal "I am the subcommand!\n", out
     end
+
+    def test_skip_option_parsing
+      command = Cri::Command.define do
+        name 'super'
+        skip_option_parsing
+
+        run do |_opts, args, _c|
+          puts "args=#{args.join(',')}"
+        end
+      end
+
+      out, _err = capture_io_while do
+        command.run(['--test', '-a', 'arg'])
+      end
+
+      assert_equal "args=--test,-a,arg\n", out
+    end
+
+    def test_subcommand_skip_option_parsing
+      super_cmd = Cri::Command.define do
+        name 'super'
+
+        option :a, :aaa, 'opt a', argument: :optional
+      end
+
+      super_cmd.define_command do
+        name 'sub'
+
+        skip_option_parsing
+
+        run do |opts, args, _c|
+          puts "opts=#{opts.inspect} args=#{args.join(',')}"
+        end
+      end
+
+      out, _err = capture_io_while do
+        super_cmd.run(['--aaa', 'test', 'sub', '--test', 'value'])
+      end
+
+      assert_equal "opts={:aaa=>\"test\"} args=--test,value\n", out
+    end
   end
 end
