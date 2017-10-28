@@ -1,6 +1,12 @@
 Cri News
 ========
 
+## 2.10.1
+
+Fixes:
+
+* Restored Ruby 2.1 compatibility (for now)
+
 ## 2.10.0
 
 Features:
