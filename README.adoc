@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fddfreyne%2Fcri.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fddfreyne%2Fcri?ref=badge_shield)
+
 = Cri =
 
 link:http://rubygems.org/gems/cri[image:http://img.shields.io/gem/v/cri.svg[]]
@@ -260,3 +262,7 @@ default_subcommand 'compile'
 
 Thanks for Lee “injekt” Jarvis for link:https://github.com/injekt/slop[Slop],
 which has inspired the design of Cri 2.0.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fddfreyne%2Fcri.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fddfreyne%2Fcri?ref=badge_large)
