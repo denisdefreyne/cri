@@ -3,7 +3,7 @@ module Cri
   end
 end
 
-require 'cri/core_ext/string'
+require_relative 'core_ext/string'
 
 class String
   include Cri::CoreExtensions::String

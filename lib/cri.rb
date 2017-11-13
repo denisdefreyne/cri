@@ -1,5 +1,3 @@
-require 'cri/version'
-
 # The namespace for Cri, a library for building easy-to-use command-line tools
 # with support for nested commands.
 module Cri
@@ -22,12 +20,13 @@ require 'set'
 
 require 'colored'
 
-require 'cri/core_ext'
-require 'cri/argument_array'
-require 'cri/command'
-require 'cri/string_formatter'
-require 'cri/command_dsl'
-require 'cri/command_runner'
-require 'cri/help_renderer'
-require 'cri/option_parser'
-require 'cri/platform'
+require_relative 'cri/version'
+require_relative 'cri/core_ext'
+require_relative 'cri/argument_array'
+require_relative 'cri/command'
+require_relative 'cri/string_formatter'
+require_relative 'cri/command_dsl'
+require_relative 'cri/command_runner'
+require_relative 'cri/help_renderer'
+require_relative 'cri/option_parser'
+require_relative 'cri/platform'
