@@ -16,17 +16,16 @@ module Cri
   # command has no supercommand for which to show help.
   class NoHelpAvailableError < Error
   end
-
-  autoload 'Command',           'cri/command'
-  autoload 'StringFormatter',   'cri/string_formatter'
-  autoload 'CommandDSL',        'cri/command_dsl'
-  autoload 'CommandRunner',     'cri/command_runner'
-  autoload 'HelpRenderer',      'cri/help_renderer'
-  autoload 'OptionParser',      'cri/option_parser'
-  autoload 'Platform',          'cri/platform'
 end
 
 require 'set'
 
 require 'cri/core_ext'
 require 'cri/argument_array'
+require 'cri/command'
+require 'cri/string_formatter'
+require 'cri/command_dsl'
+require 'cri/command_runner'
+require 'cri/help_renderer'
+require 'cri/option_parser'
+require 'cri/platform'
