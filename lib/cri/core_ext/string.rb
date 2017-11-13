@@ -1,5 +1,3 @@
-require 'colored'
-
 module Cri
   module CoreExtensions
     # @deprecated

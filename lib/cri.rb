@@ -20,6 +20,8 @@ end
 
 require 'set'
 
+require 'colored'
+
 require 'cri/core_ext'
 require 'cri/argument_array'
 require 'cri/command'
