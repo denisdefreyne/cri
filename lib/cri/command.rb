@@ -381,7 +381,7 @@ module Cri
     def handle_parser_errors_while
       yield
     rescue Cri::OptionParser::IllegalOptionError => e
-      warn "#{name}: illegal option -- #{e}"
+      warn "#{name}: unrecognised option -- #{e}"
       raise CriExitException.new(is_error: true)
     rescue Cri::OptionParser::OptionRequiresAnArgumentError => e
       warn "#{name}: option requires an argument -- #{e}"

@@ -175,7 +175,7 @@ module Cri
       end
 
       assert_equal [], lines(out)
-      assert_equal ['moo: illegal option -- z'], lines(err)
+      assert_equal ['moo: unrecognised option -- z'], lines(err)
     end
 
     def test_invoke_simple_with_illegal_opt_no_exit
@@ -184,7 +184,7 @@ module Cri
       end
 
       assert_equal [], lines(out)
-      assert_equal ['moo: illegal option -- z'], lines(err)
+      assert_equal ['moo: unrecognised option -- z'], lines(err)
     end
 
     def test_invoke_simple_with_opt_with_block
