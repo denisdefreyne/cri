@@ -83,3 +83,10 @@ Metrics/MethodLength:
 
 Metrics/PerceivedComplexity:
   Enabled: false
+
+Style/FormatStringToken:
+  Enabled: false
+
+Style/EvalWithLocation:
+    Exclude:
+    - 'test/**/*.rb'
