@@ -39,7 +39,7 @@ module Cri
     private
 
     def fmt
-      @_formatter ||= Cri::StringFormatter.new
+      @fmt ||= Cri::StringFormatter.new
     end
 
     def append_summary(text)

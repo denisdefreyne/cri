@@ -187,18 +187,18 @@ module Cri
       @definitions.each { |d| add_default_option(d) }
     end
 
-    def handle_dashdash(e)
-      add_argument(e)
+    def handle_dashdash(elem)
+      add_argument(elem)
       @no_more_options = true
     end
 
-    def handle_dashdash_option(e)
+    def handle_dashdash_option(elem)
       # Get option key, and option value if included
-      if e =~ /^--([^=]+)=(.+)$/
+      if elem =~ /^--([^=]+)=(.+)$/
         option_key   = Regexp.last_match[1]
         option_value = Regexp.last_match[2]
       else
-        option_key    = e[2..-1]
+        option_key    = elem[2..-1]
         option_value  = nil
       end
 
@@ -220,9 +220,9 @@ module Cri
       end
     end
 
-    def handle_dash_option(e)
+    def handle_dash_option(elem)
       # Get option keys
-      option_keys = e[1..-1].scan(/./)
+      option_keys = elem[1..-1].scan(/./)
 
       # For each key
       option_keys.each do |option_key|

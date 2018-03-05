@@ -5,8 +5,8 @@ module Cri
     # @param [String] s The string to format
     #
     # @return [Array<String>] A list of paragraphs in the string
-    def to_paragraphs(s)
-      lines = s.scan(/([^\n]+\n|[^\n]*$)/).map { |l| l[0].strip }
+    def to_paragraphs(str)
+      lines = str.scan(/([^\n]+\n|[^\n]*$)/).map { |l| l[0].strip }
 
       paragraphs = [[]]
       lines.each do |line|
@@ -34,11 +34,11 @@ module Cri
     #   line is already indented
     #
     # @return [String] The word-wrapped and indented string
-    def wrap_and_indent(s, width, indentation, first_line_already_indented = false)
+    def wrap_and_indent(str, width, indentation, first_line_already_indented = false)
       indented_width = width - indentation
       indent = ' ' * indentation
       # Split into paragraphs
-      paragraphs = to_paragraphs(s)
+      paragraphs = to_paragraphs(str)
 
       # Wrap and indent each paragraph
       text = paragraphs.map do |paragraph|
@@ -74,11 +74,11 @@ module Cri
     #
     # @return [String] The string, formatted to be used as a title in a section
     #   in the help
-    def format_as_title(s, io)
+    def format_as_title(str, io)
       if Cri::Platform.color?(io)
-        s.upcase.red.bold
+        str.upcase.red.bold
       else
-        s.upcase
+        str.upcase
       end
     end
 
@@ -86,11 +86,11 @@ module Cri
     #
     # @return [String] The string, formatted to be used as the name of a command
     #   in the help
-    def format_as_command(s, io)
+    def format_as_command(str, io)
       if Cri::Platform.color?(io)
-        s.green
+        str.green
       else
-        s
+        str
       end
     end
 
@@ -98,11 +98,11 @@ module Cri
     #
     # @return [String] The string, formatted to be used as an option definition
     #   of a command in the help
-    def format_as_option(s, io)
+    def format_as_option(str, io)
       if Cri::Platform.color?(io)
-        s.yellow
+        str.yellow
       else
-        s
+        str
       end
     end
   end

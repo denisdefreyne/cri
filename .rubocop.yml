@@ -12,7 +12,11 @@ Layout/SpaceBeforeFirstArg:
   Enabled: false
 
 # Trailing commas in a multiline context makes diffs nicer.
-Style/TrailingCommaInLiteral:
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+
+# Trailing commas in a multiline context makes diffs nicer.
+Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: comma
 
 # Trailing commas in a multiline context makes diffs nicer.
