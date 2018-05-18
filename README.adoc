@@ -240,7 +240,7 @@ To add a command as a subcommand to another command, use the
 --------------------------------------------------------------------------------
 root_cmd.add_command(cmd_add)
 root_cmd.add_command(cmd_commit)
-root.cmd.add_command(cmd_init)
+root_cmd.add_command(cmd_init)
 --------------------------------------------------------------------------------
 
 You can specify a default subcommand. This subcommand will be executed when the
