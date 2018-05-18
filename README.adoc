@@ -243,6 +243,20 @@ root_cmd.add_command(cmd_commit)
 root.cmd.add_command(cmd_init)
 --------------------------------------------------------------------------------
 
+You can also define a subcommand on the fly without creating a class first
+using `Cri::Command#define_command` (name can be skipped if you set it inside
+the block instead):
+
+[source,ruby]
+--------------------------------------------------------------------------------
+root_cmd.define_command('add') do
+  # option ...
+  run do |opts, args, cmd|
+    # ...
+  end
+end
+--------------------------------------------------------------------------------
+
 You can specify a default subcommand. This subcommand will be executed when the
 command has subcommands, and no subcommands are otherwise explicitly specified:
 
