@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Cri
   # The {HelpRenderer} class is responsible for generating a string containing
   # the help for a given command, intended to be printed on the command line.
@@ -25,7 +27,7 @@ module Cri
 
     # @return [String] The help text for this command
     def render
-      text = ''
+      text = +''
 
       append_summary(text)
       append_usage(text)
@@ -106,7 +108,7 @@ module Cri
 
     def length_for_opt_defs(opt_defs)
       opt_defs.map do |opt_def|
-        string = ''
+        string = +''
 
         # Always pretend there is a short option
         string << '-X'
@@ -189,7 +191,7 @@ module Cri
       short_value_postfix = short_value_postfix_for(opt_def)
       long_value_postfix = long_value_postfix_for(opt_def)
 
-      opt_text = ''
+      opt_text = +''
       opt_text_len = 0
       if opt_def[:short]
         opt_text << fmt.format_as_option('-' + opt_def[:short], @io)

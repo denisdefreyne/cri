@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'helper'
 
 module Cri
@@ -230,7 +232,7 @@ module Cri
         end
 
         runner Cri::CommandDSLTestCaseCommandRunner
-  EOS
+      EOS
       command = dsl.command
 
       # Check

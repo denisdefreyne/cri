@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Cri
   # Cri::Command represents a command that can be executed on the command line.
   # It is also used for the command-line tool itself.
@@ -357,7 +359,7 @@ module Cri
       opts.each_pair do |key, value|
         opt_def = global_option_definitions.find { |o| (o[:long] || o[:short]) == key.to_s }
         block = opt_def[:block]
-        block.call(value, self) if block
+        block&.call(value, self)
       end
     end
 

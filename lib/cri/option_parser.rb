@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Cri
   # Cri::OptionParser is used for parsing command-line options.
   #
@@ -268,7 +270,7 @@ module Cri
         options[key] = value
       end
 
-      delegate.option_added(key, value, self) unless delegate.nil?
+      delegate&.option_added(key, value, self)
     end
 
     def add_default_option(definition)
@@ -294,7 +296,7 @@ module Cri
       @raw_arguments << value
 
       unless value == '--'
-        delegate.argument_added(value, self) unless delegate.nil?
+        delegate&.argument_added(value, self)
       end
     end
   end

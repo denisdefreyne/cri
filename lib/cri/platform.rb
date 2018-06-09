@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Cri
   module Platform
     # @return [Boolean] true if the current platform is Windows, false

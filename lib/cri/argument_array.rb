@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Cri
   # Represents an array of arguments. It is an array that strips separator
   # arguments (`--`) but provides a `#raw` method to get the raw arguments

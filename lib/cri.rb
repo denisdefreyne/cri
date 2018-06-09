@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The namespace for Cri, a library for building easy-to-use command-line tools
 # with support for nested commands.
 module Cri

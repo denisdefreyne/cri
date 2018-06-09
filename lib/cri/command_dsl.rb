@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Cri
   # The command DSL is a class that is used for building and modifying
   # commands.

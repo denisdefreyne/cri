@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 name        'help'
 usage       'help [command_name]'
 summary     'show help'
