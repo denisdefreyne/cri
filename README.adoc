@@ -111,15 +111,15 @@ option :s,  :stuff, 'specify stuff to do', argument: :required
 
 Options can be defined using the following methods:
 
-* `Cri::CommandDSL#option` or `Cri::CommandDSL#opt`
+* `Cri::CommandDSL#option` or `Cri::CommandDSL#opt` (include an `argument` parameter: `:required` or `:optional` that specifies if the option requires or allows an argument)
 * `Cri::CommandDSL#flag` (implies no arguments passed to option)
-* `Cri::CommandDSL#required` (implies required argument)
-* `Cri::CommandDSL#optional` (implies optional argument)
+* `Cri::CommandDSL#required` (implies an option that requires an argument)
+* `Cri::CommandDSL#optional` (implies an option that can optionally include an argument)
 
 All these methods take these arguments:
 
-1. a short option
-2. a long option
+1. a short option name
+2. a long option name
 3. a description
 4. optional extra parameters
 
@@ -128,12 +128,12 @@ would not make any sense). In the example above, the `--more` option has no
 short form.
 
 Each of the above methods also take a block, which will be executed when the
-option is found. The argument to the block are the option value (`true` in
+option is found. The arguments to the block are the option value (`true` in
 case the option does not have an argument) and the command.
 
 ==== Options with default values ====
 
-The `:default` parameter sets the option value that will be used if no explicit value is provided:
+The `:default` parameter sets the option value that will be used if the option is passed without an argument or isn't passed at all:
 
 [source,ruby]
 --------------------------------------------------------------------------------
