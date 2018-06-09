@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 2.1
+  TargetRubyVersion: 2.3
 
 # This makes DSLs a little uglier, since it makes sense to line up the first
 # arguments:

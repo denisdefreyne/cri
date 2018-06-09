@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.files = Dir['[A-Z]*'] + Dir['{lib,test}/**/*'] + ['cri.gemspec']
   s.require_paths = ['lib']
 
-  s.required_ruby_version = '~> 2.1'
+  s.required_ruby_version = '~> 2.3'
 
   s.add_dependency('colored', '~> 1.2')
 
