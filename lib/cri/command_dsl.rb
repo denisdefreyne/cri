@@ -171,6 +171,8 @@ module Cri
     #
     # @return [void]
     #
+    # @deprecated
+    #
     # @see {#option}
     def required(short, long, desc, params = {}, &block)
       params = params.merge(argument: :required)
@@ -217,6 +219,8 @@ module Cri
     #   be printed in the help output
     #
     # @return [void]
+    #
+    # @deprecated
     #
     # @see {#option}
     def optional(short, long, desc, params = {}, &block)

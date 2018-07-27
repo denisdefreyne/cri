@@ -109,8 +109,11 @@ Options can be defined using the following methods:
 
 * `Cri::CommandDSL#option` or `Cri::CommandDSL#opt` (include an `argument` parameter: `:required` or `:optional` that specifies if the option requires or allows an argument)
 * `Cri::CommandDSL#flag` (implies no arguments passed to option)
-* `Cri::CommandDSL#required` (implies an option that requires an argument)
-* `Cri::CommandDSL#optional` (implies an option that can optionally include an argument)
+
+The following _deprecated_ methods can also be used to define options:
+
+* `Cri::CommandDSL#required` (implies an option that requires an argument -- deprecated because `#required` suggests that the option is required, wich is incorrect; the _argument_ is required.)
+* `Cri::CommandDSL#optional` (implies an option that can optionally include an argument -- deprecated because `#optional` looks too similar to `#option`.)
 
 All these methods take these arguments:
 
@@ -132,7 +135,7 @@ case the option does not have an argument) and the command.
 The `:default` parameter sets the option value that will be used if the option is passed without an argument or isn't passed at all:
 
 ```ruby
-optional :a, :animal, 'add animal', default: 'giraffe'
+option :a, :animal, 'add animal', default: 'giraffe', argument: :optional
 ```
 
 In the example above, the value for the `--animal` option will be the string
