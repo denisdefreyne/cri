@@ -263,5 +263,5 @@ default_subcommand 'compile'
 * Tim Sharpe
 * Toon Willems
 
-Thanks for Lee “injekt” Jarvis for link:https://github.com/injekt/slop[Slop],
+Thanks for Lee “injekt” Jarvis for [Slop](https://github.com/injekt/slop),
 which has inspired the design of Cri 2.0.
