@@ -224,7 +224,7 @@ module Cri
     def test_runner
       # Define
       dsl = Cri::CommandDSL.new
-      dsl.instance_eval(<<-EOS, __FILE__, __LINE__ + 1)
+      dsl.instance_eval(<<-CMD, __FILE__, __LINE__ + 1)
         class Cri::CommandDSLTestCaseCommandRunner < Cri::CommandRunner
           def run
             $did_it_work = arguments[0]
@@ -232,7 +232,7 @@ module Cri
         end
 
         runner Cri::CommandDSLTestCaseCommandRunner
-      EOS
+      CMD
       command = dsl.command
 
       # Check

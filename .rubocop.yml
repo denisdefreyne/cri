@@ -33,9 +33,6 @@ Style/IfUnlessModifier:
 Style/GuardClause:
   Enabled: false
 
-Naming/HeredocDelimiterNaming:
-  Enabled: false
-
 
 
 # ----- DISABLED (tests) -----

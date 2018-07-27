@@ -12,7 +12,7 @@ module Cri
     end
 
     def test_simple
-      expected = <<~EOS
+      expected = <<~HELP
         NAME
             help - show help
 
@@ -27,7 +27,7 @@ module Cri
 
         OPTIONS
             -v --verbose      show more detailed help
-      EOS
+      HELP
 
       cmd = Cri::Command.new_basic_help
       assert_equal(expected, help_for(cmd))
