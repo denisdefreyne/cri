@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 module Cri
+  # Used for formatting strings (e.g. converting to paragraphs, wrapping,
+  # formatting as title)
+  #
+  # @api private
   class StringFormatter
     # Extracts individual paragraphs (separated by two newlines).
     #

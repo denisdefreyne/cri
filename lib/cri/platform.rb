@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 module Cri
+  # Provides tools to detect platform and environment configuration (e.g. is
+  # color support available?)
+  #
+  # @api private
   module Platform
     # @return [Boolean] true if the current platform is Windows, false
     # otherwise.

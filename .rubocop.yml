@@ -21,10 +21,6 @@ Style/RaiseArgs:
 Style/AsciiComments:
   Enabled: false
 
-# This does not always make sense (e.g. for tests cases)
-Style/Documentation:
-  Enabled: false
-
 # Explicitly returning nil in an else is sometimes more clear.
 Style/EmptyElse:
   Enabled: false
@@ -37,20 +33,26 @@ Style/IfUnlessModifier:
 Style/GuardClause:
   Enabled: false
 
-# For testing.
-Style/GlobalVars:
-  AllowedVariables:
-    - "$did_it_work"
-
-# Not accurate in tests
-Lint/NestedMethodDefinition:
-  Exclude:
-    - 'test/**/*.rb'
-
 Naming/HeredocDelimiterNaming:
   Enabled: false
 
 
+
+# ----- DISABLED (tests) -----
+
+# These cops are disabled in test cases only.
+
+Style/Documentation:
+  Exclude:
+    - 'test/**/*.rb'
+
+Style/GlobalVars:
+  Exclude:
+    - 'test/**/*.rb'
+
+Lint/NestedMethodDefinition:
+  Exclude:
+    - 'test/**/*.rb'
 
 
 
