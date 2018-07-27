@@ -3,11 +3,11 @@
 name        'help'
 usage       'help [command_name]'
 summary     'show help'
-description <<-EOS
-Show help for the given command, or show general help. When no command is
-given, a list of available commands is displayed, as well as a list of global
-command-line options. When a command is given, a command description, as well
-as command-specific command-line options, are shown.
+description <<~EOS
+  Show help for the given command, or show general help. When no command is
+  given, a list of available commands is displayed, as well as a list of global
+  command-line options. When a command is given, a command description, as well
+  as command-specific command-line options, are shown.
 EOS
 
 flag :v, :verbose, 'show more detailed help'

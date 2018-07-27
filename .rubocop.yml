@@ -47,10 +47,6 @@ Lint/NestedMethodDefinition:
   Exclude:
     - 'test/**/*.rb'
 
-# Older versions of Ruby do not support this.
-Layout/IndentHeredoc:
-  Enabled: false
-
 Naming/HeredocDelimiterNaming:
   Enabled: false
 
