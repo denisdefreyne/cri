@@ -50,7 +50,13 @@ Lint/NestedMethodDefinition:
 Naming/HeredocDelimiterNaming:
   Enabled: false
 
-# Will re-enable later.
+
+
+
+
+# ----- DISABLED (metrics) -----
+
+# Cops for metrics are disabled because they should not cause tests to fail.
 
 Metrics/AbcSize:
   Enabled: false
@@ -69,10 +75,3 @@ Metrics/MethodLength:
 
 Metrics/PerceivedComplexity:
   Enabled: false
-
-Style/FormatStringToken:
-  Enabled: false
-
-Style/EvalWithLocation:
-    Exclude:
-    - 'test/**/*.rb'

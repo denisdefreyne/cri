@@ -89,9 +89,9 @@ module Cri
       shown_subcommands.sort_by(&:name).each do |cmd|
         text <<
           format(
-            "    %-#{length + DESC_INDENT}s %s\n",
-            fmt.format_as_command(cmd.name, @io),
-            cmd.summary,
+            "    %<name>-#{length + DESC_INDENT}s %<summary>s\n",
+            name: fmt.format_as_command(cmd.name, @io),
+            summary: cmd.summary,
           )
       end
 
