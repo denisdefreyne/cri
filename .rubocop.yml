@@ -1,16 +1,6 @@
 AllCops:
   TargetRubyVersion: 2.3
 
-# This makes DSLs a little uglier, since it makes sense to line up the first
-# arguments:
-#
-#   option    :a, :aaa, 'opt a', :argument => :optional, :multiple => true
-#   required  :b, :bbb, 'opt b'
-#   optional  :c, :ccc, 'opt c'
-#   flag      :d, :ddd, 'opt d'
-Layout/SpaceBeforeFirstArg:
-  Enabled: false
-
 # Trailing commas in a multiline context makes diffs nicer.
 Style/TrailingCommaInArrayLiteral:
   EnforcedStyleForMultiline: comma
