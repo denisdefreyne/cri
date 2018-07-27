@@ -570,14 +570,14 @@ module Cri
       cmd = Cri::Command.define do
         name 'moo'
         run do |_opts, args|
-          puts "args=#{args.join(',')} args.raw=#{args.raw.join(',')}"
+          puts "args=#{args.join(',')}"
         end
       end
 
       out, _err = capture_io_while do
         cmd.run(%w[foo -- bar])
       end
-      assert_equal "args=foo,bar args.raw=foo,--,bar\n", out
+      assert_equal "args=foo,bar\n", out
     end
 
     def test_run_without_block
@@ -595,7 +595,7 @@ module Cri
         name 'moo'
         runner(Class.new(Cri::CommandRunner) do
           def run
-            puts "args=#{arguments.join(',')} args.raw=#{arguments.raw.join(',')}"
+            puts "args=#{arguments.join(',')}"
           end
         end)
       end
@@ -603,7 +603,7 @@ module Cri
       out, _err = capture_io_while do
         cmd.run(%w[foo -- bar])
       end
-      assert_equal "args=foo,bar args.raw=foo,--,bar\n", out
+      assert_equal "args=foo,bar\n", out
     end
 
     def test_compare

@@ -130,7 +130,7 @@ module Cri
     #
     # @return [Array] The already parsed arguments.
     def arguments
-      ArgumentArray.new(@raw_arguments).freeze
+      @raw_arguments.reject { |a| a == '--' }.freeze
     end
 
     # @return [Boolean] true if the parser is running, false otherwise.

@@ -24,7 +24,6 @@ require 'colored'
 
 require_relative 'cri/version'
 require_relative 'cri/core_ext'
-require_relative 'cri/argument_array'
 require_relative 'cri/command'
 require_relative 'cri/string_formatter'
 require_relative 'cri/command_dsl'

@@ -23,10 +23,6 @@ Style/TrailingCommaInHashLiteral:
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: comma
 
-# This doesn’t always make sense (e.g. Cri::ArgumentArray#raw)
-Style/TrivialAccessors:
-  Enabled: false
-
 # This allows for semantic exceptions
 Style/RaiseArgs:
   Enabled: false
