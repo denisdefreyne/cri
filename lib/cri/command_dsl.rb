@@ -132,6 +132,7 @@ module Cri
       multiple = params.fetch(:multiple, false)
       hidden = params.fetch(:hidden, false)
       default = params.fetch(:default, nil)
+      transform = params.fetch(:transform, nil)
 
       if short.nil? && long.nil?
         raise ArgumentError, 'short and long options cannot both be nil'
@@ -150,6 +151,7 @@ module Cri
         block: block,
         hidden: hidden,
         default: default,
+        transform: transform,
       }
     end
     alias opt option

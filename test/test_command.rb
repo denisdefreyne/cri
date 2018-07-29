@@ -18,6 +18,7 @@ module Cri
         optional  :c, :ccc, 'opt c'
         flag      :d, :ddd, 'opt d'
         forbidden :e, :eee, 'opt e'
+        required  :t, :transform, 'opt t', transform: method(:Integer)
 
         run do |opts, args, c|
           $stdout.puts "Awesome #{c.name}!"
@@ -187,6 +188,27 @@ module Cri
 
       assert_equal [], lines(out)
       assert_equal ['moo: unrecognised option -- z'], lines(err)
+    end
+
+    def test_invoke_simple_with_invalid_value_for_opt
+      out, err = capture_io_while do
+        err = assert_raises SystemExit do
+          simple_cmd.run(%w[-t nope])
+        end
+        assert_equal 1, err.status
+      end
+
+      assert_equal [], lines(out)
+      assert_equal ['moo: invalid value "nope" for --transform option'], lines(err)
+    end
+
+    def test_invoke_simple_with_invalid_value_for_opt_no_exit
+      out, err = capture_io_while do
+        simple_cmd.run(%w[-t nope], {}, hard_exit: false)
+      end
+
+      assert_equal [], lines(out)
+      assert_equal ['moo: invalid value "nope" for --transform option'], lines(err)
     end
 
     def test_invoke_simple_with_opt_with_block

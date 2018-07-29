@@ -130,6 +130,42 @@ Each of the above methods also take a block, which will be executed when the
 option is found. The arguments to the block are the option value (`true` in
 case the option does not have an argument) and the command.
 
+#### Transforming options
+
+The `:transform` parameter specifies how the value should be transformed. It takes any object that responds to `#call`:
+
+```ruby
+option :p, :port, 'set port', argument: :required,
+  transform: -> (x) { Integer(x) }
+```
+
+The following example uses `#Integer` to transform a string into an integer:
+
+```ruby
+option :p, :port, 'set port', argument: :required, transform: method(:Integer)
+```
+
+The following example uses a custom object to perform transformation, as well as validation:
+
+```ruby
+class PortTransformer
+  def call(str)
+    raise ArgumentError unless str.is_a?(String)
+    Integer(str).tap do |int|
+      raise unless (0x0001..0xffff).include?(int)
+    end
+  end
+end
+
+option :p, :port, 'set port', argument: :required, transform: PortTransformer.new
+```
+
+Default values are not transformed:
+
+```ruby
+option :p, :port, 'set port', argument: :required, default: 8080, transform: PortTransformer.new
+```
+
 #### Options with default values
 
 The `:default` parameter sets the option value that will be used if the option is passed without an argument or isn't passed at all:
