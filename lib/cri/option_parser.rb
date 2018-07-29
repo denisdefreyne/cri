@@ -280,12 +280,7 @@ module Cri
       value = definition[:default]
       return unless value
 
-      if definition[:multiple]
-        options[key] ||= []
-        options[key] << value
-      else
-        options[key] = value
-      end
+      add_option(definition, value)
     end
 
     def key_for(definition)
