@@ -407,5 +407,78 @@ module Cri
       assert_equal({ aaa: true, bbb: 'xxx', ccc: 'c default' }, parser.options)
       assert_equal(%w[foo], parser.arguments)
     end
+
+    def test_parse_with_transform_proc
+      input       = %w[--port 123]
+      definitions = [
+        { long: 'port', short: 'p', argument: :required, transform: ->(x) { Integer(x) } },
+      ]
+
+      parser = Cri::OptionParser.parse(input, definitions)
+
+      assert_equal({ port: 123 }, parser.options)
+      assert_equal([], parser.arguments)
+    end
+
+    def test_parse_with_transform_method
+      input       = %w[--port 123]
+      definitions = [
+        { long: 'port', short: 'p', argument: :required, transform: method(:Integer) },
+      ]
+
+      parser = Cri::OptionParser.parse(input, definitions)
+
+      assert_equal({ port: 123 }, parser.options)
+      assert_equal([], parser.arguments)
+    end
+
+    def test_parse_with_transform_object
+      port = Class.new do
+        def call(str)
+          Integer(str)
+        end
+      end.new
+
+      input       = %w[--port 123]
+      definitions = [
+        { long: 'port', short: 'p', argument: :required, transform: port },
+      ]
+
+      parser = Cri::OptionParser.parse(input, definitions)
+
+      assert_equal({ port: 123 }, parser.options)
+      assert_equal([], parser.arguments)
+    end
+
+    def test_parse_with_transform_default
+      port = Class.new do
+        def call(str)
+          raise unless str.is_a?(String)
+          Integer(str)
+        end
+      end.new
+
+      input       = %w[]
+      definitions = [
+        { long: 'port', short: 'p', argument: :required, default: 8080, transform: port },
+      ]
+
+      parser = Cri::OptionParser.parse(input, definitions)
+
+      assert_equal({ port: 8080 }, parser.options)
+      assert_equal([], parser.arguments)
+    end
+
+    def test_parse_with_transform_exception
+      input       = %w[--port one_hundred_and_twenty_three]
+      definitions = [
+        { long: 'port', short: 'p', argument: :required, transform: method(:Integer) },
+      ]
+
+      exception = assert_raises(Cri::OptionParser::IllegalOptionValueError) do
+        Cri::OptionParser.parse(input, definitions)
+      end
+      assert_equal('invalid value "one_hundred_and_twenty_three" for --port option', exception.message)
+    end
   end
 end

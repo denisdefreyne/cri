@@ -59,6 +59,23 @@ module Cri
     class IllegalOptionError < Cri::Error
     end
 
+    # Error that will be raised when an option with an invalid or
+    # non-transformable value is encountered.
+    class IllegalOptionValueError < Cri::Error
+      attr_reader :definition
+      attr_reader :value
+
+      def initialize(definition, value)
+        @definition = definition
+        @value      = value
+      end
+
+      def message
+        name = @definition[:long] ? '--' + @definition[:long] : '-' + @definition[:short]
+        "invalid value #{value.inspect} for #{name} option"
+      end
+    end
+
     # Error that will be raised when an option without argument is
     # encountered.
     class OptionRequiresAnArgumentError < Cri::Error
@@ -260,8 +277,10 @@ module Cri
       option_value
     end
 
-    def add_option(definition, value)
+    def add_option(definition, value, transform: true)
       key = key_for(definition)
+
+      value = transform ? transform_value(definition, value) : value
 
       if definition[:multiple]
         options[key] ||= []
@@ -280,7 +299,21 @@ module Cri
       value = definition[:default]
       return unless value
 
-      add_option(definition, value)
+      add_option(definition, value, transform: false)
+    end
+
+    def transform_value(definition, value)
+      transformer = definition[:transform]
+
+      if transformer
+        begin
+          transformer.call(value)
+        rescue StandardError
+          raise IllegalOptionValueError.new(definition, value)
+        end
+      else
+        value
+      end
     end
 
     def key_for(definition)

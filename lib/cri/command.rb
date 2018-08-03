@@ -388,6 +388,9 @@ module Cri
     rescue Cri::OptionParser::OptionRequiresAnArgumentError => e
       warn "#{name}: option requires an argument -- #{e}"
       raise CriExitException.new(is_error: true)
+    rescue Cri::OptionParser::IllegalOptionValueError => e
+      warn "#{name}: #{e.message}"
+      raise CriExitException.new(is_error: true)
     end
   end
 end
