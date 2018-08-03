@@ -1,6 +1,12 @@
 Cri News
 ========
 
+## 2.11.0
+
+Features:
+
+* Added support for transforming option values (#68)
+
 ## 2.10.1
 
 Fixes:
