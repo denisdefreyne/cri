@@ -115,11 +115,11 @@ module Cri
     # @param [Array<String>] arguments_and_options An array containing the
     #   command-line arguments (will probably be `ARGS` for a root command)
     #
-    # @param [Array<Hash>] definitions An array of option definitions
+    # @param [Array<Hash>] option_definitions An array of option option_definitions
     #
     # @return [Cri::OptionParser] The option parser self
-    def self.parse(arguments_and_options, definitions)
-      new(arguments_and_options, definitions).run
+    def self.parse(arguments_and_options, option_definitions)
+      new(arguments_and_options, option_definitions).run
     end
 
     # Creates a new parser with the given options/arguments and definitions.
@@ -127,10 +127,10 @@ module Cri
     # @param [Array<String>] arguments_and_options An array containing the
     #   command-line arguments (will probably be `ARGS` for a root command)
     #
-    # @param [Array<Hash>] definitions An array of option definitions
-    def initialize(arguments_and_options, definitions)
+    # @param [Array<Hash>] option_definitions An array of option option_definitions
+    def initialize(arguments_and_options, option_definitions)
       @unprocessed_arguments_and_options = arguments_and_options.dup
-      @definitions = definitions
+      @option_definitions = option_definitions
 
       @options       = {}
       @raw_arguments = []
@@ -203,7 +203,7 @@ module Cri
     private
 
     def add_defaults
-      @definitions.each { |d| add_default_option(d) }
+      @option_definitions.each { |d| add_default_option(d) }
     end
 
     def handle_dashdash(elem)
@@ -222,7 +222,7 @@ module Cri
       end
 
       # Find definition
-      definition = @definitions.find { |d| d[:long] == option_key }
+      definition = @option_definitions.find { |d| d[:long] == option_key }
       raise IllegalOptionError.new(option_key) if definition.nil?
 
       if %i[required optional].include?(definition[:argument])
@@ -246,7 +246,7 @@ module Cri
       # For each key
       option_keys.each do |option_key|
         # Find definition
-        definition = @definitions.find { |d| d[:short] == option_key }
+        definition = @option_definitions.find { |d| d[:short] == option_key }
         raise IllegalOptionError.new(option_key) if definition.nil?
 
         if %i[required optional].include?(definition[:argument])
