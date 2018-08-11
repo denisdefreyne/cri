@@ -71,8 +71,7 @@ module Cri
       end
 
       def message
-        name = @definition.long ? '--' + @definition.long : '-' + @definition.short
-        "invalid value #{value.inspect} for #{name} option"
+        "invalid value #{value.inspect} for #{@definition.formatted_name} option"
       end
     end
 

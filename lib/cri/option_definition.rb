@@ -46,5 +46,9 @@ module Cri
         transform: @transform,
       }
     end
+
+    def formatted_name
+      @long ? '--' + @long : '-' + @short
+    end
   end
 end
