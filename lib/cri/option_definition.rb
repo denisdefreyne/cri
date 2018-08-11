@@ -23,6 +23,14 @@ module Cri
       @hidden    = params.fetch(:hidden)
       @default   = params.fetch(:default)
       @transform = params.fetch(:transform)
+
+      if @short.nil? && @long.nil?
+        raise ArgumentError, 'short and long options cannot both be nil'
+      end
+
+      if @default && @argument == :forbidden
+        raise ArgumentError, 'a default value cannot be specified for flag options'
+      end
     end
 
     def [](key)

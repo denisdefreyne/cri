@@ -128,30 +128,16 @@ module Cri
     #
     # @return [void]
     def option(short, long, desc, params = {}, &block)
-      requiredness = params.fetch(:argument, :forbidden)
-      multiple = params.fetch(:multiple, false)
-      hidden = params.fetch(:hidden, false)
-      default = params.fetch(:default, nil)
-      transform = params.fetch(:transform, nil)
-
-      if short.nil? && long.nil?
-        raise ArgumentError, 'short and long options cannot both be nil'
-      end
-
-      if default && requiredness == :forbidden
-        raise ArgumentError, 'a default value cannot be specified for flag options'
-      end
-
       @command.option_definitions << Cri::OptionDefinition.new(
-        short: short.nil? ? nil : short.to_s,
-        long: long.nil? ? nil : long.to_s,
-        desc: desc,
-        argument: requiredness,
-        multiple: multiple,
-        block: block,
-        hidden: hidden,
-        default: default,
-        transform: transform,
+        short:     short.nil? ? nil : short.to_s,
+        long:      long.nil? ? nil : long.to_s,
+        desc:      desc,
+        argument:  params.fetch(:argument, :forbidden),
+        multiple:  params.fetch(:multiple, false),
+        block:     block,
+        hidden:    params.fetch(:hidden, false),
+        default:   params.fetch(:default, nil),
+        transform: params.fetch(:transform, nil),
       )
     end
     alias opt option
