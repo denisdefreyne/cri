@@ -115,11 +115,11 @@ module Cri
     # @param [Array<String>] arguments_and_options An array containing the
     #   command-line arguments (will probably be `ARGS` for a root command)
     #
-    # @param [Array<Hash>] option_definitions An array of option option_definitions
+    # @param [Array<Hash>] option_defns An array of option definitions
     #
     # @return [Cri::OptionParser] The option parser self
-    def self.parse(arguments_and_options, option_definitions)
-      new(arguments_and_options, option_definitions).run
+    def self.parse(arguments_and_options, option_defns)
+      new(arguments_and_options, option_defns).run
     end
 
     # Creates a new parser with the given options/arguments and definitions.
@@ -127,10 +127,10 @@ module Cri
     # @param [Array<String>] arguments_and_options An array containing the
     #   command-line arguments (will probably be `ARGS` for a root command)
     #
-    # @param [Array<Hash>] option_definitions An array of option option_definitions
-    def initialize(arguments_and_options, option_definitions)
+    # @param [Array<Hash>] option_defns An array of option option_defns
+    def initialize(arguments_and_options, option_defns)
       @unprocessed_arguments_and_options = arguments_and_options.dup
-      @option_definitions = option_definitions
+      @option_defns = option_defns
 
       @options       = {}
       @raw_arguments = []
@@ -203,7 +203,7 @@ module Cri
     private
 
     def add_defaults
-      @option_definitions.each { |d| add_default_option(d) }
+      @option_defns.each { |d| add_default_option(d) }
     end
 
     def handle_dashdash(elem)
@@ -222,20 +222,20 @@ module Cri
       end
 
       # Find definition
-      definition = @option_definitions.find { |d| d[:long] == option_key }
-      raise IllegalOptionError.new(option_key) if definition.nil?
+      option_defn = @option_defns.find { |d| d[:long] == option_key }
+      raise IllegalOptionError.new(option_key) if option_defn.nil?
 
-      if %i[required optional].include?(definition[:argument])
+      if %i[required optional].include?(option_defn[:argument])
         # Get option value if necessary
         if option_value.nil?
-          option_value = find_option_value(definition, option_key)
+          option_value = find_option_value(option_defn, option_key)
         end
 
         # Store option
-        add_option(definition, option_value)
+        add_option(option_defn, option_value)
       else
         # Store option
-        add_option(definition, true)
+        add_option(option_defn, true)
       end
     end
 
@@ -246,28 +246,28 @@ module Cri
       # For each key
       option_keys.each do |option_key|
         # Find definition
-        definition = @option_definitions.find { |d| d[:short] == option_key }
-        raise IllegalOptionError.new(option_key) if definition.nil?
+        option_defn = @option_defns.find { |d| d[:short] == option_key }
+        raise IllegalOptionError.new(option_key) if option_defn.nil?
 
-        if %i[required optional].include?(definition[:argument])
+        if %i[required optional].include?(option_defn[:argument])
           # Get option value
-          option_value = find_option_value(definition, option_key)
+          option_value = find_option_value(option_defn, option_key)
 
           # Store option
-          add_option(definition, option_value)
+          add_option(option_defn, option_value)
         else
           # Store option
-          add_option(definition, true)
+          add_option(option_defn, true)
         end
       end
     end
 
-    def find_option_value(definition, option_key)
+    def find_option_value(option_defn, option_key)
       option_value = @unprocessed_arguments_and_options.shift
       if option_value.nil? || option_value =~ /^-/
-        if definition[:argument] == :optional && definition[:default]
-          option_value = definition[:default]
-        elsif definition[:argument] == :required
+        if option_defn[:argument] == :optional && option_defn[:default]
+          option_value = option_defn[:default]
+        elsif option_defn[:argument] == :required
           raise OptionRequiresAnArgumentError.new(option_key)
         else
           @unprocessed_arguments_and_options.unshift(option_value)
@@ -277,12 +277,12 @@ module Cri
       option_value
     end
 
-    def add_option(definition, value, transform: true)
-      key = key_for(definition)
+    def add_option(option_defn, value, transform: true)
+      key = key_for(option_defn)
 
-      value = transform ? transform_value(definition, value) : value
+      value = transform ? transform_value(option_defn, value) : value
 
-      if definition[:multiple]
+      if option_defn[:multiple]
         options[key] ||= []
         options[key] << value
       else
@@ -292,32 +292,32 @@ module Cri
       delegate&.option_added(key, value, self)
     end
 
-    def add_default_option(definition)
-      key = key_for(definition)
+    def add_default_option(option_defn)
+      key = key_for(option_defn)
       return if options.key?(key)
 
-      value = definition[:default]
+      value = option_defn[:default]
       return unless value
 
-      add_option(definition, value, transform: false)
+      add_option(option_defn, value, transform: false)
     end
 
-    def transform_value(definition, value)
-      transformer = definition[:transform]
+    def transform_value(option_defn, value)
+      transformer = option_defn[:transform]
 
       if transformer
         begin
           transformer.call(value)
         rescue StandardError
-          raise IllegalOptionValueError.new(definition, value)
+          raise IllegalOptionValueError.new(option_defn, value)
         end
       else
         value
       end
     end
 
-    def key_for(definition)
-      (definition[:long] || definition[:short]).to_sym
+    def key_for(option_defn)
+      (option_defn[:long] || option_defn[:short]).to_sym
     end
 
     def add_argument(value)
