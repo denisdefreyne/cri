@@ -49,7 +49,7 @@ module Cri
             { short: 'f', long: 'fff', desc: 'opt f', argument: :forbidden, multiple: false, hidden: true,  block: nil, default: nil, transform: nil },
           ],
         )
-      actual_option_definitions = Set.new(command.option_definitions)
+      actual_option_definitions = Set.new(command.option_definitions.map(&:to_h))
       assert_equal expected_option_definitions, actual_option_definitions
     end
 
@@ -84,7 +84,7 @@ module Cri
             { short: nil, long: 'long', desc: 'long',  argument: :forbidden, multiple: false, hidden: false, block: nil, default: nil, transform: nil },
           ],
         )
-      actual_option_definitions = Set.new(command.option_definitions)
+      actual_option_definitions = Set.new(command.option_definitions.map(&:to_h))
       assert_equal expected_option_definitions, actual_option_definitions
     end
 
@@ -109,7 +109,7 @@ module Cri
             { short: 'o', long: 'optional', desc: 'opt',  argument: :optional,  multiple: true, hidden: false, block: nil, default: nil, transform: nil },
           ],
         )
-      actual_option_definitions = Set.new(command.option_definitions)
+      actual_option_definitions = Set.new(command.option_definitions.map(&:to_h))
       assert_equal expected_option_definitions, actual_option_definitions
     end
 
@@ -134,7 +134,7 @@ module Cri
             { short: 'o', long: 'optional', desc: 'opt',  argument: :optional,  multiple: false, hidden: true, block: nil, default: nil, transform: nil },
           ],
         )
-      actual_option_definitions = Set.new(command.option_definitions)
+      actual_option_definitions = Set.new(command.option_definitions.map(&:to_h))
       assert_equal expected_option_definitions, actual_option_definitions
     end
 

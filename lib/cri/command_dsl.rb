@@ -142,7 +142,7 @@ module Cri
         raise ArgumentError, 'a default value cannot be specified for flag options'
       end
 
-      @command.option_definitions << {
+      @command.option_definitions << Cri::OptionDefinition.new(
         short: short.nil? ? nil : short.to_s,
         long: long.nil? ? nil : long.to_s,
         desc: desc,
@@ -152,7 +152,7 @@ module Cri
         hidden: hidden,
         default: default,
         transform: transform,
-      }
+      )
     end
     alias opt option
 
