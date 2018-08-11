@@ -129,8 +129,8 @@ module Cri
     # @return [void]
     def option(short, long, desc, params = {}, &block)
       @command.option_definitions << Cri::OptionDefinition.new(
-        short:     short.nil? ? nil : short.to_s,
-        long:      long.nil? ? nil : long.to_s,
+        short:     short&.to_s,
+        long:      long&.to_s,
         desc:      desc,
         argument:  params.fetch(:argument, :forbidden),
         multiple:  params.fetch(:multiple, false),
