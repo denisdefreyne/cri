@@ -90,6 +90,9 @@ module Cri
     # @return [Array<Cri::OptionDefinition>] The list of option definitions
     attr_accessor :option_definitions
 
+    # @return [Array<Hash>] The list of parameter definitions
+    attr_accessor :parameter_definitions
+
     # @return [Proc] The block that should be executed when invoking this
     #   command (ignored for commands with subcommands)
     attr_accessor :block
@@ -147,6 +150,7 @@ module Cri
       @aliases            = Set.new
       @commands           = Set.new
       @option_definitions = Set.new
+      @parameter_definitions = []
       @default_subcommand_name = nil
     end
 
@@ -314,6 +318,7 @@ module Cri
         parser = Cri::OptionParser.new(
           opts_and_args,
           global_option_definitions,
+          parameter_definitions,
         )
         handle_parser_errors_while { parser.run }
         local_opts  = parser.options
@@ -372,6 +377,7 @@ module Cri
       parser = Cri::OptionParser.new(
         opts_and_args,
         global_option_definitions,
+        parameter_definitions,
       )
       parser.delegate = delegate
       handle_parser_errors_while { parser.run }

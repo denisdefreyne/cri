@@ -232,6 +232,33 @@ When executing this command with `dostuff --some=value -f yes`, the `opts` hash
 that is passed to your `run` block will be empty and the `args` array will be
 `["--some=value", "-f", "yes"]`.
 
+### Argument parsing
+
+Cri also supports parsing arguments, outside of options. To define the
+parameters of a command, use `#param`, which takes a symbol containing the name
+of the parameter. For example:
+
+```ruby
+command = Cri::Command.define do
+  name        'publish'
+  usage       'publish filename'
+  summary     'publishes the given file'
+  description 'This command does a lot of stuff, but not option parsing.'
+
+  flag :q, :quick, 'publish quicker'
+  param :filename
+
+  run do |opts, args, cmd|
+    puts "Publishing #{args[:filename]}…"
+  end
+end
+```
+
+The command in this example has one parameter named `filename`. This means that
+the command takes a single argument, named `filename`.
+
+(*Why the distinction between argument and parameter?* A parameter is a name, e.g. `filename`, while an argument is a value for a parameter, e.g. `kitten.jpg`.)
+
 ### The run block
 
 The last part of the command defines the execution itself:
