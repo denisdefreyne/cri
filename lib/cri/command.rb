@@ -357,8 +357,8 @@ module Cri
 
     def handle_options(opts)
       opts.each_pair do |key, value|
-        opt_def = global_option_definitions.find { |o| (o[:long] || o[:short]) == key.to_s }
-        block = opt_def[:block]
+        opt_def = global_option_definitions.find { |o| (o.long || o.short) == key.to_s }
+        block = opt_def.block
         block&.call(value, self)
       end
     end

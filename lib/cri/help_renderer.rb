@@ -113,11 +113,11 @@ module Cri
         # Always pretend there is a short option
         string << '-X'
 
-        if opt_def[:long]
-          string << ' --' + opt_def[:long]
+        if opt_def.long
+          string << ' --' + opt_def.long
         end
 
-        case opt_def[:argument]
+        case opt_def.argument
         when :required
           string << '=<value>'
         when :optional
@@ -147,17 +147,17 @@ module Cri
       text << fmt.format_as_title(name.to_s, @io)
       text << "\n"
 
-      ordered_defs = defs.sort_by { |x| x[:short] || x[:long] }
-      ordered_defs.reject { |opt_def| opt_def[:hidden] }.each do |opt_def|
+      ordered_defs = defs.sort_by { |x| x.short || x.long }
+      ordered_defs.reject(&:hidden).each do |opt_def|
         text << format_opt_def(opt_def, length)
-        desc = opt_def[:desc] + (opt_def[:default] ? " (default: #{opt_def[:default]})" : '')
+        desc = opt_def.desc + (opt_def.default ? " (default: #{opt_def.default})" : '')
         text << fmt.wrap_and_indent(desc, LINE_WIDTH, length + OPT_DESC_SPACING + DESC_INDENT, true) << "\n"
       end
     end
 
     def short_value_postfix_for(opt_def)
       value_postfix =
-        case opt_def[:argument]
+        case opt_def.argument
         when :required
           '<value>'
         when :optional
@@ -165,7 +165,7 @@ module Cri
         end
 
       if value_postfix
-        opt_def[:long] ? '' : ' ' + value_postfix
+        opt_def.long ? '' : ' ' + value_postfix
       else
         ''
       end
@@ -173,7 +173,7 @@ module Cri
 
     def long_value_postfix_for(opt_def)
       value_postfix =
-        case opt_def[:argument]
+        case opt_def.argument
         when :required
           '=<value>'
         when :optional
@@ -181,7 +181,7 @@ module Cri
         end
 
       if value_postfix
-        opt_def[:long] ? value_postfix : ''
+        opt_def.long ? value_postfix : ''
       else
         ''
       end
@@ -193,18 +193,18 @@ module Cri
 
       opt_text = +''
       opt_text_len = 0
-      if opt_def[:short]
-        opt_text << fmt.format_as_option('-' + opt_def[:short], @io)
+      if opt_def.short
+        opt_text << fmt.format_as_option('-' + opt_def.short, @io)
         opt_text << short_value_postfix
         opt_text << ' '
-        opt_text_len += 1 + opt_def[:short].size + short_value_postfix.size + 1
+        opt_text_len += 1 + opt_def.short.size + short_value_postfix.size + 1
       else
         opt_text << '   '
         opt_text_len += 3
       end
-      opt_text << fmt.format_as_option('--' + opt_def[:long], @io) if opt_def[:long]
+      opt_text << fmt.format_as_option('--' + opt_def.long, @io) if opt_def.long
       opt_text << long_value_postfix
-      opt_text_len += 2 + opt_def[:long].size if opt_def[:long]
+      opt_text_len += 2 + opt_def.long.size if opt_def.long
       opt_text_len += long_value_postfix.size
 
       '    ' + opt_text + ' ' * (length + OPT_DESC_SPACING - opt_text_len)

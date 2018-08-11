@@ -480,7 +480,7 @@ module Cri
       # Check option definitions
       assert_equal 1, cmd.option_definitions.size
       opt_def = cmd.option_definitions.to_a[0]
-      assert_equal 'help', opt_def[:long]
+      assert_equal 'help', opt_def.long
 
       # Check subcommand
       assert_equal 1,      cmd.subcommands.size

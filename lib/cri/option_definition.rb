@@ -33,31 +33,6 @@ module Cri
       end
     end
 
-    def [](key)
-      case key
-      when :short
-        @short
-      when :long
-        @long
-      when :desc
-        @desc
-      when :argument
-        @argument
-      when :multiple
-        @multiple
-      when :block
-        @block
-      when :hidden
-        @hidden
-      when :default
-        @default
-      when :transform
-        @transform
-      else
-        raise ArgumentError, "unknown key: #{key.inspect}"
-      end
-    end
-
     def to_h
       {
         short:     @short,

@@ -71,7 +71,7 @@ module Cri
       end
 
       def message
-        name = @definition[:long] ? '--' + @definition[:long] : '-' + @definition[:short]
+        name = @definition.long ? '--' + @definition.long : '-' + @definition.short
         "invalid value #{value.inspect} for #{name} option"
       end
     end
@@ -222,10 +222,10 @@ module Cri
       end
 
       # Find definition
-      option_defn = @option_defns.find { |d| d[:long] == option_key }
+      option_defn = @option_defns.find { |d| d.long == option_key }
       raise IllegalOptionError.new(option_key) if option_defn.nil?
 
-      if %i[required optional].include?(option_defn[:argument])
+      if %i[required optional].include?(option_defn.argument)
         # Get option value if necessary
         if option_value.nil?
           option_value = find_option_value(option_defn, option_key)
@@ -246,10 +246,10 @@ module Cri
       # For each key
       option_keys.each do |option_key|
         # Find definition
-        option_defn = @option_defns.find { |d| d[:short] == option_key }
+        option_defn = @option_defns.find { |d| d.short == option_key }
         raise IllegalOptionError.new(option_key) if option_defn.nil?
 
-        if %i[required optional].include?(option_defn[:argument])
+        if %i[required optional].include?(option_defn.argument)
           # Get option value
           option_value = find_option_value(option_defn, option_key)
 
@@ -265,9 +265,9 @@ module Cri
     def find_option_value(option_defn, option_key)
       option_value = @unprocessed_arguments_and_options.shift
       if option_value.nil? || option_value =~ /^-/
-        if option_defn[:argument] == :optional && option_defn[:default]
-          option_value = option_defn[:default]
-        elsif option_defn[:argument] == :required
+        if option_defn.argument == :optional && option_defn.default
+          option_value = option_defn.default
+        elsif option_defn.argument == :required
           raise OptionRequiresAnArgumentError.new(option_key)
         else
           @unprocessed_arguments_and_options.unshift(option_value)
@@ -282,7 +282,7 @@ module Cri
 
       value = transform ? transform_value(option_defn, value) : value
 
-      if option_defn[:multiple]
+      if option_defn.multiple
         options[key] ||= []
         options[key] << value
       else
@@ -296,14 +296,14 @@ module Cri
       key = key_for(option_defn)
       return if options.key?(key)
 
-      value = option_defn[:default]
+      value = option_defn.default
       return unless value
 
       add_option(option_defn, value, transform: false)
     end
 
     def transform_value(option_defn, value)
-      transformer = option_defn[:transform]
+      transformer = option_defn.transform
 
       if transformer
         begin
@@ -317,7 +317,7 @@ module Cri
     end
 
     def key_for(option_defn)
-      (option_defn[:long] || option_defn[:short]).to_sym
+      (option_defn.long || option_defn.short).to_sym
     end
 
     def add_argument(value)

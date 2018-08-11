@@ -27,7 +27,7 @@ module Cri
       input       = %w[foo]
       definitions = [
         { long: 'aaa', short: 'a', argument: :forbidden },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -38,7 +38,7 @@ module Cri
       input       = %w[foo --aaa bar]
       definitions = [
         { long: 'aaa', short: 'a', argument: :forbidden },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -50,7 +50,7 @@ module Cri
       input       = %w[foo --aaa xxx bar]
       definitions = [
         { long: 'aaa', short: 'a', argument: :required },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -62,7 +62,7 @@ module Cri
       input       = %w[foo --aaa=xxx bar]
       definitions = [
         { long: 'aaa', short: 'a', argument: :required },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -74,7 +74,7 @@ module Cri
       input       = %w[foo --aaa]
       definitions = [
         { long: 'aaa', short: 'a', argument: :required },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
         Cri::OptionParser.parse(input, definitions)
@@ -86,7 +86,7 @@ module Cri
       definitions = [
         { long: 'all',  short: 'a', argument: :required },
         { long: 'port', short: 'p', argument: :required },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
         Cri::OptionParser.parse(input, definitions)
@@ -97,7 +97,7 @@ module Cri
       input       = %w[foo --aaa]
       definitions = [
         { long: 'aaa', short: 'a', argument: :optional },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -109,7 +109,7 @@ module Cri
       input       = %w[foo --aaa xxx]
       definitions = [
         { long: 'aaa', short: 'a', argument: :optional },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -123,7 +123,7 @@ module Cri
         { long: 'aaa', short: 'a', argument: :optional  },
         { long: 'bbb', short: 'b', argument: :forbidden },
         { long: 'ccc', short: 'c', argument: :forbidden },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -137,7 +137,7 @@ module Cri
       input       = %w[foo -a bar]
       definitions = [
         { long: 'aaa', short: 'a', argument: :forbidden },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -149,7 +149,7 @@ module Cri
       input       = %w[foo -a]
       definitions = [
         { long: 'aaa', short: 'a', argument: :required },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
         Cri::OptionParser.parse(input, definitions)
@@ -162,7 +162,7 @@ module Cri
         { long: 'aaa', short: 'a', argument: :forbidden },
         { long: 'bbb', short: 'b', argument: :forbidden },
         { long: 'ccc', short: 'c', argument: :forbidden },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -178,7 +178,7 @@ module Cri
         { long: 'aaa', short: 'a', argument: :required  },
         { long: 'bbb', short: 'b', argument: :forbidden },
         { long: 'ccc', short: 'c', argument: :forbidden },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -193,7 +193,7 @@ module Cri
       definitions = [
         { long: 'all',  short: 'a', argument: :required },
         { long: 'port', short: 'p', argument: :required },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
         Cri::OptionParser.parse(input, definitions)
@@ -204,7 +204,7 @@ module Cri
       input       = %w[foo -a]
       definitions = [
         { long: 'aaa', short: 'a', argument: :optional },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -216,7 +216,7 @@ module Cri
       input       = %w[foo -a xxx]
       definitions = [
         { long: 'aaa', short: 'a', argument: :optional },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -230,7 +230,7 @@ module Cri
         { long: 'aaa', short: 'a', argument: :optional  },
         { long: 'bbb', short: 'b', argument: :forbidden },
         { long: 'ccc', short: 'c', argument: :forbidden },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -264,7 +264,7 @@ module Cri
       input       = %w[foo --aaa -- zzz]
       definitions = [
         { long: 'aaa', short: 'a', argument: :required },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
         Cri::OptionParser.parse(input, definitions)
@@ -276,7 +276,8 @@ module Cri
       definitions = [
         { long: 'long', short: 'o', argument: :required, multiple: true },
         { long: 'verbose', short: 'v', multiple: true },
-      ]
+      ].map { |hash| make_opt_def(hash) }
+
       parser = Cri::OptionParser.parse(input, definitions)
 
       assert_equal(%w[test test2], parser.options[:long])
@@ -287,7 +288,7 @@ module Cri
       input       = %w[foo]
       definitions = [
         { long: 'animal', short: 'a', argument: :required, default: 'donkey' },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -299,7 +300,7 @@ module Cri
       input       = %w[foo -a]
       definitions = [
         { long: 'animal', short: 'a', argument: :required, default: 'donkey' },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
         Cri::OptionParser.parse(input, definitions)
@@ -310,7 +311,7 @@ module Cri
       input       = %w[foo -a giraffe]
       definitions = [
         { long: 'animal', short: 'a', argument: :required, default: 'donkey' },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -322,7 +323,7 @@ module Cri
       input       = %w[foo]
       definitions = [
         { long: 'animal', short: 'a', argument: :optional, default: 'donkey' },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -334,7 +335,7 @@ module Cri
       input       = %w[foo -a]
       definitions = [
         { long: 'animal', short: 'a', argument: :optional, default: 'donkey' },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -346,7 +347,7 @@ module Cri
       input       = %w[foo -a giraffe]
       definitions = [
         { long: 'animal', short: 'a', argument: :optional, default: 'donkey' },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -358,7 +359,7 @@ module Cri
       input       = %w[foo -a gi raffe]
       definitions = [
         { long: 'animal', short: 'a', argument: :optional, default: 'donkey' },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -372,7 +373,7 @@ module Cri
         { long: 'aaa', short: 'a', argument: :forbidden },
         { long: 'bbb', short: 'b', argument: :required },
         { long: 'ccc', short: 'c', argument: :required },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -386,7 +387,7 @@ module Cri
         { long: 'aaa', short: 'a', argument: :forbidden },
         { long: 'bbb', short: 'b', argument: :optional },
         { long: 'ccc', short: 'c', argument: :required },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -400,7 +401,7 @@ module Cri
         { long: 'aaa', short: 'a', argument: :forbidden },
         { long: 'bbb', short: 'b', argument: :required },
         { long: 'ccc', short: 'c', argument: :optional, default: 'c default' },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -412,7 +413,7 @@ module Cri
       input       = %w[--port 123]
       definitions = [
         { long: 'port', short: 'p', argument: :required, transform: ->(x) { Integer(x) } },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -424,7 +425,7 @@ module Cri
       input       = %w[--port 123]
       definitions = [
         { long: 'port', short: 'p', argument: :required, transform: method(:Integer) },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -442,7 +443,7 @@ module Cri
       input       = %w[--port 123]
       definitions = [
         { long: 'port', short: 'p', argument: :required, transform: port },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -461,7 +462,7 @@ module Cri
       input       = %w[]
       definitions = [
         { long: 'port', short: 'p', argument: :required, default: 8080, transform: port },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       parser = Cri::OptionParser.parse(input, definitions)
 
@@ -473,12 +474,26 @@ module Cri
       input       = %w[--port one_hundred_and_twenty_three]
       definitions = [
         { long: 'port', short: 'p', argument: :required, transform: method(:Integer) },
-      ]
+      ].map { |hash| make_opt_def(hash) }
 
       exception = assert_raises(Cri::OptionParser::IllegalOptionValueError) do
         Cri::OptionParser.parse(input, definitions)
       end
       assert_equal('invalid value "one_hundred_and_twenty_three" for --port option', exception.message)
+    end
+
+    def make_opt_def(hash)
+      Cri::OptionDefinition.new(
+        short:     hash.fetch(:short, nil),
+        long:      hash.fetch(:long, nil),
+        desc:      hash.fetch(:desc, nil),
+        argument:  hash.fetch(:argument, nil),
+        multiple:  hash.fetch(:multiple, nil),
+        block:     hash.fetch(:block, nil),
+        hidden:    hash.fetch(:hidden, nil),
+        default:   hash.fetch(:default, nil),
+        transform: hash.fetch(:transform, nil),
+      )
     end
   end
 end
