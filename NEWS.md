@@ -1,6 +1,12 @@
 Cri News
 ========
 
+## 2.12.0
+
+Features:
+
+* Added support for parameter naming and validation (#70)
+
 ## 2.11.0
 
 Features:
