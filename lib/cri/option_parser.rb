@@ -108,19 +108,6 @@ module Cri
     # @return [Array] The not yet parsed options and arguments.
     attr_reader :unprocessed_arguments_and_options
 
-    # Parses the command-line arguments. See the instance `parse` method for
-    # details.
-    #
-    # @param [Array<String>] arguments_and_options An array containing the
-    #   command-line arguments (will probably be `ARGS` for a root command)
-    #
-    # @param [Array<Hash>] option_defns An array of option definitions
-    #
-    # @return [Cri::OptionParser] The option parser self
-    def self.parse(arguments_and_options, option_defns)
-      new(arguments_and_options, option_defns).run
-    end
-
     # Creates a new parser with the given options/arguments and definitions.
     #
     # @param [Array<String>] arguments_and_options An array containing the
