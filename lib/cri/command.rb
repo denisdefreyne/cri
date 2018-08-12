@@ -320,10 +320,10 @@ module Cri
           global_option_definitions,
           parameter_definitions,
         )
-        handle_parser_errors_while { parser.run }
+        handle_errors_while { parser.run }
         local_opts  = parser.options
         global_opts = parent_opts.merge(parser.options)
-        args = parser.arguments
+        args = handle_errors_while { parser.arguments }
 
         # Handle options
         handle_options(local_opts)
@@ -380,7 +380,7 @@ module Cri
         parameter_definitions,
       )
       parser.delegate = delegate
-      handle_parser_errors_while { parser.run }
+      handle_errors_while { parser.run }
 
       # Extract
       [
@@ -390,7 +390,7 @@ module Cri
       ]
     end
 
-    def handle_parser_errors_while
+    def handle_errors_while
       yield
     rescue Cri::OptionParser::IllegalOptionError => e
       warn "#{name}: unrecognised option -- #{e}"
@@ -399,6 +399,9 @@ module Cri
       warn "#{name}: option requires an argument -- #{e}"
       raise CriExitException.new(is_error: true)
     rescue Cri::OptionParser::IllegalOptionValueError => e
+      warn "#{name}: #{e.message}"
+      raise CriExitException.new(is_error: true)
+    rescue Cri::ArgumentList::ArgumentCountMismatchError => e
       warn "#{name}: #{e.message}"
       raise CriExitException.new(is_error: true)
     end

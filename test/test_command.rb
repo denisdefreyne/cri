@@ -697,5 +697,22 @@ module Cri
 
       assert_equal "opts={:aaa=>\"test\"} args=--test,value\n", out
     end
+
+    def test_wrong_number_of_args
+      cmd = Cri::Command.define do
+        name 'publish'
+        param :filename
+      end
+
+      out, err = capture_io_while do
+        err = assert_raises SystemExit do
+          cmd.run([])
+        end
+        assert_equal 1, err.status
+      end
+
+      assert_equal [], lines(out)
+      assert_equal ['publish: incorrect number of arguments given: expected 1, but 0 were given'], lines(err)
+    end
   end
 end
