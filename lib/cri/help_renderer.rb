@@ -106,18 +106,18 @@ module Cri
       end
     end
 
-    def length_for_opt_defs(opt_defs)
-      opt_defs.map do |opt_def|
+    def length_for_opt_defns(opt_defns)
+      opt_defns.map do |opt_defn|
         string = +''
 
         # Always pretend there is a short option
         string << '-X'
 
-        if opt_def.long
-          string << ' --' + opt_def.long
+        if opt_defn.long
+          string << ' --' + opt_defn.long
         end
 
-        case opt_def.argument
+        case opt_defn.argument
         when :required
           string << '=<value>'
         when :optional
@@ -133,7 +133,7 @@ module Cri
       if @cmd.supercommand
         groups["options for #{@cmd.supercommand.name}"] = @cmd.supercommand.global_option_definitions
       end
-      length = length_for_opt_defs(groups.values.inject(&:+))
+      length = length_for_opt_defns(groups.values.inject(&:+))
       groups.keys.sort.each do |name|
         defs = groups[name]
         append_option_group(text, name, defs, length)
@@ -148,16 +148,16 @@ module Cri
       text << "\n"
 
       ordered_defs = defs.sort_by { |x| x.short || x.long }
-      ordered_defs.reject(&:hidden).each do |opt_def|
-        text << format_opt_def(opt_def, length)
-        desc = opt_def.desc + (opt_def.default ? " (default: #{opt_def.default})" : '')
+      ordered_defs.reject(&:hidden).each do |opt_defn|
+        text << format_opt_defn(opt_defn, length)
+        desc = opt_defn.desc + (opt_defn.default ? " (default: #{opt_defn.default})" : '')
         text << fmt.wrap_and_indent(desc, LINE_WIDTH, length + OPT_DESC_SPACING + DESC_INDENT, true) << "\n"
       end
     end
 
-    def short_value_postfix_for(opt_def)
+    def short_value_postfix_for(opt_defn)
       value_postfix =
-        case opt_def.argument
+        case opt_defn.argument
         when :required
           '<value>'
         when :optional
@@ -165,15 +165,15 @@ module Cri
         end
 
       if value_postfix
-        opt_def.long ? '' : ' ' + value_postfix
+        opt_defn.long ? '' : ' ' + value_postfix
       else
         ''
       end
     end
 
-    def long_value_postfix_for(opt_def)
+    def long_value_postfix_for(opt_defn)
       value_postfix =
-        case opt_def.argument
+        case opt_defn.argument
         when :required
           '=<value>'
         when :optional
@@ -181,30 +181,30 @@ module Cri
         end
 
       if value_postfix
-        opt_def.long ? value_postfix : ''
+        opt_defn.long ? value_postfix : ''
       else
         ''
       end
     end
 
-    def format_opt_def(opt_def, length)
-      short_value_postfix = short_value_postfix_for(opt_def)
-      long_value_postfix = long_value_postfix_for(opt_def)
+    def format_opt_defn(opt_defn, length)
+      short_value_postfix = short_value_postfix_for(opt_defn)
+      long_value_postfix = long_value_postfix_for(opt_defn)
 
       opt_text = +''
       opt_text_len = 0
-      if opt_def.short
-        opt_text << fmt.format_as_option('-' + opt_def.short, @io)
+      if opt_defn.short
+        opt_text << fmt.format_as_option('-' + opt_defn.short, @io)
         opt_text << short_value_postfix
         opt_text << ' '
-        opt_text_len += 1 + opt_def.short.size + short_value_postfix.size + 1
+        opt_text_len += 1 + opt_defn.short.size + short_value_postfix.size + 1
       else
         opt_text << '   '
         opt_text_len += 3
       end
-      opt_text << fmt.format_as_option('--' + opt_def.long, @io) if opt_def.long
+      opt_text << fmt.format_as_option('--' + opt_defn.long, @io) if opt_defn.long
       opt_text << long_value_postfix
-      opt_text_len += 2 + opt_def.long.size if opt_def.long
+      opt_text_len += 2 + opt_defn.long.size if opt_defn.long
       opt_text_len += long_value_postfix.size
 
       '    ' + opt_text + ' ' * (length + OPT_DESC_SPACING - opt_text_len)

@@ -27,7 +27,7 @@ module Cri
       input = %w[foo]
       opt_defns = [
         { long: 'aaa', short: 'a', argument: :forbidden },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -38,7 +38,7 @@ module Cri
       input = %w[foo --aaa bar]
       opt_defns = [
         { long: 'aaa', short: 'a', argument: :forbidden },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -50,7 +50,7 @@ module Cri
       input = %w[foo --aaa xxx bar]
       opt_defns = [
         { long: 'aaa', short: 'a', argument: :required },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -62,7 +62,7 @@ module Cri
       input = %w[foo --aaa=xxx bar]
       opt_defns = [
         { long: 'aaa', short: 'a', argument: :required },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -74,7 +74,7 @@ module Cri
       input = %w[foo --aaa]
       opt_defns = [
         { long: 'aaa', short: 'a', argument: :required },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
         Cri::OptionParser.new(input, opt_defns).run
@@ -86,7 +86,7 @@ module Cri
       opt_defns = [
         { long: 'all',  short: 'a', argument: :required },
         { long: 'port', short: 'p', argument: :required },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
         Cri::OptionParser.new(input, opt_defns).run
@@ -97,7 +97,7 @@ module Cri
       input = %w[foo --aaa]
       opt_defns = [
         { long: 'aaa', short: 'a', argument: :optional },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -109,7 +109,7 @@ module Cri
       input = %w[foo --aaa xxx]
       opt_defns = [
         { long: 'aaa', short: 'a', argument: :optional },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -123,7 +123,7 @@ module Cri
         { long: 'aaa', short: 'a', argument: :optional  },
         { long: 'bbb', short: 'b', argument: :forbidden },
         { long: 'ccc', short: 'c', argument: :forbidden },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -137,7 +137,7 @@ module Cri
       input = %w[foo -a bar]
       opt_defns = [
         { long: 'aaa', short: 'a', argument: :forbidden },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -149,7 +149,7 @@ module Cri
       input = %w[foo -a]
       opt_defns = [
         { long: 'aaa', short: 'a', argument: :required },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
         Cri::OptionParser.new(input, opt_defns).run
@@ -162,7 +162,7 @@ module Cri
         { long: 'aaa', short: 'a', argument: :forbidden },
         { long: 'bbb', short: 'b', argument: :forbidden },
         { long: 'ccc', short: 'c', argument: :forbidden },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -178,7 +178,7 @@ module Cri
         { long: 'aaa', short: 'a', argument: :required  },
         { long: 'bbb', short: 'b', argument: :forbidden },
         { long: 'ccc', short: 'c', argument: :forbidden },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -193,7 +193,7 @@ module Cri
       opt_defns = [
         { long: 'all',  short: 'a', argument: :required },
         { long: 'port', short: 'p', argument: :required },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
         Cri::OptionParser.new(input, opt_defns).run
@@ -204,7 +204,7 @@ module Cri
       input = %w[foo -a]
       opt_defns = [
         { long: 'aaa', short: 'a', argument: :optional },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -216,7 +216,7 @@ module Cri
       input = %w[foo -a xxx]
       opt_defns = [
         { long: 'aaa', short: 'a', argument: :optional },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -230,7 +230,7 @@ module Cri
         { long: 'aaa', short: 'a', argument: :optional  },
         { long: 'bbb', short: 'b', argument: :forbidden },
         { long: 'ccc', short: 'c', argument: :forbidden },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -264,7 +264,7 @@ module Cri
       input = %w[foo --aaa -- zzz]
       opt_defns = [
         { long: 'aaa', short: 'a', argument: :required },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
         Cri::OptionParser.new(input, opt_defns).run
@@ -276,7 +276,7 @@ module Cri
       opt_defns = [
         { long: 'long', short: 'o', argument: :required, multiple: true },
         { long: 'verbose', short: 'v', multiple: true },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -288,7 +288,7 @@ module Cri
       input = %w[foo]
       opt_defns = [
         { long: 'animal', short: 'a', argument: :required, default: 'donkey' },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -300,7 +300,7 @@ module Cri
       input = %w[foo -a]
       opt_defns = [
         { long: 'animal', short: 'a', argument: :required, default: 'donkey' },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
         Cri::OptionParser.new(input, opt_defns).run
@@ -311,7 +311,7 @@ module Cri
       input = %w[foo -a giraffe]
       opt_defns = [
         { long: 'animal', short: 'a', argument: :required, default: 'donkey' },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -323,7 +323,7 @@ module Cri
       input = %w[foo]
       opt_defns = [
         { long: 'animal', short: 'a', argument: :optional, default: 'donkey' },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -335,7 +335,7 @@ module Cri
       input = %w[foo -a]
       opt_defns = [
         { long: 'animal', short: 'a', argument: :optional, default: 'donkey' },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -347,7 +347,7 @@ module Cri
       input = %w[foo -a giraffe]
       opt_defns = [
         { long: 'animal', short: 'a', argument: :optional, default: 'donkey' },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -359,7 +359,7 @@ module Cri
       input = %w[foo -a gi raffe]
       opt_defns = [
         { long: 'animal', short: 'a', argument: :optional, default: 'donkey' },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -373,7 +373,7 @@ module Cri
         { long: 'aaa', short: 'a', argument: :forbidden },
         { long: 'bbb', short: 'b', argument: :required },
         { long: 'ccc', short: 'c', argument: :required },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -387,7 +387,7 @@ module Cri
         { long: 'aaa', short: 'a', argument: :forbidden },
         { long: 'bbb', short: 'b', argument: :optional },
         { long: 'ccc', short: 'c', argument: :required },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -401,7 +401,7 @@ module Cri
         { long: 'aaa', short: 'a', argument: :forbidden },
         { long: 'bbb', short: 'b', argument: :required },
         { long: 'ccc', short: 'c', argument: :optional, default: 'c default' },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -413,7 +413,7 @@ module Cri
       input = %w[--port 123]
       opt_defns = [
         { long: 'port', short: 'p', argument: :required, transform: ->(x) { Integer(x) } },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -425,7 +425,7 @@ module Cri
       input = %w[--port 123]
       opt_defns = [
         { long: 'port', short: 'p', argument: :required, transform: method(:Integer) },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -443,7 +443,7 @@ module Cri
       input = %w[--port 123]
       opt_defns = [
         { long: 'port', short: 'p', argument: :required, transform: port },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -462,7 +462,7 @@ module Cri
       input = %w[]
       opt_defns = [
         { long: 'port', short: 'p', argument: :required, default: 8080, transform: port },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       parser = Cri::OptionParser.new(input, opt_defns).run
 
@@ -474,7 +474,7 @@ module Cri
       input = %w[--port one_hundred_and_twenty_three]
       opt_defns = [
         { long: 'port', short: 'p', argument: :required, transform: method(:Integer) },
-      ].map { |hash| make_opt_def(hash) }
+      ].map { |hash| make_opt_defn(hash) }
 
       exception = assert_raises(Cri::OptionParser::IllegalOptionValueError) do
         Cri::OptionParser.new(input, opt_defns).run
@@ -482,7 +482,7 @@ module Cri
       assert_equal('invalid value "one_hundred_and_twenty_three" for --port option', exception.message)
     end
 
-    def make_opt_def(hash)
+    def make_opt_defn(hash)
       Cri::OptionDefinition.new(
         short:     hash.fetch(:short, nil),
         long:      hash.fetch(:long, nil),
