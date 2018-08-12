@@ -87,7 +87,7 @@ module Cri
     attr_accessor :hidden
     alias hidden? hidden
 
-    # @return [Array<Hash>] The list of option definitions
+    # @return [Array<Cri::OptionDefinition>] The list of option definitions
     attr_accessor :option_definitions
 
     # @return [Proc] The block that should be executed when invoking this
@@ -167,8 +167,8 @@ module Cri
       self
     end
 
-    # @return [Hash] The option definitions for the command itself and all its
-    #   ancestors
+    # @return [Enumerable<Cri::OptionDefinition>] The option definitions for the
+    #   command itself and all its ancestors
     def global_option_definitions
       res = Set.new
       res.merge(option_definitions)

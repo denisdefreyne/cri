@@ -109,7 +109,8 @@ module Cri
     # @param [Array<String>] arguments_and_options An array containing the
     #   command-line arguments (will probably be `ARGS` for a root command)
     #
-    # @param [Array<Hash>] option_defns An array of option option_defns
+    # @param [Array<Cri::OptionDefinition>] option_defns An array of option
+    #   definitions
     def initialize(arguments_and_options, option_defns)
       @unprocessed_arguments_and_options = arguments_and_options.dup
       @option_defns = option_defns
