@@ -712,7 +712,7 @@ module Cri
       end
 
       assert_equal [], lines(out)
-      assert_equal ['publish: incorrect number of arguments given: expected 1, but 0 were given'], lines(err)
+      assert_equal ['publish: incorrect number of arguments given: expected 1, but got 0'], lines(err)
     end
   end
 end

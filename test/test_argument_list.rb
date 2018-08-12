@@ -64,7 +64,7 @@ module Cri
       exception = assert_raises(Cri::ArgumentList::ArgumentCountMismatchError) do
         Cri::ArgumentList.new(%w[notbad.jpg verybad.jpg], param_defns)
       end
-      assert_equal('incorrect number of arguments given: expected 1, but 2 were given', exception.message)
+      assert_equal('incorrect number of arguments given: expected 1, but got 2', exception.message)
     end
 
     def test_one_param_defn_too_few
@@ -73,7 +73,7 @@ module Cri
       exception = assert_raises(Cri::ArgumentList::ArgumentCountMismatchError) do
         Cri::ArgumentList.new(%w[], param_defns)
       end
-      assert_equal('incorrect number of arguments given: expected 1, but 0 were given', exception.message)
+      assert_equal('incorrect number of arguments given: expected 1, but got 0', exception.message)
     end
   end
 end

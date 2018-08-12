@@ -504,7 +504,7 @@ module Cri
       exception = assert_raises(Cri::ArgumentList::ArgumentCountMismatchError) do
         parser.arguments
       end
-      assert_equal('incorrect number of arguments given: expected 1, but 0 were given', exception.message)
+      assert_equal('incorrect number of arguments given: expected 1, but got 0', exception.message)
     end
 
     def test_parse_with_param_defns_too_many_args
@@ -517,7 +517,7 @@ module Cri
       exception = assert_raises(Cri::ArgumentList::ArgumentCountMismatchError) do
         parser.arguments
       end
-      assert_equal('incorrect number of arguments given: expected 1, but 2 were given', exception.message)
+      assert_equal('incorrect number of arguments given: expected 1, but got 2', exception.message)
     end
 
     def test_parse_with_param_defns_invalid_key

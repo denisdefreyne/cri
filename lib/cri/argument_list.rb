@@ -11,7 +11,7 @@ module Cri
       end
 
       def message
-        "incorrect number of arguments given: expected #{@expected_count}, but #{@actual_count} were given"
+        "incorrect number of arguments given: expected #{@expected_count}, but got #{@actual_count}"
       end
     end
 
