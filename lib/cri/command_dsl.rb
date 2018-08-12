@@ -142,6 +142,13 @@ module Cri
     end
     alias opt option
 
+    # Defines a new parameter for the command.
+    #
+    # @param [Symbol] name The name of the parameter
+    def param(name)
+      @command.parameter_definitions << Cri::ParamDefinition.new(name: name)
+    end
+
     # Adds a new option with a required argument to the command. If a block is
     # given, it will be executed when the option is successfully parsed.
     #

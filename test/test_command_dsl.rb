@@ -240,5 +240,33 @@ module Cri
       command.run(%w[certainly])
       assert_equal 'certainly', $did_it_work
     end
+
+    def test_params
+      # Define
+      dsl = Cri::CommandDSL.new
+      dsl.instance_eval do
+        name        'moo'
+        usage       'dunno whatever'
+        summary     'does stuff'
+        description 'This command does a lot of stuff.'
+
+        param :foo
+        param :bar
+        param :qux
+
+        run do |_opts, args|
+          $args_num = { foo: args[0], bar: args[1], qux: args[2] }
+          $args_sym = { foo: args[:foo], bar: args[:bar], qux: args[:qux] }
+        end
+      end
+      command = dsl.command
+
+      # Run
+      $args_num = '???'
+      $args_sym = '???'
+      command.run(%w[a b c])
+      assert_equal({ foo: 'a', bar: 'b', qux: 'c' }, $args_num)
+      assert_equal({ foo: 'a', bar: 'b', qux: 'c' }, $args_sym)
+    end
   end
 end

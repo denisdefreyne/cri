@@ -8,10 +8,10 @@ module Cri
       input = %w[foo bar baz]
       opt_defns = []
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert_equal({}, parser.options)
-      assert_equal(%w[foo bar baz], parser.arguments)
+      assert_equal(%w[foo bar baz], parser.arguments.to_a)
     end
 
     def test_parse_with_invalid_option
@@ -19,7 +19,7 @@ module Cri
       opt_defns = []
 
       assert_raises(Cri::OptionParser::IllegalOptionError) do
-        Cri::OptionParser.new(input, opt_defns).run
+        Cri::OptionParser.new(input, opt_defns, []).run
       end
     end
 
@@ -29,7 +29,7 @@ module Cri
         { long: 'aaa', short: 'a', argument: :forbidden },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert(!parser.options[:aaa])
     end
@@ -40,10 +40,10 @@ module Cri
         { long: 'aaa', short: 'a', argument: :forbidden },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert(parser.options[:aaa])
-      assert_equal(%w[foo bar], parser.arguments)
+      assert_equal(%w[foo bar], parser.arguments.to_a)
     end
 
     def test_parse_with_long_valueful_option
@@ -52,10 +52,10 @@ module Cri
         { long: 'aaa', short: 'a', argument: :required },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert_equal({ aaa: 'xxx' }, parser.options)
-      assert_equal(%w[foo bar], parser.arguments)
+      assert_equal(%w[foo bar], parser.arguments.to_a)
     end
 
     def test_parse_with_long_valueful_equalsign_option
@@ -64,10 +64,10 @@ module Cri
         { long: 'aaa', short: 'a', argument: :required },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert_equal({ aaa: 'xxx' }, parser.options)
-      assert_equal(%w[foo bar], parser.arguments)
+      assert_equal(%w[foo bar], parser.arguments.to_a)
     end
 
     def test_parse_with_long_valueful_option_with_missing_value
@@ -77,7 +77,7 @@ module Cri
       ].map { |hash| make_opt_defn(hash) }
 
       assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
-        Cri::OptionParser.new(input, opt_defns).run
+        Cri::OptionParser.new(input, opt_defns, []).run
       end
     end
 
@@ -89,7 +89,7 @@ module Cri
       ].map { |hash| make_opt_defn(hash) }
 
       assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
-        Cri::OptionParser.new(input, opt_defns).run
+        Cri::OptionParser.new(input, opt_defns, []).run
       end
     end
 
@@ -99,10 +99,10 @@ module Cri
         { long: 'aaa', short: 'a', argument: :optional },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert(parser.options[:aaa])
-      assert_equal(['foo'], parser.arguments)
+      assert_equal(['foo'], parser.arguments.to_a)
     end
 
     def test_parse_with_long_valueful_option_with_optional_value
@@ -111,10 +111,10 @@ module Cri
         { long: 'aaa', short: 'a', argument: :optional },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert_equal({ aaa: 'xxx' }, parser.options)
-      assert_equal(['foo'], parser.arguments)
+      assert_equal(['foo'], parser.arguments.to_a)
     end
 
     def test_parse_with_long_valueless_option_with_optional_value_and_more_options
@@ -125,12 +125,12 @@ module Cri
         { long: 'ccc', short: 'c', argument: :forbidden },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert(parser.options[:aaa])
       assert(parser.options[:bbb])
       assert(parser.options[:ccc])
-      assert_equal(['foo'], parser.arguments)
+      assert_equal(['foo'], parser.arguments.to_a)
     end
 
     def test_parse_with_short_valueless_options
@@ -139,10 +139,10 @@ module Cri
         { long: 'aaa', short: 'a', argument: :forbidden },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert(parser.options[:aaa])
-      assert_equal(%w[foo bar], parser.arguments)
+      assert_equal(%w[foo bar], parser.arguments.to_a)
     end
 
     def test_parse_with_short_valueful_option_with_missing_value
@@ -152,7 +152,7 @@ module Cri
       ].map { |hash| make_opt_defn(hash) }
 
       assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
-        Cri::OptionParser.new(input, opt_defns).run
+        Cri::OptionParser.new(input, opt_defns, []).run
       end
     end
 
@@ -164,12 +164,12 @@ module Cri
         { long: 'ccc', short: 'c', argument: :forbidden },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert(parser.options[:aaa])
       assert(parser.options[:bbb])
       assert(parser.options[:ccc])
-      assert_equal(%w[foo bar], parser.arguments)
+      assert_equal(%w[foo bar], parser.arguments.to_a)
     end
 
     def test_parse_with_short_combined_valueful_options_with_missing_value
@@ -180,12 +180,12 @@ module Cri
         { long: 'ccc', short: 'c', argument: :forbidden },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert_equal('bar', parser.options[:aaa])
       assert(parser.options[:bbb])
       assert(parser.options[:ccc])
-      assert_equal(%w[foo qux], parser.arguments)
+      assert_equal(%w[foo qux], parser.arguments.to_a)
     end
 
     def test_parse_with_two_short_valueful_options
@@ -196,7 +196,7 @@ module Cri
       ].map { |hash| make_opt_defn(hash) }
 
       assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
-        Cri::OptionParser.new(input, opt_defns).run
+        Cri::OptionParser.new(input, opt_defns, []).run
       end
     end
 
@@ -206,10 +206,10 @@ module Cri
         { long: 'aaa', short: 'a', argument: :optional },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert(parser.options[:aaa])
-      assert_equal(['foo'], parser.arguments)
+      assert_equal(['foo'], parser.arguments.to_a)
     end
 
     def test_parse_with_short_valueful_option_with_optional_value
@@ -218,10 +218,10 @@ module Cri
         { long: 'aaa', short: 'a', argument: :optional },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert_equal({ aaa: 'xxx' }, parser.options)
-      assert_equal(['foo'], parser.arguments)
+      assert_equal(['foo'], parser.arguments.to_a)
     end
 
     def test_parse_with_short_valueless_option_with_optional_value_and_more_options
@@ -232,32 +232,32 @@ module Cri
         { long: 'ccc', short: 'c', argument: :forbidden },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert(parser.options[:aaa])
       assert(parser.options[:bbb])
       assert(parser.options[:ccc])
-      assert_equal(['foo'], parser.arguments)
+      assert_equal(['foo'], parser.arguments.to_a)
     end
 
     def test_parse_with_single_hyphen
       input = %w[foo - bar]
       opt_defns = []
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert_equal({}, parser.options)
-      assert_equal(['foo', '-', 'bar'], parser.arguments)
+      assert_equal(['foo', '-', 'bar'], parser.arguments.to_a)
     end
 
     def test_parse_with_end_marker
       input = %w[foo bar -- -x --yyy -abc]
       opt_defns = []
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert_equal({}, parser.options)
-      assert_equal(['foo', 'bar', '-x', '--yyy', '-abc'], parser.arguments)
+      assert_equal(['foo', 'bar', '-x', '--yyy', '-abc'], parser.arguments.to_a)
     end
 
     def test_parse_with_end_marker_between_option_key_and_value
@@ -267,7 +267,7 @@ module Cri
       ].map { |hash| make_opt_defn(hash) }
 
       assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
-        Cri::OptionParser.new(input, opt_defns).run
+        Cri::OptionParser.new(input, opt_defns, []).run
       end
     end
 
@@ -278,7 +278,7 @@ module Cri
         { long: 'verbose', short: 'v', multiple: true },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert_equal(%w[test test2], parser.options[:long])
       assert_equal(3, parser.options[:verbose].size)
@@ -290,10 +290,10 @@ module Cri
         { long: 'animal', short: 'a', argument: :required, default: 'donkey' },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert_equal({ animal: 'donkey' }, parser.options)
-      assert_equal(['foo'], parser.arguments)
+      assert_equal(['foo'], parser.arguments.to_a)
     end
 
     def test_parse_with_default_required_no_value
@@ -303,7 +303,7 @@ module Cri
       ].map { |hash| make_opt_defn(hash) }
 
       assert_raises(Cri::OptionParser::OptionRequiresAnArgumentError) do
-        Cri::OptionParser.new(input, opt_defns).run
+        Cri::OptionParser.new(input, opt_defns, []).run
       end
     end
 
@@ -313,10 +313,10 @@ module Cri
         { long: 'animal', short: 'a', argument: :required, default: 'donkey' },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert_equal({ animal: 'giraffe' }, parser.options)
-      assert_equal(['foo'], parser.arguments)
+      assert_equal(['foo'], parser.arguments.to_a)
     end
 
     def test_parse_with_default_optional_unspecified
@@ -325,10 +325,10 @@ module Cri
         { long: 'animal', short: 'a', argument: :optional, default: 'donkey' },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert_equal({ animal: 'donkey' }, parser.options)
-      assert_equal(['foo'], parser.arguments)
+      assert_equal(['foo'], parser.arguments.to_a)
     end
 
     def test_parse_with_default_optional_no_value
@@ -337,10 +337,10 @@ module Cri
         { long: 'animal', short: 'a', argument: :optional, default: 'donkey' },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert_equal({ animal: 'donkey' }, parser.options)
-      assert_equal(['foo'], parser.arguments)
+      assert_equal(['foo'], parser.arguments.to_a)
     end
 
     def test_parse_with_default_optional_value
@@ -349,10 +349,10 @@ module Cri
         { long: 'animal', short: 'a', argument: :optional, default: 'donkey' },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert_equal({ animal: 'giraffe' }, parser.options)
-      assert_equal(['foo'], parser.arguments)
+      assert_equal(['foo'], parser.arguments.to_a)
     end
 
     def test_parse_with_default_optional_value_and_arg
@@ -361,10 +361,10 @@ module Cri
         { long: 'animal', short: 'a', argument: :optional, default: 'donkey' },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert_equal({ animal: 'gi' }, parser.options)
-      assert_equal(%w[foo raffe], parser.arguments)
+      assert_equal(%w[foo raffe], parser.arguments.to_a)
     end
 
     def test_parse_with_combined_required_options
@@ -375,10 +375,10 @@ module Cri
         { long: 'ccc', short: 'c', argument: :required },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert_equal({ aaa: true, bbb: 'xxx', ccc: 'yyy' }, parser.options)
-      assert_equal(%w[foo zzz], parser.arguments)
+      assert_equal(%w[foo zzz], parser.arguments.to_a)
     end
 
     def test_parse_with_combined_optional_options
@@ -389,10 +389,10 @@ module Cri
         { long: 'ccc', short: 'c', argument: :required },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert_equal({ aaa: true, bbb: 'xxx', ccc: 'yyy' }, parser.options)
-      assert_equal(%w[foo zzz], parser.arguments)
+      assert_equal(%w[foo zzz], parser.arguments.to_a)
     end
 
     def test_parse_with_combined_optional_options_with_missing_value
@@ -403,10 +403,10 @@ module Cri
         { long: 'ccc', short: 'c', argument: :optional, default: 'c default' },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert_equal({ aaa: true, bbb: 'xxx', ccc: 'c default' }, parser.options)
-      assert_equal(%w[foo], parser.arguments)
+      assert_equal(%w[foo], parser.arguments.to_a)
     end
 
     def test_parse_with_transform_proc
@@ -415,10 +415,10 @@ module Cri
         { long: 'port', short: 'p', argument: :required, transform: ->(x) { Integer(x) } },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert_equal({ port: 123 }, parser.options)
-      assert_equal([], parser.arguments)
+      assert_equal([], parser.arguments.to_a)
     end
 
     def test_parse_with_transform_method
@@ -427,10 +427,10 @@ module Cri
         { long: 'port', short: 'p', argument: :required, transform: method(:Integer) },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert_equal({ port: 123 }, parser.options)
-      assert_equal([], parser.arguments)
+      assert_equal([], parser.arguments.to_a)
     end
 
     def test_parse_with_transform_object
@@ -445,10 +445,10 @@ module Cri
         { long: 'port', short: 'p', argument: :required, transform: port },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert_equal({ port: 123 }, parser.options)
-      assert_equal([], parser.arguments)
+      assert_equal([], parser.arguments.to_a)
     end
 
     def test_parse_with_transform_default
@@ -464,10 +464,10 @@ module Cri
         { long: 'port', short: 'p', argument: :required, default: 8080, transform: port },
       ].map { |hash| make_opt_defn(hash) }
 
-      parser = Cri::OptionParser.new(input, opt_defns).run
+      parser = Cri::OptionParser.new(input, opt_defns, []).run
 
       assert_equal({ port: 8080 }, parser.options)
-      assert_equal([], parser.arguments)
+      assert_equal([], parser.arguments.to_a)
     end
 
     def test_parse_with_transform_exception
@@ -477,9 +477,76 @@ module Cri
       ].map { |hash| make_opt_defn(hash) }
 
       exception = assert_raises(Cri::OptionParser::IllegalOptionValueError) do
-        Cri::OptionParser.new(input, opt_defns).run
+        Cri::OptionParser.new(input, opt_defns, []).run
       end
       assert_equal('invalid value "one_hundred_and_twenty_three" for --port option', exception.message)
+    end
+
+    def test_parse_with_param_defns
+      input       = %w[localhost]
+      param_defns = [
+        { name: 'host' },
+      ].map { |hash| Cri::ParamDefinition.new(hash) }
+
+      parser = Cri::OptionParser.new(input, [], param_defns).run
+      assert_equal({}, parser.options)
+      assert_equal('localhost', parser.arguments[0])
+      assert_equal('localhost', parser.arguments[:host])
+    end
+
+    def test_parse_with_param_defns_too_few_args
+      input       = []
+      param_defns = [
+        { name: 'host' },
+      ].map { |hash| Cri::ParamDefinition.new(hash) }
+
+      parser = Cri::OptionParser.new(input, [], param_defns).run
+      exception = assert_raises(Cri::ArgumentList::ArgumentCountMismatchError) do
+        parser.arguments
+      end
+      assert_equal('incorrect number of arguments given: expected 1, but 0 were given', exception.message)
+    end
+
+    def test_parse_with_param_defns_too_many_args
+      input       = %w[localhost oink]
+      param_defns = [
+        { name: 'host' },
+      ].map { |hash| Cri::ParamDefinition.new(hash) }
+
+      parser = Cri::OptionParser.new(input, [], param_defns).run
+      exception = assert_raises(Cri::ArgumentList::ArgumentCountMismatchError) do
+        parser.arguments
+      end
+      assert_equal('incorrect number of arguments given: expected 1, but 2 were given', exception.message)
+    end
+
+    def test_parse_with_param_defns_invalid_key
+      input       = %w[localhost]
+      param_defns = [
+        { name: 'host' },
+      ].map { |hash| Cri::ParamDefinition.new(hash) }
+
+      parser = Cri::OptionParser.new(input, [], param_defns).run
+
+      exception = assert_raises(ArgumentError) do
+        parser.arguments['oink']
+      end
+      assert_equal('argument lists can be indexed using a Symbol or an Integer, but not a String', exception.message)
+    end
+
+    def test_parse_with_param_defns_two_params
+      input       = %w[localhost example.com]
+      param_defns = [
+        { name: 'source' },
+        { name: 'target' },
+      ].map { |hash| Cri::ParamDefinition.new(hash) }
+
+      parser = Cri::OptionParser.new(input, [], param_defns).run
+      assert_equal({}, parser.options)
+      assert_equal('localhost', parser.arguments[0])
+      assert_equal('localhost', parser.arguments[:source])
+      assert_equal('example.com', parser.arguments[1])
+      assert_equal('example.com', parser.arguments[:target])
     end
 
     def make_opt_defn(hash)

@@ -111,26 +111,19 @@ module Cri
     #
     # @param [Array<Cri::OptionDefinition>] option_defns An array of option
     #   definitions
-    def initialize(arguments_and_options, option_defns)
+    #
+    # @param [Array<Cri::ParamDefinition>] param_defns An array of parameter
+    #   definitions
+    def initialize(arguments_and_options, option_defns, param_defns)
       @unprocessed_arguments_and_options = arguments_and_options.dup
       @option_defns = option_defns
+      @param_defns = param_defns
 
       @options       = {}
       @raw_arguments = []
 
       @running = false
       @no_more_options = false
-    end
-
-    # Returns the arguments that have already been parsed.
-    #
-    # If the parser was stopped before it finished, this will not contain all
-    # options and `unprocessed_arguments_and_options` will contain what is
-    # left to be processed.
-    #
-    # @return [Array] The already parsed arguments.
-    def arguments
-      @raw_arguments.reject { |a| a == '--' }.freeze
     end
 
     # @return [Boolean] true if the parser is running, false otherwise.
@@ -181,6 +174,12 @@ module Cri
       self
     ensure
       @running = false
+    end
+
+    # @return [Cri::ArgumentList] The list of arguments that have already been
+    #   parsed, excluding the -- separator.
+    def arguments
+      ArgumentList.new(@raw_arguments, @param_defns)
     end
 
     private
