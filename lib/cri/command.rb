@@ -312,7 +312,8 @@ module Cri
       else
         # Parse
         parser = Cri::OptionParser.new(
-          opts_and_args, global_option_definitions
+          opts_and_args,
+          global_option_definitions,
         )
         handle_parser_errors_while { parser.run }
         local_opts  = parser.options
@@ -368,7 +369,10 @@ module Cri
 
       # Parse
       delegate = Cri::Command::OptionParserPartitioningDelegate.new
-      parser = Cri::OptionParser.new(opts_and_args, global_option_definitions)
+      parser = Cri::OptionParser.new(
+        opts_and_args,
+        global_option_definitions,
+      )
       parser.delegate = delegate
       handle_parser_errors_while { parser.run }
 
