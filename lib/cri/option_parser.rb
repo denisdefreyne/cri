@@ -98,10 +98,6 @@ module Cri
     # @return [Hash] The already parsed options.
     attr_reader :options
 
-    # @return [Array] The arguments that have already been parsed, including
-    #   the -- separator.
-    attr_reader :raw_arguments
-
     # The options and arguments that have not yet been processed. If the
     # parser wasn’t stopped (using {#stop}), this list will be empty.
     #
