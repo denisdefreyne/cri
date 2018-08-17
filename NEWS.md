@@ -1,6 +1,12 @@
 Cri News
 ========
 
+## 2.13.0
+
+Features:
+
+* Added support for explicitly specifying zero parameters using `#no_params` (#71)
+
 ## 2.12.0
 
 Features:
