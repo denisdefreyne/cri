@@ -93,6 +93,10 @@ module Cri
     # @return [Array<Hash>] The list of parameter definitions
     attr_accessor :parameter_definitions
 
+    # @return [Boolean] Whether or not this command has parameters
+    attr_accessor :explicitly_no_params
+    alias explicitly_no_params? explicitly_no_params
+
     # @return [Proc] The block that should be executed when invoking this
     #   command (ignored for commands with subcommands)
     attr_accessor :block
@@ -151,6 +155,7 @@ module Cri
       @commands           = Set.new
       @option_definitions = Set.new
       @parameter_definitions = []
+      @explicitly_no_params = false
       @default_subcommand_name = nil
     end
 
@@ -319,6 +324,7 @@ module Cri
           opts_and_args,
           global_option_definitions,
           parameter_definitions,
+          explicitly_no_params?,
         )
         handle_errors_while { parser.run }
         local_opts  = parser.options
@@ -378,6 +384,7 @@ module Cri
         opts_and_args,
         global_option_definitions,
         parameter_definitions,
+        explicitly_no_params?,
       )
       parser.delegate = delegate
       handle_errors_while { parser.run }

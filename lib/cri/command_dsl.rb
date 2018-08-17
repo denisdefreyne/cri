@@ -4,6 +4,31 @@ module Cri
   # The command DSL is a class that is used for building and modifying
   # commands.
   class CommandDSL
+    # Error that will be raised when specifying a parameter after the command is
+    # already declared as taken no params.
+    class AlreadySpecifiedAsNoParams < Cri::Error
+      def initialize(param, command)
+        @param = param
+        @command = command
+      end
+
+      def message
+        "Attempted to specify a parameter #{@param.inspect} to the command #{@command.name.inspect}, which is already specified as taking no params. Suggestion: remove the #no_params call."
+      end
+    end
+
+    # Error that will be raised when declaring the command as taking no
+    # parameters, when the command is already declared with parameters.
+    class AlreadySpecifiedWithParams < Cri::Error
+      def initialize(command)
+        @command = command
+      end
+
+      def message
+        "Attempted to declare the command #{@command.name.inspect} as taking no parameters, but some parameters are already declared for this command. Suggestion: remove the #no_params call."
+      end
+    end
+
     # @return [Cri::Command] The built command
     attr_reader :command
 
@@ -146,7 +171,19 @@ module Cri
     #
     # @param [Symbol] name The name of the parameter
     def param(name)
+      if @command.explicitly_no_params?
+        raise AlreadySpecifiedAsNoParams.new(name, @command)
+      end
+
       @command.parameter_definitions << Cri::ParamDefinition.new(name: name)
+    end
+
+    def no_params
+      if @command.parameter_definitions.any?
+        raise AlreadySpecifiedWithParams.new(@command)
+      end
+
+      @command.explicitly_no_params = true
     end
 
     # Adds a new option with a required argument to the command. If a block is

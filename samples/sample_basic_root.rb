@@ -15,6 +15,7 @@ cmd.define_command do
   usage       'compile [options]'
   summary     'compiles a web site'
   description 'This loads all data, compiles it and writes it to the disk.'
+  no_params
 
   run do |_opts, _args|
     puts 'Compiling…'

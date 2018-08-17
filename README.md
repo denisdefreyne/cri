@@ -257,6 +257,30 @@ end
 The command in this example has one parameter named `filename`. This means that
 the command takes a single argument, named `filename`.
 
+If no parameters are specified, Cri performs no argument parsing or validation; any number of arguments is allowed. To explicitly specify that a command has no parameters, use `#no_params`:
+
+```ruby
+name        'reset'
+usage       'reset'
+summary     'resets the site'
+description '…'
+no_params
+
+run do |opts, args, cmd|
+  puts "Resetting…"
+end
+```
+
+```
+% my-tool reset x
+reset: incorrect number of arguments given: expected 0, but got 1
+% my-tool reset
+Resetting…
+%
+```
+
+A future version of Cri will likely make `#no_params` the default behavior.
+
 (*Why the distinction between argument and parameter?* A parameter is a name, e.g. `filename`, while an argument is a value for a parameter, e.g. `kitten.jpg`.)
 
 ### The run block

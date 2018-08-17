@@ -114,10 +114,11 @@ module Cri
     #
     # @param [Array<Cri::ParamDefinition>] param_defns An array of parameter
     #   definitions
-    def initialize(arguments_and_options, option_defns, param_defns)
+    def initialize(arguments_and_options, option_defns, param_defns, explicitly_no_params)
       @unprocessed_arguments_and_options = arguments_and_options.dup
       @option_defns = option_defns
       @param_defns = param_defns
+      @explicitly_no_params = explicitly_no_params
 
       @options       = {}
       @raw_arguments = []
@@ -179,7 +180,7 @@ module Cri
     # @return [Cri::ArgumentList] The list of arguments that have already been
     #   parsed, excluding the -- separator.
     def arguments
-      ArgumentList.new(@raw_arguments, @param_defns)
+      ArgumentList.new(@raw_arguments, @explicitly_no_params, @param_defns)
     end
 
     private
