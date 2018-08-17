@@ -714,5 +714,47 @@ module Cri
       assert_equal [], lines(out)
       assert_equal ['publish: incorrect number of arguments given: expected 1, but got 0'], lines(err)
     end
+
+    def test_no_params_zero_args
+      dsl = Cri::CommandDSL.new
+      dsl.instance_eval do
+        name        'moo'
+        usage       'dunno whatever'
+        summary     'does stuff'
+        description 'This command does a lot of stuff.'
+        no_params
+
+        run do |_opts, args|
+        end
+      end
+      command = dsl.command
+
+      command.run([])
+    end
+
+    def test_no_params_one_arg
+      dsl = Cri::CommandDSL.new
+      dsl.instance_eval do
+        name        'moo'
+        usage       'dunno whatever'
+        summary     'does stuff'
+        description 'This command does a lot of stuff.'
+        no_params
+
+        run do |_opts, args|
+        end
+      end
+      command = dsl.command
+
+      out, err = capture_io_while do
+        err = assert_raises SystemExit do
+          command.run(['a'])
+        end
+        assert_equal 1, err.status
+      end
+
+      assert_equal [], lines(out)
+      assert_equal ['moo: incorrect number of arguments given: expected 0, but got 1'], lines(err)
+    end
   end
 end

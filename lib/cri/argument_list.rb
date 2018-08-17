@@ -17,8 +17,9 @@ module Cri
 
     include Enumerable
 
-    def initialize(raw_arguments, param_defns)
+    def initialize(raw_arguments, explicitly_no_params, param_defns)
       @raw_arguments = raw_arguments
+      @explicitly_no_params = explicitly_no_params
       @param_defns = param_defns
 
       load
@@ -56,8 +57,8 @@ module Cri
       @arguments_array = @raw_arguments.reject { |a| a == '--' }.freeze
       @arguments_hash = {}
 
-      if @param_defns.empty?
-        # For now, don’t check arguments when no parameter definitions are given.
+      if !@explicitly_no_params && @param_defns.empty?
+        # No parameters defined; ignore
         return
       end
 

@@ -268,5 +268,35 @@ module Cri
       assert_equal({ foo: 'a', bar: 'b', qux: 'c' }, $args_num)
       assert_equal({ foo: 'a', bar: 'b', qux: 'c' }, $args_sym)
     end
+
+    def test_no_params_with_one_param_specified
+      dsl = Cri::CommandDSL.new
+      err = assert_raises Cri::CommandDSL::AlreadySpecifiedWithParams do
+        dsl.instance_eval do
+          name        'moo'
+          usage       'dunno whatever'
+          summary     'does stuff'
+          description 'This command does a lot of stuff.'
+          param :oink
+          no_params
+        end
+      end
+      assert_equal('Attempted to declare the command "moo" as taking no parameters, but some parameters are already declared for this command. Suggestion: remove the #no_params call.', err.message)
+    end
+
+    def test_one_param_with_no_params_specified
+      dsl = Cri::CommandDSL.new
+      err = assert_raises Cri::CommandDSL::AlreadySpecifiedAsNoParams do
+        dsl.instance_eval do
+          name        'moo'
+          usage       'dunno whatever'
+          summary     'does stuff'
+          description 'This command does a lot of stuff.'
+          no_params
+          param :oink
+        end
+      end
+      assert_equal('Attempted to specify a parameter :oink to the command "moo", which is already specified as taking no params. Suggestion: remove the #no_params call.', err.message)
+    end
   end
 end
