@@ -269,6 +269,32 @@ module Cri
       assert_equal({ foo: 'a', bar: 'b', qux: 'c' }, $args_sym)
     end
 
+    def test_params_transform
+      # Define
+      dsl = Cri::CommandDSL.new
+      dsl.instance_eval do
+        name        'moo'
+        usage       'dunno whatever'
+        summary     'does stuff'
+        description 'This command does a lot of stuff.'
+
+        param :foo, transform: ->(a) { a.upcase }
+
+        run do |_opts, args|
+          $args_num = { foo: args[0] }
+          $args_sym = { foo: args[:foo] }
+        end
+      end
+      command = dsl.command
+
+      # Run
+      $args_num = '???'
+      $args_sym = '???'
+      command.run(%w[abc])
+      assert_equal({ foo: 'ABC' }, $args_num)
+      assert_equal({ foo: 'ABC' }, $args_sym)
+    end
+
     def test_no_params_with_one_param_specified
       dsl = Cri::CommandDSL.new
       err = assert_raises Cri::CommandDSL::AlreadySpecifiedWithParams do

@@ -485,7 +485,7 @@ module Cri
     def test_parse_with_param_defns
       input       = %w[localhost]
       param_defns = [
-        { name: 'host' },
+        { name: 'host', transform: nil },
       ].map { |hash| Cri::ParamDefinition.new(hash) }
 
       parser = Cri::Parser.new(input, [], param_defns, false).run
@@ -497,7 +497,7 @@ module Cri
     def test_parse_with_param_defns_too_few_args
       input       = []
       param_defns = [
-        { name: 'host' },
+        { name: 'host', transform: nil },
       ].map { |hash| Cri::ParamDefinition.new(hash) }
 
       parser = Cri::Parser.new(input, [], param_defns, false).run
@@ -510,7 +510,7 @@ module Cri
     def test_parse_with_param_defns_too_many_args
       input       = %w[localhost oink]
       param_defns = [
-        { name: 'host' },
+        { name: 'host', transform: nil },
       ].map { |hash| Cri::ParamDefinition.new(hash) }
 
       parser = Cri::Parser.new(input, [], param_defns, false).run
@@ -523,7 +523,7 @@ module Cri
     def test_parse_with_param_defns_invalid_key
       input       = %w[localhost]
       param_defns = [
-        { name: 'host' },
+        { name: 'host', transform: nil },
       ].map { |hash| Cri::ParamDefinition.new(hash) }
 
       parser = Cri::Parser.new(input, [], param_defns, false).run
@@ -537,8 +537,8 @@ module Cri
     def test_parse_with_param_defns_two_params
       input       = %w[localhost example.com]
       param_defns = [
-        { name: 'source' },
-        { name: 'target' },
+        { name: 'source', transform: nil },
+        { name: 'target', transform: nil },
       ].map { |hash| Cri::ParamDefinition.new(hash) }
 
       parser = Cri::Parser.new(input, [], param_defns, false).run

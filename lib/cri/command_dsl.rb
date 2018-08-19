@@ -170,12 +170,15 @@ module Cri
     # Defines a new parameter for the command.
     #
     # @param [Symbol] name The name of the parameter
-    def param(name)
+    def param(name, transform: nil)
       if @command.explicitly_no_params?
         raise AlreadySpecifiedAsNoParams.new(name, @command)
       end
 
-      @command.parameter_definitions << Cri::ParamDefinition.new(name: name)
+      @command.parameter_definitions << Cri::ParamDefinition.new(
+        name: name,
+        transform: transform,
+      )
     end
 
     def no_params
