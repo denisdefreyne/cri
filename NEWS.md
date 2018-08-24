@@ -1,5 +1,11 @@
 # Cri News
 
+## 2.14.0
+
+Features:
+
+* Added `Cri::Command.load_file`
+
 ## 2.13.0
 
 Features:
