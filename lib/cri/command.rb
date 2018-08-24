@@ -138,9 +138,14 @@ module Cri
     #   as a string
     #
     # @return [Cri::Command] The newly defined command
-    def self.load_file(filename)
+    def self.load_file(filename, infer_name: false)
       code = File.read(filename, encoding: 'UTF-8')
-      define(code, filename)
+      define(code, filename).tap do |cmd|
+        if infer_name
+          command_name = File.basename(filename, '.rb')
+          cmd.modify { name command_name }
+        end
+      end
     end
 
     # Returns a new command that has support for the `-h`/`--help` option and

@@ -377,6 +377,30 @@ root_cmd.add_command(Cri::Command.load_file('commands/view.rb'))
 root_cmd.add_command(Cri::Command.load_file('commands/check.rb'))
 ```
 
+#### Automatically inferring command names
+
+Pass `infer_name: true` to `Cri::Command.load_file` to use the file basename as the name of the command.
+
+For example, given a file _commands/check.rb_ with the following contents:
+
+```ruby
+usage       'check'
+summary     'runs all checks'
+description '…'
+
+run do |opts, args, cmd|
+  puts "Running checks…"
+end
+```
+
+To load this command and infer the name:
+
+```ruby
+cmd = Cri::Command.load_file('commands/check.rb', infer_name: true)
+```
+
+`cmd.name` will be `check`, derived from the filename.
+
 ## Contributors
 
 * Bart Mesuere

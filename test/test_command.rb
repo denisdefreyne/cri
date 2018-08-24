@@ -758,8 +758,9 @@ module Cri
     end
 
     def test_load_file
-      Tempfile.create('x') do |f|
-        f.write(<<~CMD)
+      Dir.mktmpdir('foo') do |dir|
+        filename = "#{dir}/moo.rb"
+        File.write(filename, <<~CMD)
           name        'moo'
           usage       'dunno whatever'
           summary     'does stuff'
@@ -769,9 +770,63 @@ module Cri
           run do |_opts, args|
           end
         CMD
-        f.close
 
-        cmd = Cri::Command.load_file(f.path)
+        cmd = Cri::Command.load_file(filename)
+        assert_equal('moo', cmd.name)
+      end
+    end
+
+    def test_load_file_infer_name_false
+      Dir.mktmpdir('foo') do |dir|
+        filename = "#{dir}/moo.rb"
+        File.write(filename, <<~CMD)
+          usage       'dunno whatever'
+          summary     'does stuff'
+          description 'This command does a lot of stuff.'
+          no_params
+
+          run do |_opts, args|
+          end
+        CMD
+
+        cmd = Cri::Command.load_file(filename)
+        assert_equal(nil, cmd.name)
+      end
+    end
+
+    def test_load_file_infer_name
+      Dir.mktmpdir('foo') do |dir|
+        filename = "#{dir}/moo.rb"
+        File.write(filename, <<~CMD)
+          usage       'dunno whatever'
+          summary     'does stuff'
+          description 'This command does a lot of stuff.'
+          no_params
+
+          run do |_opts, args|
+          end
+        CMD
+
+        cmd = Cri::Command.load_file(filename, infer_name: true)
+        assert_equal('moo', cmd.name)
+      end
+    end
+
+    def test_load_file_infer_name_double
+      Dir.mktmpdir('foo') do |dir|
+        filename = "#{dir}/moo.rb"
+        File.write(filename, <<~CMD)
+          name        'oink'
+          usage       'dunno whatever'
+          summary     'does stuff'
+          description 'This command does a lot of stuff.'
+          no_params
+
+          run do |_opts, args|
+          end
+        CMD
+
+        cmd = Cri::Command.load_file(filename, infer_name: true)
         assert_equal('moo', cmd.name)
       end
     end
