@@ -756,5 +756,24 @@ module Cri
       assert_equal [], lines(out)
       assert_equal ['moo: incorrect number of arguments given: expected 0, but got 1'], lines(err)
     end
+
+    def test_load_file
+      Tempfile.create('x') do |f|
+        f.write(<<~CMD)
+          name        'moo'
+          usage       'dunno whatever'
+          summary     'does stuff'
+          description 'This command does a lot of stuff.'
+          no_params
+
+          run do |_opts, args|
+          end
+        CMD
+        f.close
+
+        cmd = Cri::Command.load_file(f.path)
+        assert_equal('moo', cmd.name)
+      end
+    end
   end
 end

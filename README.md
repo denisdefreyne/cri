@@ -343,6 +343,40 @@ command has subcommands, and no subcommands are otherwise explicitly specified:
 default_subcommand 'compile'
 ```
 
+### Loading commands from separate files
+
+You can use `Cri::Command.load_file` to load a command from a file.
+
+For example, given the file _commands/check.rb_ with the following contents:
+
+```ruby
+name        'check'
+usage       'check'
+summary     'runs all checks'
+description '…'
+
+run do |opts, args, cmd|
+  puts "Running checks…"
+end
+```
+
+To load this command:
+
+```ruby
+Cri::Command.load_file('commands/check.rb')
+```
+
+`Cri::Command.load_file` expects the file to be in UTF-8.
+
+You can also use it to load subcommands:
+
+```ruby
+root_cmd = Cri::Command.load_file('commands/nanoc.rb')
+root_cmd.add_command(Cri::Command.load_file('commands/comile.rb'))
+root_cmd.add_command(Cri::Command.load_file('commands/view.rb'))
+root_cmd.add_command(Cri::Command.load_file('commands/check.rb'))
+```
+
 ## Contributors
 
 * Bart Mesuere

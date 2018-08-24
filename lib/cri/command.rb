@@ -132,6 +132,17 @@ module Cri
       dsl.command
     end
 
+    # Creates a new command using a DSL, from code defined in the given filename.
+    #
+    # @param [String] filename The filename that contains the command definition
+    #   as a string
+    #
+    # @return [Cri::Command] The newly defined command
+    def self.load_file(filename)
+      code = File.read(filename, encoding: 'UTF-8')
+      define(code, filename)
+    end
+
     # Returns a new command that has support for the `-h`/`--help` option and
     # also has a `help` subcommand. It is intended to be modified (adding
     # name, summary, description, other subcommands, …)
