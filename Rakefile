@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# encoing: utf-8
-
 require 'rake/testtask'
 require 'rubocop/rake_task'
 require 'yard'
