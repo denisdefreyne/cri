@@ -10,7 +10,7 @@ YARD::Rake::YardocTask.new(:doc) do |yard|
   yard.files   = Dir['lib/**/*.rb']
   yard.options = [
     '--markup',        'markdown',
-    '--readme',        'README.adoc',
+    '--readme',        'README.md',
     '--files',         'NEWS.md,LICENSE',
     '--output-dir',    'doc/yardoc'
   ]
