@@ -49,7 +49,7 @@ module Cri
     end
 
     def test_one_param_defn_matched
-      param_defns = [Cri::ParamDefinition.new(name: 'filename')]
+      param_defns = [Cri::ParamDefinition.new(name: 'filename', transform: nil)]
       args = Cri::ArgumentList.new(%w[notbad.jpg], false, param_defns)
 
       assert_equal(['notbad.jpg'], args.to_a)
@@ -59,7 +59,7 @@ module Cri
     end
 
     def test_one_param_defn_too_many
-      param_defns = [Cri::ParamDefinition.new(name: 'filename')]
+      param_defns = [Cri::ParamDefinition.new(name: 'filename', transform: nil)]
 
       exception = assert_raises(Cri::ArgumentList::ArgumentCountMismatchError) do
         Cri::ArgumentList.new(%w[notbad.jpg verybad.jpg], false, param_defns)
@@ -68,7 +68,7 @@ module Cri
     end
 
     def test_one_param_defn_too_few
-      param_defns = [Cri::ParamDefinition.new(name: 'filename')]
+      param_defns = [Cri::ParamDefinition.new(name: 'filename', transform: nil)]
 
       exception = assert_raises(Cri::ArgumentList::ArgumentCountMismatchError) do
         Cri::ArgumentList.new(%w[], false, param_defns)
@@ -89,6 +89,16 @@ module Cri
         Cri::ArgumentList.new(%w[a], true, [])
       end
       assert_equal('incorrect number of arguments given: expected 0, but got 1', exception.message)
+    end
+
+    def test_transform
+      param_defns = [Cri::ParamDefinition.new(name: 'filename', transform: ->(a) { a.upcase })]
+      args = Cri::ArgumentList.new(%w[notbad.jpg], false, param_defns)
+
+      assert_equal(['NOTBAD.JPG'], args.to_a)
+      assert_equal(1, args.size)
+      assert_equal('NOTBAD.JPG', args[0])
+      assert_equal('NOTBAD.JPG', args[:filename])
     end
   end
 end

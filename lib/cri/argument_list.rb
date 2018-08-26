@@ -54,20 +54,25 @@ module Cri
     end
 
     def load
-      @arguments_array = @raw_arguments.reject { |a| a == '--' }.freeze
+      @arguments_array = []
       @arguments_hash = {}
+
+      arguments_array = @raw_arguments.reject { |a| a == '--' }.freeze
 
       if !@explicitly_no_params && @param_defns.empty?
         # No parameters defined; ignore
+        @arguments_array = arguments_array
         return
       end
 
-      if @arguments_array.size != @param_defns.size
-        raise ArgumentCountMismatchError.new(@param_defns.size, @arguments_array.size)
+      if arguments_array.size != @param_defns.size
+        raise ArgumentCountMismatchError.new(@param_defns.size, arguments_array.size)
       end
 
-      @arguments_array.zip(@param_defns).each do |(arg, param_defn)|
+      arguments_array.zip(@param_defns).each do |(arg, param_defn)|
+        arg = param_defn.transform ? param_defn.transform.call(arg) : arg
         @arguments_hash[param_defn.name.to_sym] = arg
+        @arguments_array << arg
       end
     end
   end

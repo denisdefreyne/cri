@@ -281,6 +281,12 @@ Resetting…
 
 A future version of Cri will likely make `#no_params` the default behavior.
 
+As with options, parameter definitions take `transform:`, which can be used for transforming and validating arguments:
+
+```ruby
+param :port, transform: method(:Integer)
+```
+
 (*Why the distinction between argument and parameter?* A parameter is a name, e.g. `filename`, while an argument is a value for a parameter, e.g. `kitten.jpg`.)
 
 ### The run block
