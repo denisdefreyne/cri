@@ -1,5 +1,11 @@
 # Cri News
 
+## 2.15.0
+
+Features:
+
+* Added support for parameter transformation (#72)
+
 ## 2.14.0
 
 Features:
