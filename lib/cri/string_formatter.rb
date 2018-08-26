@@ -8,7 +8,7 @@ module Cri
   class StringFormatter
     # Extracts individual paragraphs (separated by two newlines).
     #
-    # @param [String] s The string to format
+    # @param [String] str The string to format
     #
     # @return [Array<String>] A list of paragraphs in the string
     def to_paragraphs(str)
@@ -28,7 +28,7 @@ module Cri
 
     # Word-wraps and indents the string.
     #
-    # @param [String] s The string to format
+    # @param [String] str The string to format
     #
     # @param [Number] width The maximal width of each line. This also includes
     #   indentation, i.e. the actual maximal width of the text is
@@ -76,7 +76,7 @@ module Cri
       end
     end
 
-    # @param [String] s The string to format
+    # @param [String] str The string to format
     #
     # @return [String] The string, formatted to be used as a title in a section
     #   in the help
@@ -88,7 +88,7 @@ module Cri
       end
     end
 
-    # @param [String] s The string to format
+    # @param [String] str The string to format
     #
     # @return [String] The string, formatted to be used as the name of a command
     #   in the help
@@ -100,7 +100,7 @@ module Cri
       end
     end
 
-    # @param [String] s The string to format
+    # @param [String] str The string to format
     #
     # @return [String] The string, formatted to be used as an option definition
     #   of a command in the help

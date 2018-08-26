@@ -205,7 +205,7 @@ module Cri
     #
     # @deprecated
     #
-    # @see {#option}
+    # @see #option
     def required(short, long, desc, params = {}, &block)
       params = params.merge(argument: :required)
       option(short, long, desc, params, &block)
@@ -228,7 +228,7 @@ module Cri
     #
     # @return [void]
     #
-    # @see {#option}
+    # @see #option
     def flag(short, long, desc, params = {}, &block)
       params = params.merge(argument: :forbidden)
       option(short, long, desc, params, &block)
@@ -254,7 +254,7 @@ module Cri
     #
     # @deprecated
     #
-    # @see {#option}
+    # @see #option
     def optional(short, long, desc, params = {}, &block)
       params = params.merge(argument: :optional)
       option(short, long, desc, params, &block)

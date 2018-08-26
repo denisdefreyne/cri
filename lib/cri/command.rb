@@ -18,11 +18,11 @@ module Cri
 
       # Called when an option is parsed.
       #
-      # @param [Symbol] key The option key (derived from the long format)
+      # @param [Symbol] _key The option key (derived from the long format)
       #
-      # @param value The option value
+      # @param _value The option value
       #
-      # @param [Cri::OptionParser] option_parser The option parser
+      # @param [Cri::OptionParser] _option_parser The option parser
       #
       # @return [void]
       def option_added(_key, _value, _option_parser); end
