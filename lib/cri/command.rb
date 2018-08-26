@@ -9,7 +9,7 @@ module Cri
     # command, is found.
     #
     # @api private
-    class OptionParserPartitioningDelegate
+    class ParserPartitioningDelegate
       # Returns the last parsed argument, which, in this case, will be the
       # first argument, which will be either nil or the command name.
       #
@@ -22,21 +22,21 @@ module Cri
       #
       # @param _value The option value
       #
-      # @param [Cri::OptionParser] _option_parser The option parser
+      # @param [Cri::Parser] _parser The option parser
       #
       # @return [void]
-      def option_added(_key, _value, _option_parser); end
+      def option_added(_key, _value, _parser); end
 
       # Called when an argument is parsed.
       #
       # @param [String] argument The argument
       #
-      # @param [Cri::OptionParser] option_parser The option parser
+      # @param [Cri::Parser] parser The option parser
       #
       # @return [void]
-      def argument_added(argument, option_parser)
+      def argument_added(argument, parser)
         @last_argument = argument
-        option_parser.stop
+        parser.stop
       end
     end
 
@@ -336,7 +336,7 @@ module Cri
         global_opts = parent_opts
       else
         # Parse
-        parser = Cri::OptionParser.new(
+        parser = Cri::Parser.new(
           opts_and_args,
           global_option_definitions,
           parameter_definitions,
@@ -395,8 +395,8 @@ module Cri
       return [{}, opts_and_args.first, opts_and_args] if all_opts_as_args?
 
       # Parse
-      delegate = Cri::Command::OptionParserPartitioningDelegate.new
-      parser = Cri::OptionParser.new(
+      delegate = Cri::Command::ParserPartitioningDelegate.new
+      parser = Cri::Parser.new(
         opts_and_args,
         global_option_definitions,
         parameter_definitions,
@@ -415,13 +415,13 @@ module Cri
 
     def handle_errors_while
       yield
-    rescue Cri::OptionParser::IllegalOptionError => e
+    rescue Cri::Parser::IllegalOptionError => e
       warn "#{name}: unrecognised option -- #{e}"
       raise CriExitException.new(is_error: true)
-    rescue Cri::OptionParser::OptionRequiresAnArgumentError => e
+    rescue Cri::Parser::OptionRequiresAnArgumentError => e
       warn "#{name}: option requires an argument -- #{e}"
       raise CriExitException.new(is_error: true)
-    rescue Cri::OptionParser::IllegalOptionValueError => e
+    rescue Cri::Parser::IllegalOptionValueError => e
       warn "#{name}: #{e.message}"
       raise CriExitException.new(is_error: true)
     rescue Cri::ArgumentList::ArgumentCountMismatchError => e

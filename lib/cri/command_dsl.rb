@@ -126,7 +126,7 @@ module Cri
     end
 
     # Skips option parsing for the command. Allows option-like arguments to be
-    # passed in, avoiding the {Cri::OptionParser} validation.
+    # passed in, avoiding the {Cri::Parser} validation.
     #
     # @return [void]
     def skip_option_parsing

@@ -1,60 +1,8 @@
 # frozen_string_literal: true
 
 module Cri
-  # Cri::OptionParser is used for parsing command-line options.
-  #
-  # Option definitions are hashes with the keys `:short`, `:long` and
-  # `:argument` (optionally `:description` but this is not used by the
-  # option parser, only by the help generator). `:short` is the short,
-  # one-character option, without the `-` prefix. `:long` is the long,
-  # multi-character option, without the `--` prefix. `:argument` can be
-  # :required (if an argument should be provided to the option), :optional
-  # (if an argument may be provided) or :forbidden (if an argument should
-  # not be provided).
-  #
-  # A sample array of definition hashes could look like this:
-  #
-  #     [
-  #       { :short => 'a', :long => 'all',  :argument => :forbidden, :multiple => true },
-  #       { :short => 'p', :long => 'port', :argument => :required, :multiple => false },
-  #     ]
-  #
-  # For example, the following command-line options (which should not be
-  # passed as a string, but as an array of strings):
-  #
-  #     foo -xyz -a hiss -s -m please --level 50 --father=ani -n luke squeak
-  #
-  # with the following option definitions:
-  #
-  #     [
-  #       { :short => 'x', :long => 'xxx',    :argument => :forbidden },
-  #       { :short => 'y', :long => 'yyy',    :argument => :forbidden },
-  #       { :short => 'z', :long => 'zzz',    :argument => :forbidden },
-  #       { :short => 'a', :long => 'all',    :argument => :forbidden },
-  #       { :short => 's', :long => 'stuff',  :argument => :optional  },
-  #       { :short => 'm', :long => 'more',   :argument => :optional  },
-  #       { :short => 'l', :long => 'level',  :argument => :required  },
-  #       { :short => 'f', :long => 'father', :argument => :required  },
-  #       { :short => 'n', :long => 'name',   :argument => :required  }
-  #     ]
-  #
-  # will be translated into:
-  #
-  #     {
-  #       :arguments => [ 'foo', 'hiss', 'squeak' ],
-  #       :options => {
-  #         :xxx    => true,
-  #         :yyy    => true,
-  #         :zzz    => true,
-  #         :all    => true,
-  #         :stuff  => true,
-  #         :more   => 'please',
-  #         :level  => '50',
-  #         :father => 'ani',
-  #         :name   => 'luke'
-  #       }
-  #     }
-  class OptionParser
+  # Cri::Parser is used for parsing command-line options and arguments.
+  class Parser
     # Error that will be raised when an unknown option is encountered.
     class IllegalOptionError < Cri::Error
     end
@@ -150,7 +98,7 @@ module Cri
     # @raise OptionRequiresAnArgumentError if an option was found that did not
     #   have a value, even though this value was required.
     #
-    # @return [Cri::OptionParser] The option parser self
+    # @return [Cri::Parser] The option parser self
     def run
       @running = true
 
