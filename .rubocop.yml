@@ -1,5 +1,6 @@
 AllCops:
   TargetRubyVersion: 2.3
+  DisplayCopNames: true
 
 # Trailing commas in a multiline context makes diffs nicer.
 Style/TrailingCommaInArrayLiteral:

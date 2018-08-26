@@ -21,9 +21,7 @@ Rake::TestTask.new(:test_unit) do |t|
   t.libs << 'test'
 end
 
-RuboCop::RakeTask.new(:test_style) do |task|
-  task.options = %w[--display-cop-names --format simple]
-end
+RuboCop::RakeTask.new(:test_style)
 
 task test: %i[test_unit test_style]
 
