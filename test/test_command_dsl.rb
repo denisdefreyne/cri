@@ -138,6 +138,14 @@ module Cri
       assert_equal expected_option_definitions, actual_option_definitions
     end
 
+    def test_raises_on_unrecognized_option
+      # Define
+      dsl = Cri::CommandDSL.new
+      assert_raises ArgumentError do
+        dsl.option :s, :long, 'desc',  unrecognized: true
+      end
+    end
+
     def test_required_short_and_long
       # Define
       dsl = Cri::CommandDSL.new

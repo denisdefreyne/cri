@@ -152,17 +152,23 @@ module Cri
     #   be printed in the help output
     #
     # @return [void]
-    def option(short, long, desc, params = {}, &block)
+    def option(short, long, desc,
+               argument: :forbidden,
+               multiple: false,
+               hidden: false,
+               default: nil,
+               transform: nil,
+               &block)
       @command.option_definitions << Cri::OptionDefinition.new(
         short:     short&.to_s,
         long:      long&.to_s,
         desc:      desc,
-        argument:  params.fetch(:argument, :forbidden),
-        multiple:  params.fetch(:multiple, false),
+        argument:  argument,
+        multiple:  multiple,
+        hidden:    hidden,
+        default:   default,
+        transform: transform,
         block:     block,
-        hidden:    params.fetch(:hidden, false),
-        default:   params.fetch(:default, nil),
-        transform: params.fetch(:transform, nil),
       )
     end
     alias opt option
