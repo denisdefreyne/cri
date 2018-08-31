@@ -142,7 +142,7 @@ module Cri
       # Define
       dsl = Cri::CommandDSL.new
       assert_raises ArgumentError do
-        dsl.option :s, :long, 'desc',  unrecognized: true
+        dsl.option :s, :long, 'desc', unrecognized: true
       end
     end
 
