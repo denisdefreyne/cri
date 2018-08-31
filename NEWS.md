@@ -1,5 +1,15 @@
 # Cri News
 
+## 2.15.1
+
+Fixes:
+
+* Made -h/--help not fail when parameters are defined for the command that -h/--help is called on (#76, #78)
+
+Enhancements:
+
+* Made `#option` raise an error when unrecognised parameters are passed to it (#77) [Marc-André Lafortune]
+
 ## 2.15.0
 
 Features:
