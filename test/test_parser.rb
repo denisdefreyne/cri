@@ -11,7 +11,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert_equal({}, parser.options)
-      assert_equal(%w[foo bar baz], parser.arguments.to_a)
+      assert_equal(%w[foo bar baz], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_invalid_option
@@ -43,7 +43,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert(parser.options[:aaa])
-      assert_equal(%w[foo bar], parser.arguments.to_a)
+      assert_equal(%w[foo bar], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_long_valueful_option
@@ -55,7 +55,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert_equal({ aaa: 'xxx' }, parser.options)
-      assert_equal(%w[foo bar], parser.arguments.to_a)
+      assert_equal(%w[foo bar], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_long_valueful_equalsign_option
@@ -67,7 +67,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert_equal({ aaa: 'xxx' }, parser.options)
-      assert_equal(%w[foo bar], parser.arguments.to_a)
+      assert_equal(%w[foo bar], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_long_valueful_option_with_missing_value
@@ -102,7 +102,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert(parser.options[:aaa])
-      assert_equal(['foo'], parser.arguments.to_a)
+      assert_equal(['foo'], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_long_valueful_option_with_optional_value
@@ -114,7 +114,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert_equal({ aaa: 'xxx' }, parser.options)
-      assert_equal(['foo'], parser.arguments.to_a)
+      assert_equal(['foo'], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_long_valueless_option_with_optional_value_and_more_options
@@ -130,7 +130,7 @@ module Cri
       assert(parser.options[:aaa])
       assert(parser.options[:bbb])
       assert(parser.options[:ccc])
-      assert_equal(['foo'], parser.arguments.to_a)
+      assert_equal(['foo'], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_short_valueless_options
@@ -142,7 +142,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert(parser.options[:aaa])
-      assert_equal(%w[foo bar], parser.arguments.to_a)
+      assert_equal(%w[foo bar], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_short_valueful_option_with_missing_value
@@ -169,7 +169,7 @@ module Cri
       assert(parser.options[:aaa])
       assert(parser.options[:bbb])
       assert(parser.options[:ccc])
-      assert_equal(%w[foo bar], parser.arguments.to_a)
+      assert_equal(%w[foo bar], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_short_combined_valueful_options_with_missing_value
@@ -185,7 +185,7 @@ module Cri
       assert_equal('bar', parser.options[:aaa])
       assert(parser.options[:bbb])
       assert(parser.options[:ccc])
-      assert_equal(%w[foo qux], parser.arguments.to_a)
+      assert_equal(%w[foo qux], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_two_short_valueful_options
@@ -209,7 +209,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert(parser.options[:aaa])
-      assert_equal(['foo'], parser.arguments.to_a)
+      assert_equal(['foo'], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_short_valueful_option_with_optional_value
@@ -221,7 +221,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert_equal({ aaa: 'xxx' }, parser.options)
-      assert_equal(['foo'], parser.arguments.to_a)
+      assert_equal(['foo'], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_short_valueless_option_with_optional_value_and_more_options
@@ -237,7 +237,7 @@ module Cri
       assert(parser.options[:aaa])
       assert(parser.options[:bbb])
       assert(parser.options[:ccc])
-      assert_equal(['foo'], parser.arguments.to_a)
+      assert_equal(['foo'], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_single_hyphen
@@ -247,7 +247,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert_equal({}, parser.options)
-      assert_equal(['foo', '-', 'bar'], parser.arguments.to_a)
+      assert_equal(['foo', '-', 'bar'], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_end_marker
@@ -257,7 +257,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert_equal({}, parser.options)
-      assert_equal(['foo', 'bar', '-x', '--yyy', '-abc'], parser.arguments.to_a)
+      assert_equal(['foo', 'bar', '-x', '--yyy', '-abc'], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_end_marker_between_option_key_and_value
@@ -293,7 +293,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert_equal({ animal: 'donkey' }, parser.options)
-      assert_equal(['foo'], parser.arguments.to_a)
+      assert_equal(['foo'], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_default_required_no_value
@@ -316,7 +316,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert_equal({ animal: 'giraffe' }, parser.options)
-      assert_equal(['foo'], parser.arguments.to_a)
+      assert_equal(['foo'], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_default_optional_unspecified
@@ -328,7 +328,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert_equal({ animal: 'donkey' }, parser.options)
-      assert_equal(['foo'], parser.arguments.to_a)
+      assert_equal(['foo'], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_default_optional_no_value
@@ -340,7 +340,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert_equal({ animal: 'donkey' }, parser.options)
-      assert_equal(['foo'], parser.arguments.to_a)
+      assert_equal(['foo'], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_default_optional_value
@@ -352,7 +352,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert_equal({ animal: 'giraffe' }, parser.options)
-      assert_equal(['foo'], parser.arguments.to_a)
+      assert_equal(['foo'], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_default_optional_value_and_arg
@@ -364,7 +364,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert_equal({ animal: 'gi' }, parser.options)
-      assert_equal(%w[foo raffe], parser.arguments.to_a)
+      assert_equal(%w[foo raffe], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_combined_required_options
@@ -378,7 +378,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert_equal({ aaa: true, bbb: 'xxx', ccc: 'yyy' }, parser.options)
-      assert_equal(%w[foo zzz], parser.arguments.to_a)
+      assert_equal(%w[foo zzz], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_combined_optional_options
@@ -392,7 +392,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert_equal({ aaa: true, bbb: 'xxx', ccc: 'yyy' }, parser.options)
-      assert_equal(%w[foo zzz], parser.arguments.to_a)
+      assert_equal(%w[foo zzz], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_combined_optional_options_with_missing_value
@@ -406,7 +406,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert_equal({ aaa: true, bbb: 'xxx', ccc: 'c default' }, parser.options)
-      assert_equal(%w[foo], parser.arguments.to_a)
+      assert_equal(%w[foo], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_transform_proc
@@ -418,7 +418,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert_equal({ port: 123 }, parser.options)
-      assert_equal([], parser.arguments.to_a)
+      assert_equal([], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_transform_method
@@ -430,7 +430,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert_equal({ port: 123 }, parser.options)
-      assert_equal([], parser.arguments.to_a)
+      assert_equal([], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_transform_object
@@ -448,7 +448,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert_equal({ port: 123 }, parser.options)
-      assert_equal([], parser.arguments.to_a)
+      assert_equal([], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_transform_default
@@ -467,7 +467,7 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert_equal({ port: 8080 }, parser.options)
-      assert_equal([], parser.arguments.to_a)
+      assert_equal([], parser.gen_argument_list.to_a)
     end
 
     def test_parse_with_transform_exception
@@ -490,8 +490,8 @@ module Cri
 
       parser = Cri::Parser.new(input, [], param_defns, false).run
       assert_equal({}, parser.options)
-      assert_equal('localhost', parser.arguments[0])
-      assert_equal('localhost', parser.arguments[:host])
+      assert_equal('localhost', parser.gen_argument_list[0])
+      assert_equal('localhost', parser.gen_argument_list[:host])
     end
 
     def test_parse_with_param_defns_too_few_args
@@ -502,7 +502,7 @@ module Cri
 
       parser = Cri::Parser.new(input, [], param_defns, false).run
       exception = assert_raises(Cri::ArgumentList::ArgumentCountMismatchError) do
-        parser.arguments
+        parser.gen_argument_list
       end
       assert_equal('incorrect number of arguments given: expected 1, but got 0', exception.message)
     end
@@ -515,7 +515,7 @@ module Cri
 
       parser = Cri::Parser.new(input, [], param_defns, false).run
       exception = assert_raises(Cri::ArgumentList::ArgumentCountMismatchError) do
-        parser.arguments
+        parser.gen_argument_list
       end
       assert_equal('incorrect number of arguments given: expected 1, but got 2', exception.message)
     end
@@ -529,7 +529,7 @@ module Cri
       parser = Cri::Parser.new(input, [], param_defns, false).run
 
       exception = assert_raises(ArgumentError) do
-        parser.arguments['oink']
+        parser.gen_argument_list['oink']
       end
       assert_equal('argument lists can be indexed using a Symbol or an Integer, but not a String', exception.message)
     end
@@ -543,10 +543,10 @@ module Cri
 
       parser = Cri::Parser.new(input, [], param_defns, false).run
       assert_equal({}, parser.options)
-      assert_equal('localhost', parser.arguments[0])
-      assert_equal('localhost', parser.arguments[:source])
-      assert_equal('example.com', parser.arguments[1])
-      assert_equal('example.com', parser.arguments[:target])
+      assert_equal('localhost', parser.gen_argument_list[0])
+      assert_equal('localhost', parser.gen_argument_list[:source])
+      assert_equal('example.com', parser.gen_argument_list[1])
+      assert_equal('example.com', parser.gen_argument_list[:target])
     end
 
     def make_opt_defn(hash)

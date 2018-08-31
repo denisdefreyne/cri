@@ -345,10 +345,10 @@ module Cri
         handle_errors_while { parser.run }
         local_opts  = parser.options
         global_opts = parent_opts.merge(parser.options)
-        args = handle_errors_while { parser.arguments }
 
         # Handle options
         handle_options(local_opts)
+        args = handle_errors_while { parser.gen_argument_list }
       end
 
       # Execute

@@ -127,7 +127,7 @@ module Cri
 
     # @return [Cri::ArgumentList] The list of arguments that have already been
     #   parsed, excluding the -- separator.
-    def arguments
+    def gen_argument_list
       ArgumentList.new(@raw_arguments, @explicitly_no_params, @param_defns)
     end
 

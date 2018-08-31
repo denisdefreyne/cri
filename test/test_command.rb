@@ -830,5 +830,33 @@ module Cri
         assert_equal('moo', cmd.name)
       end
     end
+
+    def test_required_args_with_dash_h
+      dsl = Cri::CommandDSL.new
+      dsl.instance_eval do
+        name        'moo'
+        usage       'dunno whatever'
+        summary     'does stuff'
+        description 'This command does a lot of stuff.'
+
+        param :foo
+
+        option :h, :help, 'show help' do
+          $helped = true
+          exit 0
+        end
+      end
+      command = dsl.command
+
+      $helped = false
+      out, err = capture_io_while do
+        assert_raises SystemExit do
+          command.run(['-h'])
+        end
+      end
+      assert $helped
+      assert_equal [], lines(out)
+      assert_equal [], lines(err)
+    end
   end
 end
