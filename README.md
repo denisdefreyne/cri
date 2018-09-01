@@ -329,7 +329,7 @@ runner MyRunner
 
 To create a command runner, subclass `Cri::CommandRunner`, and define a `#run` method with no params. Inside the `#run` block, you can access `options` and `arguments`. Lastly, to connect the command to the command runner, call `#runner` with the class of the command runner.
 
-Here is an example interactio with the example command, defined above:
+Here is an example interaction with the example command, defined above:
 
 ```
 % push
