@@ -308,10 +308,43 @@ The +Cri::CommandDSL#run+ method takes a block with the actual code to
 execute. This block takes three arguments: the options, any arguments passed
 to the command, and the command itself.
 
-Instead of defining a run block, it is possible to declare a class, the
-_command runner_ class (`Cri::CommandRunner`) that will perform the actual
-execution of the command. This makes it easier to break up large run blocks
-into manageable pieces.
+### The command runner
+
+Instead of defining a run block, it is possible to declare a class, the _command runner_ class that will perform the actual execution of the command. This makes it easier to break up large run blocks into manageable pieces.
+
+```ruby
+name 'push'
+option :f, :force, 'force'
+param :filename
+
+class MyRunner < Cri::CommandRunner
+  def run
+    puts "Pushing #{arguments[:filename]}…"
+    puts "… with force!" if options[:force]
+  end
+end
+
+runner MyRunner
+```
+
+To create a command runner, subclass `Cri::CommandRunner`, and define a `#run` method with no params. Inside the `#run` block, you can access `options` and `arguments`.
+
+Here is an example interactio with the example command, defined above:
+
+```
+% push
+push: incorrect number of arguments given: expected 1, but got 0
+
+% push a
+Pushing a…
+
+% push -f
+push: incorrect number of arguments given: expected 1, but got 0
+
+% push -f a
+Pushing a…
+… with force!
+```
 
 ### Subcommands
 
