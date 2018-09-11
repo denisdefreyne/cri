@@ -455,6 +455,7 @@ module Cri
       port = Class.new do
         def call(str)
           raise unless str.is_a?(String)
+
           Integer(str)
         end
       end.new
