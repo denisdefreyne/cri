@@ -261,8 +261,7 @@ OPTIONS
 
 #### Multivalued options (`multiple:`)
 
-Each of these four methods take a `:multiple` parameter. When set to true, multiple
-option valus are accepted, and the option values will be stored in an array.
+The `:multiple` parameter allows an option to be specified more than once on the command line. When set to `true`, multiple option valus are accepted, and the option values will be stored in an array.
 
 For example, to parse the command line options string `-o foo.txt -o bar.txt`
 into an array, so that `options[:output]` contains `[ 'foo.txt', 'bar.txt' ]`,
