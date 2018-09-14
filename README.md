@@ -155,6 +155,8 @@ The `:argument` parameter can be set to `:forbidden`, `:required`, or `:optional
     Force? true
     ```
 
+    `:argument` is set to `:forbidden` by default.
+
 *   `:required` means that the option must be followed by an argument, which will then be treated as the value for the option. It does not mean that the option itself is required. For example:
 
     ```ruby
