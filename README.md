@@ -257,7 +257,46 @@ end
 The command in this example has one parameter named `filename`. This means that
 the command takes a single argument, named `filename`.
 
-If no parameters are specified, Cri performs no argument parsing or validation; any number of arguments is allowed. To explicitly specify that a command has no parameters, use `#no_params`:
+As with options, parameter definitions take `transform:`, which can be used for transforming and validating arguments:
+
+```ruby
+param :port, transform: method(:Integer)
+```
+
+(*Why the distinction between argument and parameter?* A parameter is a name, e.g. `filename`, while an argument is a value for a parameter, e.g. `kitten.jpg`.)
+
+### Allowing arbitrary arguments
+
+If no parameters are specified, Cri performs no argument parsing or validation;
+any number of arguments is allowed.
+
+```ruby
+command = Cri::Command.define do
+  name        'publish'
+  usage       'publish [filename...]'
+  summary     'publishes the given file(s)'
+  description 'This command does a lot of stuff, but not option parsing.'
+
+  flag :q, :quick, 'publish quicker'
+
+  run do |opts, args, cmd|
+    args.each do |arg|
+      puts "Publishing #{arg}…"
+    end
+  end
+end
+```
+
+```bash
+% my-tool publish foo.zip bar.zip
+Publishing foo.zip…
+Publishing bar.zip…
+%
+```
+
+### Forbidding any arguments
+
+To explicitly specify that a command has no parameters, use `#no_params`:
 
 ```ruby
 name        'reset'
@@ -280,14 +319,6 @@ Resetting…
 ```
 
 A future version of Cri will likely make `#no_params` the default behavior.
-
-As with options, parameter definitions take `transform:`, which can be used for transforming and validating arguments:
-
-```ruby
-param :port, transform: method(:Integer)
-```
-
-(*Why the distinction between argument and parameter?* A parameter is a name, e.g. `filename`, while an argument is a value for a parameter, e.g. `kitten.jpg`.)
 
 ### The run block
 
