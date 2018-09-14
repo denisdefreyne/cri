@@ -234,7 +234,7 @@ that is passed to your `run` block will be empty and the `args` array will be
 
 ### Argument parsing
 
-Cri also supports parsing arguments, outside of options. To define the
+Cri supports parsing arguments, as well as parsing options. To define the
 parameters of a command, use `#param`, which takes a symbol containing the name
 of the parameter. For example:
 
