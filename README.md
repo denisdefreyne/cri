@@ -105,32 +105,107 @@ flag   nil, :more,  'do even more stuff'
 option :s,  :stuff, 'specify stuff to do', argument: :required
 ```
 
-Options can be defined using the following methods:
-
-* `Cri::CommandDSL#option` or `Cri::CommandDSL#opt` (include an `argument` parameter: `:required` or `:optional` that specifies if the option requires or allows an argument)
-* `Cri::CommandDSL#flag` (implies no arguments passed to option)
-
-The following _deprecated_ methods can also be used to define options:
-
-* `Cri::CommandDSL#required` (implies an option that requires an argument -- deprecated because `#required` suggests that the option is required, wich is incorrect; the _argument_ is required.)
-* `Cri::CommandDSL#optional` (implies an option that can optionally include an argument -- deprecated because `#optional` looks too similar to `#option`.)
-
-All these methods take these arguments:
+The most generic way of definition an option is using either `#option` or `#opt`. It takes the following arguments:
 
 1. a short option name
 2. a long option name
 3. a description
 4. optional extra parameters
+    * `argument:` (default: `:forbidden`)
+    * `transform:`
+    * `default:`
+    * `multiple:` (default: `false`)
+5. optionally, a block
 
-Either the short or the long form can be nil, but not both (because that
-would not make any sense). In the example above, the `--more` option has no
-short form.
+In more detail:
 
-Each of the above methods also take a block, which will be executed when the
-option is found. The arguments to the block are the option value (`true` in
-case the option does not have an argument) and the command.
+* The short option name is a symbol containing one character, to be used in single-dash options, e.g. `:f` (corresponds to `-f`). The long option name is a symbol containing a string, to be used in double-dash options, e.g. `:force` (corresponds to `--force`). Either the short or the long option name can be nil, but not both.
 
-#### Transforming options
+* The description is a short, one-line text that shows up in the command’s help. For example, the `-v`/`--version` option might have the description `show version information and quit`.
+
+* The extra parameters, `argument:`, `multiple:`, `default:`, and `transform:`, are described in the sections below.
+
+* The block, if given, will be executed when the option is found. The arguments to the block are the option value (`true` in case the option does not have an argument) and the command.
+
+There are several convenience methods that are alternatives to `#option`/`#opt`:
+
+* `#flag` sets `argument:` to `:forbidden`
+* (**deprecated**) `#required` sets `argument:` to `:required` -- deprecated because `#required` suggests that the option is required, wich is incorrect; the _argument_ is required.)
+* (**deprecated**) `#optional` sets `argument:` to `:optional` -- deprecated because `#optional` looks too similar to `#option`.
+
+#### Forbidden, required, and optional arguments (`argument:`)
+
+The `:argument` parameter can be set to `:forbidden`, `:required`, or `:optional`.
+
+*   `:forbidden` means that when the option is present, the value will be set to `true`, and `false` otherwise. For example:
+
+    ```ruby
+    option :f, :force, 'push with force', argument: :forbidden
+
+    run do |opts, args, cmd|
+      puts "Force? #{opts[:force]}"
+    end
+    ```
+
+    ```sh
+    % ./push mypackage.zip
+    Force? false
+
+    % ./push --force mypackage.zip
+    Force? true
+    ```
+
+*   `:required` means that the option must be followed by an argument, which will then be treated as the value for the option. It does not mean that the option itself is required. For example:
+
+    ```ruby
+    option :o, :output, 'specify output file', argument: :required
+    option :f, :fast, 'fetch faster', argument: :forbidden
+
+    run do |opts, args, cmd|
+      puts "Output file: #{opts[:output]}"
+    end
+    ```
+
+    ```sh
+    % ./fetch http://example.com/source.zip
+    Output file: nil
+
+    % ./fetch --output example.zip http://example.com/source.zip
+    Output file: example.zip
+
+    % ./fetch http://example.com/source.zip --output
+    fetch: option requires an argument -- output
+
+    % ./fetch --output --fast http://example.com/source.zip
+    fetch: option requires an argument -- output
+    ```
+
+*   `:optional` means that the option can be followed by an argument. If it is, then the argument is treated as the value for the option; if it isn’t, the value for the option will be `true`. For example:
+
+    ```ruby
+    option :o, :output, 'specify output file', argument: :optional
+    option :f, :fast, 'fetch faster', argument: :forbidden
+
+    run do |opts, args, cmd|
+      puts "Output file: #{opts[:output]}"
+    end
+    ```
+
+    ```sh
+    % ./fetch http://example.com/source.zip
+    Output file: nil
+
+    % ./fetch --output example.zip http://example.com/source.zip
+    Output file: example.zip
+
+    % ./fetch http://example.com/source.zip --output
+    Output file: true
+
+    % ./fetch --output --fast http://example.com/source.zip
+    Output file: true
+    ```
+
+#### Transforming options (`transform:`)
 
 The `:transform` parameter specifies how the value should be transformed. It takes any object that responds to `#call`:
 
@@ -166,7 +241,7 @@ Default values are not transformed:
 option :p, :port, 'set port', argument: :required, default: 8080, transform: PortTransformer.new
 ```
 
-#### Options with default values
+#### Options with default values (`default:`)
 
 The `:default` parameter sets the option value that will be used if the option is passed without an argument or isn't passed at all:
 
@@ -182,7 +257,7 @@ OPTIONS
     -a --animal[=<value>]      add animal (default: giraffe)
 ```
 
-#### Multivalued options
+#### Multivalued options (`multiple:`)
 
 Each of these four methods take a `:multiple` parameter. When set to true, multiple
 option valus are accepted, and the option values will be stored in an array.
