@@ -858,5 +858,42 @@ module Cri
       assert_equal [], lines(out)
       assert_equal [], lines(err)
     end
+
+    def test_propagate_options_two_levels_down
+      cmd_a = Cri::Command.define do
+        name 'a'
+        flag :t, :test, 'test'
+      end
+
+      cmd_b = cmd_a.define_command('b') do
+      end
+
+      cmd_b.define_command('c') do
+        run do |opts, _args|
+          puts "test? #{opts[:test].inspect}!"
+        end
+      end
+
+      # test -t last
+      out, err = capture_io_while do
+        cmd_a.run(%w[b c -t])
+      end
+      assert_equal ['test? true!'], lines(out)
+      assert_equal [], lines(err)
+
+      # test -t mid
+      out, err = capture_io_while do
+        cmd_a.run(%w[b -t c])
+      end
+      assert_equal ['test? true!'], lines(out)
+      assert_equal [], lines(err)
+
+      # test -t first
+      out, err = capture_io_while do
+        cmd_a.run(%w[-t b c])
+      end
+      assert_equal ['test? true!'], lines(out)
+      assert_equal [], lines(err)
+    end
   end
 end
