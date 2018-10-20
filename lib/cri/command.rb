@@ -311,7 +311,7 @@ module Cri
         return if subcommand.nil?
 
         # Run
-        subcommand.run(opts_and_args_after_subcmd, opts_before_subcmd, hard_exit: hard_exit)
+        subcommand.run(opts_and_args_after_subcmd, parent_opts.merge(opts_before_subcmd), hard_exit: hard_exit)
       end
     rescue CriExitException => e
       exit(e.error? ? 1 : 0) if hard_exit
