@@ -1,5 +1,11 @@
 # Cri News
 
+## 2.15.2
+
+Fixes:
+
+* Fixed option propagation for two levels or more (#85, #86)
+
 ## 2.15.1
 
 Fixes:
