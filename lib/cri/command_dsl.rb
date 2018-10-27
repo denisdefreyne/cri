@@ -160,15 +160,15 @@ module Cri
                transform: nil,
                &block)
       @command.option_definitions << Cri::OptionDefinition.new(
-        short:     short&.to_s,
-        long:      long&.to_s,
-        desc:      desc,
-        argument:  argument,
-        multiple:  multiple,
-        hidden:    hidden,
-        default:   default,
+        short: short&.to_s,
+        long: long&.to_s,
+        desc: desc,
+        argument: argument,
+        multiple: multiple,
+        hidden: hidden,
+        default: default,
         transform: transform,
-        block:     block,
+        block: block,
       )
     end
     alias opt option

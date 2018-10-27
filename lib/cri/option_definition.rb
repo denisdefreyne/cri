@@ -35,14 +35,14 @@ module Cri
 
     def to_h
       {
-        short:     @short,
-        long:      @long,
-        desc:      @desc,
-        argument:  @argument,
-        multiple:  @multiple,
-        block:     @block,
-        hidden:    @hidden,
-        default:   @default,
+        short: @short,
+        long: @long,
+        desc: @desc,
+        argument: @argument,
+        multiple: @multiple,
+        block: @block,
+        hidden: @hidden,
+        default: @default,
         transform: @transform,
       }
     end

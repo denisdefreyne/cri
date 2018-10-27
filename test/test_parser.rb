@@ -552,14 +552,14 @@ module Cri
 
     def make_opt_defn(hash)
       Cri::OptionDefinition.new(
-        short:     hash.fetch(:short, nil),
-        long:      hash.fetch(:long, nil),
-        desc:      hash.fetch(:desc, nil),
-        argument:  hash.fetch(:argument, nil),
-        multiple:  hash.fetch(:multiple, nil),
-        block:     hash.fetch(:block, nil),
-        hidden:    hash.fetch(:hidden, nil),
-        default:   hash.fetch(:default, nil),
+        short: hash.fetch(:short, nil),
+        long: hash.fetch(:long, nil),
+        desc: hash.fetch(:desc, nil),
+        argument: hash.fetch(:argument, nil),
+        multiple: hash.fetch(:multiple, nil),
+        block: hash.fetch(:block, nil),
+        hidden: hash.fetch(:hidden, nil),
+        default: hash.fetch(:default, nil),
         transform: hash.fetch(:transform, nil),
       )
     end
