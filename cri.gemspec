@@ -20,8 +20,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency('colored', '~> 1.2')
 
-  s.add_development_dependency('bundler', '~> 1.6')
-
   s.rdoc_options     = ['--main', 'README.md']
   s.extra_rdoc_files = ['LICENSE', 'README.md', 'NEWS.md']
 end
