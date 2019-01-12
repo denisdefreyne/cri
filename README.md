@@ -1,6 +1,7 @@
 # Cri
 
 [![Gem](http://img.shields.io/gem/v/cri.svg)](http://rubygems.org/gems/cri)
+[![Gem downloads](https://img.shields.io/gem/dt/cri.svg)](http://rubygems.org/gems/cri)
 [![Travis](http://img.shields.io/travis/ddfreyne/cri.svg)](https://travis-ci.org/ddfreyne/cri)
 [![Coveralls](http://img.shields.io/coveralls/ddfreyne/cri.svg)](https://coveralls.io/r/ddfreyne/cri)
 [![Codeclimate](http://img.shields.io/codeclimate/github/ddfreyne/cri.svg)](https://codeclimate.com/github/ddfreyne/cri)
