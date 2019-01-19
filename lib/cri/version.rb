@@ -2,5 +2,5 @@
 
 module Cri
   # The current Cri version.
-  VERSION = '2.15.2'
+  VERSION = '2.15.3'
 end
