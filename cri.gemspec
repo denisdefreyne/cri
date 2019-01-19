@@ -5,7 +5,7 @@ require_relative 'lib/cri/version'
 Gem::Specification.new do |s|
   s.name        = 'cri'
   s.version     = Cri::VERSION
-  s.homepage    = 'http://stoneship.org/software/cri/' # TODO: CREATE A WEB SITE YOU SILLY PERSON
+  s.homepage    = 'https://github.com/ddfreyne/cri'
   s.summary     = 'a library for building easy-to-use command-line tools'
   s.description = 'Cri allows building easy-to-use command-line interfaces with support for subcommands.'
   s.license     = 'MIT'
