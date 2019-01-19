@@ -37,6 +37,8 @@ module Cri
     end
 
     def each
+      return to_enum(__method__) unless block_given?
+
       @arguments_array.each { |e| yield(e) }
       self
     end

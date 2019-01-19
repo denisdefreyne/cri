@@ -33,6 +33,12 @@ module Cri
       assert_equal(%w[A B C], args.map(&:upcase))
     end
 
+    def test_enum_without_block
+      args = Cri::ArgumentList.new(%w[a b c], false, [])
+
+      assert_equal(%w[A B C], args.each.map(&:upcase))
+    end
+
     def test_no_method_error
       args = Cri::ArgumentList.new(%w[a b c], false, [])
 
