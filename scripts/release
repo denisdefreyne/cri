@@ -6,7 +6,7 @@ require 'octokit'
 
 def run(*args)
   puts 'I will execute the following:'
-  puts '    ' + args.map { |a| a =~ /\s/ ? a.inspect : a }.join(' ')
+  puts '    ' + args.map { |a| /\s/.match?(a) ? a.inspect : a }.join(' ')
   print 'Is this correct? [y/N] '
   res = gets
   unless res.strip.casecmp('y').zero?
