@@ -1,5 +1,11 @@
 # Cri News
 
+## 2.15.3
+
+Fixes:
+
+* Made `ArgumentList#each` callable without a block, in which case it returns an `Enumerator` (mimicking `Array`) (#87, #88)
+
 ## 2.15.2
 
 Fixes:
