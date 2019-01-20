@@ -18,6 +18,8 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '~> 2.3'
 
+  s.add_dependency('zeitwerk', '~> 2.1')
+
   s.rdoc_options     = ['--main', 'README.md']
   s.extra_rdoc_files = ['LICENSE', 'README.md', 'NEWS.md']
 end

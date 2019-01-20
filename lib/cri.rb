@@ -19,15 +19,19 @@ module Cri
 end
 
 require 'set'
+require 'zeitwerk'
 
-require_relative 'cri/version'
-require_relative 'cri/argument_list'
-require_relative 'cri/command'
-require_relative 'cri/string_formatter'
-require_relative 'cri/command_dsl'
-require_relative 'cri/command_runner'
-require_relative 'cri/help_renderer'
-require_relative 'cri/option_definition'
-require_relative 'cri/parser'
-require_relative 'cri/param_definition'
-require_relative 'cri/platform'
+inflector_class = Class.new(Zeitwerk::Inflector) do
+  def camelize(basename, _abspath)
+    case basename
+    when 'command_dsl'
+      'CommandDSL'
+    else
+      super
+    end
+  end
+end
+
+loader = Zeitwerk::Loader.for_gem
+loader.inflector = inflector_class.new
+loader.setup
