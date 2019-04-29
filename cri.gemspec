@@ -18,8 +18,6 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '~> 2.4'
 
-  s.add_dependency('colored', '~> 1.2')
-
   s.rdoc_options     = ['--main', 'README.md']
   s.extra_rdoc_files = ['LICENSE', 'README.md', 'NEWS.md']
 end
