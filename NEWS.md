@@ -1,5 +1,11 @@
 # Cri News
 
+## 2.15.4
+
+Fixes:
+
+* Removed dependency on `colored`, which restores functionality to gems that `colored` breaks (e.g. `awesome_print`) (#89, #90)
+
 ## 2.15.3
 
 Fixes:
