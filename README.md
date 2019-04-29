@@ -12,7 +12,7 @@ nested commands.
 
 ## Requirements
 
-Cri requires Ruby 2.4 or newer.
+Cri requires Ruby 2.3 or newer.
 
 ## Usage
 
