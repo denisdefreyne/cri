@@ -82,7 +82,7 @@ module Cri
     #   in the help
     def format_as_title(str, io)
       if Cri::Platform.color?(io)
-        str.upcase.red.bold
+        bold(red(str.upcase))
       else
         str.upcase
       end
@@ -94,7 +94,7 @@ module Cri
     #   in the help
     def format_as_command(str, io)
       if Cri::Platform.color?(io)
-        str.green
+        green(str)
       else
         str
       end
@@ -106,10 +106,26 @@ module Cri
     #   of a command in the help
     def format_as_option(str, io)
       if Cri::Platform.color?(io)
-        str.yellow
+        yellow(str)
       else
         str
       end
+    end
+
+    def red(str)
+      "\e[31m#{str}\e[0m"
+    end
+
+    def green(str)
+      "\e[32m#{str}\e[0m"
+    end
+
+    def yellow(str)
+      "\e[33m#{str}\e[0m"
+    end
+
+    def bold(str)
+      "\e[1m#{str}\e[0m"
     end
   end
 end

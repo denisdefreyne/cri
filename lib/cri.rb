@@ -20,8 +20,6 @@ end
 
 require 'set'
 
-require 'colored'
-
 require_relative 'cri/version'
 require_relative 'cri/argument_list'
 require_relative 'cri/command'
