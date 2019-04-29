@@ -1,5 +1,11 @@
 # Cri News
 
+## 2.15.5
+
+Fixes:
+
+* Restored compatibility with Ruby 2.3. (#91)
+
 ## 2.15.4
 
 Fixes:
