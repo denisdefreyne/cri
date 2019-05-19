@@ -1,5 +1,11 @@
 # Cri News
 
+## 2.15.6
+
+Fixes:
+
+* Fixed problem with help header not being shown if the summary is missing (#93)
+
 ## 2.15.5
 
 Fixes:
