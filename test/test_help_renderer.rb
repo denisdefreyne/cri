@@ -43,5 +43,30 @@ module Cri
 
       assert_match(/^       --with-animal\[=<value>\]      Add animal \(default: giraffe\)$/, help)
     end
+
+    def test_with_summary
+      cmd = Cri::Command.define do
+        name 'build'
+        summary 'do some buildage'
+
+        optional nil, :'with-animal', 'Add animal', default: 'giraffe'
+      end
+
+      help = help_for(cmd)
+
+      assert_match(/^NAME\n    build - do some buildage\n$/, help)
+    end
+
+    def test_without_summary
+      cmd = Cri::Command.define do
+        name 'build'
+
+        optional nil, :'with-animal', 'Add animal', default: 'giraffe'
+      end
+
+      help = help_for(cmd)
+
+      assert_match(/^NAME\n    build\n$/, help)
+    end
   end
 end

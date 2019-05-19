@@ -45,10 +45,16 @@ module Cri
     end
 
     def append_summary(text)
-      return if @cmd.summary.nil?
+      return if @cmd.name.nil?
 
       text << fmt.format_as_title('name', @io) << "\n"
-      text << "    #{fmt.format_as_command(@cmd.name, @io)} - #{@cmd.summary}" << "\n"
+
+      text << '    ' << fmt.format_as_command(@cmd.name, @io)
+      if @cmd.summary
+        text << ' - ' << @cmd.summary
+      end
+      text << "\n"
+
       unless @cmd.aliases.empty?
         text << '    aliases: ' << @cmd.aliases.map { |a| fmt.format_as_command(a, @io) }.join(' ') << "\n"
       end
