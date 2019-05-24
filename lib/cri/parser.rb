@@ -118,8 +118,6 @@ module Cri
         end
       end
 
-      add_defaults
-
       self
     ensure
       @running = false
@@ -132,10 +130,6 @@ module Cri
     end
 
     private
-
-    def add_defaults
-      @option_defns.each { |d| add_default_option(d) }
-    end
 
     def handle_dashdash(elem)
       add_argument(elem)
@@ -221,16 +215,6 @@ module Cri
       end
 
       delegate&.option_added(key, value, self)
-    end
-
-    def add_default_option(option_defn)
-      key = key_for(option_defn)
-      return if options.key?(key)
-
-      value = option_defn.default
-      return unless value
-
-      add_option(option_defn, value, transform: false)
     end
 
     def transform_value(option_defn, value)

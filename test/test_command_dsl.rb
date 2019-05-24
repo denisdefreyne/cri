@@ -41,12 +41,12 @@ module Cri
       expected_option_definitions =
         Set.new(
           [
-            { short: 'a', long: 'aaa', desc: 'opt a', argument: :optional,  multiple: true,  hidden: false, block: nil, default: nil, transform: nil },
-            { short: 'b', long: 'bbb', desc: 'opt b', argument: :required,  multiple: false, hidden: false, block: nil, default: nil, transform: nil },
-            { short: 'c', long: 'ccc', desc: 'opt c', argument: :optional,  multiple: false, hidden: false, block: nil, default: nil, transform: nil },
-            { short: 'd', long: 'ddd', desc: 'opt d', argument: :forbidden, multiple: false, hidden: false, block: nil, default: nil, transform: nil },
-            { short: 'e', long: 'eee', desc: 'opt e', argument: :forbidden, multiple: false, hidden: false, block: nil, default: nil, transform: nil },
-            { short: 'f', long: 'fff', desc: 'opt f', argument: :forbidden, multiple: false, hidden: true,  block: nil, default: nil, transform: nil },
+            { short: 'a', long: 'aaa', desc: 'opt a', argument: :optional,  multiple: true,  hidden: false, block: nil, default: nil,   transform: nil },
+            { short: 'b', long: 'bbb', desc: 'opt b', argument: :required,  multiple: false, hidden: false, block: nil, default: nil,   transform: nil },
+            { short: 'c', long: 'ccc', desc: 'opt c', argument: :optional,  multiple: false, hidden: false, block: nil, default: nil,   transform: nil },
+            { short: 'd', long: 'ddd', desc: 'opt d', argument: :forbidden, multiple: false, hidden: false, block: nil, default: false, transform: nil },
+            { short: 'e', long: 'eee', desc: 'opt e', argument: :forbidden, multiple: false, hidden: false, block: nil, default: false, transform: nil },
+            { short: 'f', long: 'fff', desc: 'opt f', argument: :forbidden, multiple: false, hidden: true,  block: nil, default: false, transform: nil },
           ],
         )
       actual_option_definitions = Set.new(command.option_definitions.map(&:to_h))
@@ -80,8 +80,8 @@ module Cri
       expected_option_definitions =
         Set.new(
           [
-            { short: 's', long: nil,    desc: 'short', argument: :forbidden, multiple: false, hidden: false, block: nil, default: nil, transform: nil },
-            { short: nil, long: 'long', desc: 'long',  argument: :forbidden, multiple: false, hidden: false, block: nil, default: nil, transform: nil },
+            { short: 's', long: nil,    desc: 'short', argument: :forbidden, multiple: false, hidden: false, block: nil, default: false, transform: nil },
+            { short: nil, long: 'long', desc: 'long',  argument: :forbidden, multiple: false, hidden: false, block: nil, default: false, transform: nil },
           ],
         )
       actual_option_definitions = Set.new(command.option_definitions.map(&:to_h))
@@ -104,9 +104,9 @@ module Cri
       expected_option_definitions =
         Set.new(
           [
-            { short: 'f', long: 'flag',     desc: 'flag', argument: :forbidden, multiple: true, hidden: false, block: nil, default: nil, transform: nil },
-            { short: 'r', long: 'required', desc: 'req',  argument: :required,  multiple: true, hidden: false, block: nil, default: nil, transform: nil },
-            { short: 'o', long: 'optional', desc: 'opt',  argument: :optional,  multiple: true, hidden: false, block: nil, default: nil, transform: nil },
+            { short: 'f', long: 'flag',     desc: 'flag', argument: :forbidden, multiple: true, hidden: false, block: nil, default: false, transform: nil },
+            { short: 'r', long: 'required', desc: 'req',  argument: :required,  multiple: true, hidden: false, block: nil, default: nil,   transform: nil },
+            { short: 'o', long: 'optional', desc: 'opt',  argument: :optional,  multiple: true, hidden: false, block: nil, default: nil,   transform: nil },
           ],
         )
       actual_option_definitions = Set.new(command.option_definitions.map(&:to_h))
@@ -129,9 +129,9 @@ module Cri
       expected_option_definitions =
         Set.new(
           [
-            { short: 'f', long: 'flag',     desc: 'flag', argument: :forbidden, multiple: false, hidden: true, block: nil, default: nil, transform: nil },
-            { short: 'r', long: 'required', desc: 'req',  argument: :required,  multiple: false, hidden: true, block: nil, default: nil, transform: nil },
-            { short: 'o', long: 'optional', desc: 'opt',  argument: :optional,  multiple: false, hidden: true, block: nil, default: nil, transform: nil },
+            { short: 'f', long: 'flag',     desc: 'flag', argument: :forbidden, multiple: false, hidden: true, block: nil, default: false, transform: nil },
+            { short: 'r', long: 'required', desc: 'req',  argument: :required,  multiple: false, hidden: true, block: nil, default: nil,   transform: nil },
+            { short: 'o', long: 'optional', desc: 'opt',  argument: :optional,  multiple: false, hidden: true, block: nil, default: nil,   transform: nil },
           ],
         )
       actual_option_definitions = Set.new(command.option_definitions.map(&:to_h))

@@ -346,6 +346,16 @@ module Cri
         local_opts  = parser.options
         global_opts = parent_opts.merge(parser.options)
 
+        # Set defaults
+        all_opt_defns.each do |opt_defn|
+          key = (opt_defn.long || opt_defn.short).to_sym
+
+          next if opt_defn.default.nil?
+          next if global_opts.key?(key)
+
+          global_opts[key] = opt_defn.default
+        end
+
         # Handle options
         handle_options(local_opts)
         args = handle_errors_while { parser.gen_argument_list }
@@ -357,6 +367,10 @@ module Cri
               "No implementation available for '#{name}'"
       end
       block.call(global_opts, args, self)
+    end
+
+    def all_opt_defns
+      supercommand ? supercommand.all_opt_defns.merge(option_definitions) : option_definitions
     end
 
     # @return [String] The help text for this command
