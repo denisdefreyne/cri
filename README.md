@@ -14,6 +14,13 @@ nested commands.
 
 Cri requires Ruby 2.3 or newer.
 
+## Compatibility policy
+
+Cri is guaranteed to be supported on any [officially supported Ruby version](https://www.ruby-lang.org/en/downloads/branches/), as well as the version of Ruby that comes by default on
+
+* the last two [Ubuntu LTS releases](https://wiki.ubuntu.com/Releases)
+* the last two major [macOS releases](https://en.wikipedia.org/wiki/MacOS_version_history)
+
 ## Usage
 
 The central concept in Cri is the _command_, which has option definitions as
