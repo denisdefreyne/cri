@@ -126,7 +126,7 @@ module Cri
         simple_cmd.run(%w[])
       end
 
-      assert_equal ['Awesome moo!', '', ''], lines(out)
+      assert_equal ['Awesome moo!', '', 'ddd=false,eee=false'], lines(out)
       assert_equal [], lines(err)
     end
 
@@ -135,7 +135,7 @@ module Cri
         simple_cmd.run(%w[abc xyz])
       end
 
-      assert_equal ['Awesome moo!', 'abc,xyz', ''], lines(out)
+      assert_equal ['Awesome moo!', 'abc,xyz', 'ddd=false,eee=false'], lines(out)
       assert_equal [], lines(err)
     end
 
@@ -144,7 +144,7 @@ module Cri
         simple_cmd.run(%w[-c -b x])
       end
 
-      assert_equal ['Awesome moo!', '', 'bbb=x,ccc=true'], lines(out)
+      assert_equal ['Awesome moo!', '', 'bbb=x,ccc=true,ddd=false,eee=false'], lines(out)
       assert_equal [], lines(err)
     end
 
@@ -216,7 +216,7 @@ module Cri
         simple_cmd.run(%w[-a 123])
       end
 
-      assert_equal ['moo:123', 'Awesome moo!', '', 'aaa=123'], lines(out)
+      assert_equal ['moo:123', 'Awesome moo!', '', 'aaa=123,ddd=false,eee=false'], lines(out)
       assert_equal [], lines(err)
     end
 
@@ -246,7 +246,7 @@ module Cri
         nested_cmd.run(%w[sub])
       end
 
-      assert_equal ['Sub-awesome!', '', ''], lines(out)
+      assert_equal ['Sub-awesome!', '', 'ddd=false,eee=false,ppp=false,qqq=false'], lines(out)
       assert_equal [], lines(err)
     end
 
@@ -297,7 +297,7 @@ module Cri
         nested_cmd.run(%w[sup])
       end
 
-      assert_equal ['Sub-awesome!', '', ''], lines(out)
+      assert_equal ['Sub-awesome!', '', 'ddd=false,eee=false,ppp=false,qqq=false'], lines(out)
       assert_equal [], lines(err)
     end
 
@@ -306,7 +306,7 @@ module Cri
         nested_cmd.run(%w[-a 666 sub])
       end
 
-      assert_equal ['super:666', 'Sub-awesome!', '', 'aaa=666'], lines(out)
+      assert_equal ['super:666', 'Sub-awesome!', '', 'aaa=666,ddd=false,eee=false,ppp=false,qqq=false'], lines(out)
       assert_equal [], lines(err)
     end
 
@@ -893,6 +893,74 @@ module Cri
         cmd_a.run(%w[-t b c])
       end
       assert_equal ['test? true!'], lines(out)
+      assert_equal [], lines(err)
+    end
+
+    def test_flag_defaults_to_false
+      cmd = Cri::Command.define do
+        name 'a'
+        option :f, :force2, 'push with force', argument: :forbidden
+
+        run do |opts, _args, _cmd|
+          puts "Force? #{opts[:force2].inspect}!"
+        end
+      end
+
+      out, err = capture_io_while do
+        cmd.run(%w[])
+      end
+      assert_equal ['Force? false!'], lines(out)
+      assert_equal [], lines(err)
+    end
+
+    def test_required_option_defaults_to_given_value
+      cmd = Cri::Command.define do
+        name 'a'
+        option :a, :animal, 'specify animal', argument: :required, default: 'cow'
+
+        run do |opts, _args, _cmd|
+          puts "Animal = #{opts[:animal]}"
+        end
+      end
+
+      out, err = capture_io_while do
+        cmd.run(%w[])
+      end
+      assert_equal ['Animal = cow'], lines(out)
+      assert_equal [], lines(err)
+    end
+
+    def test_optional_option_defaults_to_given_value
+      cmd = Cri::Command.define do
+        name 'a'
+        option :a, :animal, 'specify animal', argument: :optional, default: 'cow'
+
+        run do |opts, _args, _cmd|
+          puts "Animal = #{opts[:animal]}"
+        end
+      end
+
+      out, err = capture_io_while do
+        cmd.run(%w[])
+      end
+      assert_equal ['Animal = cow'], lines(out)
+      assert_equal [], lines(err)
+    end
+
+    def test_required_option_defaults_to_given_value_with_transform
+      cmd = Cri::Command.define do
+        name 'a'
+        option :a, :animal, 'specify animal', argument: :required, transform: ->(a) { a.upcase }, default: 'cow'
+
+        run do |opts, _args, _cmd|
+          puts "Animal = #{opts[:animal]}"
+        end
+      end
+
+      out, err = capture_io_while do
+        cmd.run(%w[])
+      end
+      assert_equal ['Animal = cow'], lines(out)
       assert_equal [], lines(err)
     end
   end

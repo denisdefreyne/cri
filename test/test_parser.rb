@@ -284,18 +284,6 @@ module Cri
       assert_equal(3, parser.options[:verbose].size)
     end
 
-    def test_parse_with_default_required_unspecified
-      input = %w[foo]
-      opt_defns = [
-        { long: 'animal', short: 'a', argument: :required, default: 'donkey' },
-      ].map { |hash| make_opt_defn(hash) }
-
-      parser = Cri::Parser.new(input, opt_defns, [], false).run
-
-      assert_equal({ animal: 'donkey' }, parser.options)
-      assert_equal(['foo'], parser.gen_argument_list.to_a)
-    end
-
     def test_parse_with_default_required_no_value
       input = %w[foo -a]
       opt_defns = [
@@ -316,18 +304,6 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert_equal({ animal: 'giraffe' }, parser.options)
-      assert_equal(['foo'], parser.gen_argument_list.to_a)
-    end
-
-    def test_parse_with_default_optional_unspecified
-      input = %w[foo]
-      opt_defns = [
-        { long: 'animal', short: 'a', argument: :optional, default: 'donkey' },
-      ].map { |hash| make_opt_defn(hash) }
-
-      parser = Cri::Parser.new(input, opt_defns, [], false).run
-
-      assert_equal({ animal: 'donkey' }, parser.options)
       assert_equal(['foo'], parser.gen_argument_list.to_a)
     end
 
@@ -448,26 +424,6 @@ module Cri
       parser = Cri::Parser.new(input, opt_defns, [], false).run
 
       assert_equal({ port: 123 }, parser.options)
-      assert_equal([], parser.gen_argument_list.to_a)
-    end
-
-    def test_parse_with_transform_default
-      port = Class.new do
-        def call(str)
-          raise unless str.is_a?(String)
-
-          Integer(str)
-        end
-      end.new
-
-      input = %w[]
-      opt_defns = [
-        { long: 'port', short: 'p', argument: :required, default: 8080, transform: port },
-      ].map { |hash| make_opt_defn(hash) }
-
-      parser = Cri::Parser.new(input, opt_defns, [], false).run
-
-      assert_equal({ port: 8080 }, parser.options)
       assert_equal([], parser.gen_argument_list.to_a)
     end
 
