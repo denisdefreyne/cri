@@ -1,5 +1,11 @@
 # Cri News
 
+## 2.15.7
+
+Fixes:
+
+* Options with a forbidden argument now default to false, rather than nil (#94, #96)
+
 ## 2.15.6
 
 Fixes:
