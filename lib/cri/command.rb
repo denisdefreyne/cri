@@ -345,16 +345,7 @@ module Cri
         handle_errors_while { parser.run }
         local_opts  = parser.options
         global_opts = parent_opts.merge(parser.options)
-
-        # Set defaults
-        all_opt_defns.each do |opt_defn|
-          key = (opt_defn.long || opt_defn.short).to_sym
-
-          next if opt_defn.default.nil?
-          next if global_opts.key?(key)
-
-          global_opts[key] = opt_defn.default
-        end
+        add_defaults(global_opts)
 
         # Handle options
         handle_options(local_opts)
@@ -441,6 +432,17 @@ module Cri
     rescue Cri::ArgumentList::ArgumentCountMismatchError => e
       warn "#{name}: #{e.message}"
       raise CriExitException.new(is_error: true)
+    end
+
+    def add_defaults(options)
+      all_opt_defns.each do |opt_defn|
+        key = (opt_defn.long || opt_defn.short).to_sym
+
+        next if opt_defn.default.nil?
+        next if options.key?(key)
+
+        options[key] = opt_defn.default
+      end
     end
   end
 end
