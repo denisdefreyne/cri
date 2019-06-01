@@ -267,6 +267,33 @@ OPTIONS
     -a --animal[=<value>]      add animal (default: giraffe)
 ```
 
+If the option is not given on the command line, the `options` hash will not have key for this option, but will still have a default value:
+
+```ruby
+option :a, :animal, 'add animal', default: 'giraffe', argument: :required
+
+run do |opts, args, cmd|
+  puts "Animal = #{opts[:animal]}"
+  puts "Option given? #{opts.key?(:animal)}"
+end
+```
+
+```sh
+% ./run --animal=donkey
+Animal = donkey
+Option given? true
+
+% ./run --animal=giraffe
+Animal = giraffe
+Option given? true
+
+% ./run
+Animal = giraffe
+Option given? false
+```
+
+This can be useful to distinguish between an explicitly-passed-in value and a default value. In the example above, the `animal` option is set to `giraffe` in the second and third cases, but it is possible to detect whether the value is a default or not.
+
 #### Multivalued options (`multiple:`)
 
 The `:multiple` parameter allows an option to be specified more than once on the command line. When set to `true`, multiple option valus are accepted, and the option values will be stored in an array.
