@@ -345,7 +345,7 @@ module Cri
         handle_errors_while { parser.run }
         local_opts  = parser.options
         global_opts = parent_opts.merge(parser.options)
-        add_defaults(global_opts)
+        global_opts = add_defaults(global_opts)
 
         # Handle options
         handle_options(local_opts)
@@ -435,14 +435,21 @@ module Cri
     end
 
     def add_defaults(options)
-      all_opt_defns.each do |opt_defn|
-        key = (opt_defn.long || opt_defn.short).to_sym
+      all_opt_defns_by_key =
+        all_opt_defns.each_with_object({}) do |opt_defn, hash|
+          key = (opt_defn.long || opt_defn.short).to_sym
+          hash[key] = opt_defn
+        end
 
-        next if opt_defn.default.nil?
-        next if options.key?(key)
-
-        options[key] = opt_defn.default
+      new_options = Hash.new do |hash, key|
+        hash.fetch(key) { all_opt_defns_by_key[key]&.default }
       end
+
+      options.each do |key, value|
+        new_options[key] = value
+      end
+
+      new_options
     end
   end
 end
