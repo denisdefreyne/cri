@@ -1,5 +1,58 @@
 # Cri News
 
+## 2.15.8
+
+Fixes:
+
+* Don’t explicitly set default values for options (#99)
+
+This release reverts a backwards-incompatible change introduced in 2.15.7.
+
+To illustrate this, compare the behavior of the following command in recent versions of Cri:
+
+```ruby
+option :f, :force, 'use force', argument: :forbidden
+
+run do |opts, args, cmd|
+  puts "Options = #{opts.inspect}"
+  puts "Force? #{opts[:force]}"
+  puts "Option given? #{opts.key?(:force)}"
+end
+```
+
+In Cri 2.15.6, the default is not set in the options hash, so the value is `nil` and `#key?` returns false:
+
+```sh
+% ./run
+Options = {}
+Force? nil
+Option given? false
+```
+
+This behavior was inconsistent with what was documented: flag options were (and still are) documented to default to `false` rather than `nil`.
+
+In Cri 2.15.7, the default value is `false`, and explicitly set in the options hash (`#key?` returns `true`):
+
+```sh
+% ./run
+Options = {:force=>false}
+Force? false
+Option given? true
+```
+
+This change made it impossible to detect options that were not explicitly specified, because the behavior of `#key?` also changed.
+
+In Cri 2.15.8, the default value is also `false` (as in 2.15.7), but not explicitly set in the options hash (`#key?` returns `false`, as in 2.15.6):
+
+```sh
+% ./run
+Options = {}
+Force? false
+Option given? false
+```
+
+This backwards-incompatible change was not intentional. To fix issue #94, a change in behavior was needed, but this change also affected other, previously-undefined behavior. The new behavior in 2.15.8 should fix the bug fixed in 2.15.7 (#94, #96), without causing the problems introduced in that version.
+
 ## 2.15.7
 
 Fixes:
