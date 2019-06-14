@@ -1,5 +1,11 @@
 # Cri News
 
+## 2.15.9
+
+Fixes:
+
+* Fixed bug which could cause options from one command appear in other commands (#101, #102)
+
 ## 2.15.8
 
 Fixes:
