@@ -361,7 +361,11 @@ module Cri
     end
 
     def all_opt_defns
-      supercommand ? supercommand.all_opt_defns.merge(option_definitions) : option_definitions
+      if supercommand
+        supercommand.all_opt_defns | option_definitions
+      else
+        option_definitions
+      end
     end
 
     # @return [String] The help text for this command
