@@ -963,5 +963,42 @@ module Cri
       assert_equal ['Animal = cow'], lines(out)
       assert_equal [], lines(err)
     end
+
+    def test_option_definitions_are_not_shared_across_commands
+      root_cmd = Cri::Command.define do
+        name 'root'
+        option :r, :rrr, 'Rrr!', argument: :required
+      end
+
+      subcmd_a = root_cmd.define_command do
+        name 'a'
+        option :a, :aaa, 'Aaa!', argument: :required
+
+        run do |_opts, _args, cmd|
+          puts cmd.all_opt_defns.map(&:long).sort.join(',')
+        end
+      end
+
+      subcmd_b = root_cmd.define_command do
+        name 'b'
+        option :b, :bbb, 'Bbb!', argument: :required
+
+        run do |_opts, _args, cmd|
+          puts cmd.all_opt_defns.map(&:long).sort.join(',')
+        end
+      end
+
+      out, err = capture_io_while do
+        subcmd_a.run(%w[])
+      end
+      assert_equal ['aaa,rrr'], lines(out)
+      assert_equal [], lines(err)
+
+      out, err = capture_io_while do
+        subcmd_b.run(%w[])
+      end
+      assert_equal ['bbb,rrr'], lines(out)
+      assert_equal [], lines(err)
+    end
   end
 end
