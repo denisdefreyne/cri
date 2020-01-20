@@ -343,7 +343,7 @@ module Cri
           explicitly_no_params?,
         )
         handle_errors_while { parser.run }
-        local_opts  = parser.options
+        local_opts = parser.options
         global_opts = parent_opts.merge(parser.options)
         global_opts = add_defaults(global_opts)
 
