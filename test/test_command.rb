@@ -549,7 +549,7 @@ module Cri
     end
 
     def test_hidden_commands_multiple
-      cmd    = nested_cmd
+      cmd = nested_cmd
 
       subcmd = simple_cmd
       cmd.add_command subcmd
