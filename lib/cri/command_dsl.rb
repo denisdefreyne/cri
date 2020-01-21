@@ -215,9 +215,9 @@ module Cri
     # @deprecated
     #
     # @see #option
-    def required(short, long, desc, params = {}, &block)
+    def required(short, long, desc, **params, &block)
       params = params.merge(argument: :required)
-      option(short, long, desc, params, &block)
+      option(short, long, desc, **params, &block)
     end
 
     # Adds a new option with a forbidden argument to the command. If a block
@@ -238,9 +238,9 @@ module Cri
     # @return [void]
     #
     # @see #option
-    def flag(short, long, desc, params = {}, &block)
+    def flag(short, long, desc, **params, &block)
       params = params.merge(argument: :forbidden)
-      option(short, long, desc, params, &block)
+      option(short, long, desc, **params, &block)
     end
     alias forbidden flag
 
@@ -264,9 +264,9 @@ module Cri
     # @deprecated
     #
     # @see #option
-    def optional(short, long, desc, params = {}, &block)
+    def optional(short, long, desc, **params, &block)
       params = params.merge(argument: :optional)
-      option(short, long, desc, params, &block)
+      option(short, long, desc, **params, &block)
     end
 
     # Sets the run block to the given block. The given block should have two

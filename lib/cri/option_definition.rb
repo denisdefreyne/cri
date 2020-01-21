@@ -13,16 +13,16 @@ module Cri
     attr_reader :default
     attr_reader :transform
 
-    def initialize(params = {})
-      @short     = params.fetch(:short)
-      @long      = params.fetch(:long)
-      @desc      = params.fetch(:desc)
-      @argument  = params.fetch(:argument)
-      @multiple  = params.fetch(:multiple)
-      @block     = params.fetch(:block)
-      @hidden    = params.fetch(:hidden)
-      @default   = params.fetch(:default)
-      @transform = params.fetch(:transform)
+    def initialize(short:, long:, desc:, argument:, multiple:, block:, hidden:, default:, transform:)
+      @short     = short
+      @long      = long
+      @desc      = desc
+      @argument  = argument
+      @multiple  = multiple
+      @block     = block
+      @hidden    = hidden
+      @default   = default
+      @transform = transform
 
       if @short.nil? && @long.nil?
         raise ArgumentError, 'short and long options cannot both be nil'

@@ -375,8 +375,8 @@ module Cri
     #
     # @option params [IO] :io ($stdout) the IO the help text is intended for.
     #   This influences the decision to enable/disable colored output.
-    def help(params = {})
-      HelpRenderer.new(self, params).render
+    def help(**params)
+      HelpRenderer.new(self, **params).render
     end
 
     # Compares this command's name to the other given command's name.

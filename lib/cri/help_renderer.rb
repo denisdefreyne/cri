@@ -19,7 +19,7 @@ module Cri
     #
     # @option params [Boolean] :verbose true if the help output should be
     #   verbose, false otherwise.
-    def initialize(cmd, params = {})
+    def initialize(cmd, **params)
       @cmd        = cmd
       @is_verbose = params.fetch(:verbose, false)
       @io         = params.fetch(:io, $stdout)
