@@ -34,7 +34,24 @@ Style/IfUnlessModifier:
 Style/GuardClause:
   Enabled: false
 
+# ----- ENABLED (new) -----
 
+# These cops are new and need to be manually enabled.
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
 
 # ----- DISABLED (tests) -----
 
@@ -42,17 +59,15 @@ Style/GuardClause:
 
 Style/Documentation:
   Exclude:
-    - 'test/**/*.rb'
+    - "test/**/*.rb"
 
 Style/GlobalVars:
   Exclude:
-    - 'test/**/*.rb'
+    - "test/**/*.rb"
 
 Lint/NestedMethodDefinition:
   Exclude:
-    - 'test/**/*.rb'
-
-
+    - "test/**/*.rb"
 
 # ----- DISABLED (metrics) -----
 
@@ -67,7 +82,7 @@ Metrics/ClassLength:
 Metrics/CyclomaticComplexity:
   Enabled: false
 
-Metrics/LineLength:
+Layout/LineLength:
   Enabled: false
 
 Metrics/MethodLength:
