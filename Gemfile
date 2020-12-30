@@ -8,7 +8,5 @@ gem 'coveralls'
 gem 'm', '~> 1.5'
 gem 'minitest'
 gem 'rake'
+gem 'rubocop'
 gem 'yard'
-
-# TODO: Upgrade Rubocop
-gem 'rubocop', '~> 0.81.0'
