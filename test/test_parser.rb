@@ -443,7 +443,7 @@ module Cri
       input       = %w[localhost]
       param_defns = [
         { name: 'host', transform: nil },
-      ].map { |hash| Cri::ParamDefinition.new(hash) }
+      ].map { |hash| Cri::ParamDefinition.new(**hash) }
 
       parser = Cri::Parser.new(input, [], param_defns, false).run
       assert_equal({}, parser.options)
@@ -455,7 +455,7 @@ module Cri
       input       = []
       param_defns = [
         { name: 'host', transform: nil },
-      ].map { |hash| Cri::ParamDefinition.new(hash) }
+      ].map { |hash| Cri::ParamDefinition.new(**hash) }
 
       parser = Cri::Parser.new(input, [], param_defns, false).run
       exception = assert_raises(Cri::ArgumentList::ArgumentCountMismatchError) do
@@ -468,7 +468,7 @@ module Cri
       input       = %w[localhost oink]
       param_defns = [
         { name: 'host', transform: nil },
-      ].map { |hash| Cri::ParamDefinition.new(hash) }
+      ].map { |hash| Cri::ParamDefinition.new(**hash) }
 
       parser = Cri::Parser.new(input, [], param_defns, false).run
       exception = assert_raises(Cri::ArgumentList::ArgumentCountMismatchError) do
@@ -481,7 +481,7 @@ module Cri
       input       = %w[localhost]
       param_defns = [
         { name: 'host', transform: nil },
-      ].map { |hash| Cri::ParamDefinition.new(hash) }
+      ].map { |hash| Cri::ParamDefinition.new(**hash) }
 
       parser = Cri::Parser.new(input, [], param_defns, false).run
 
@@ -496,7 +496,7 @@ module Cri
       param_defns = [
         { name: 'source', transform: nil },
         { name: 'target', transform: nil },
-      ].map { |hash| Cri::ParamDefinition.new(hash) }
+      ].map { |hash| Cri::ParamDefinition.new(**hash) }
 
       parser = Cri::Parser.new(input, [], param_defns, false).run
       assert_equal({}, parser.options)
