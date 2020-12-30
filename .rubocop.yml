@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.4
   DisplayCopNames: true
 
 # Trailing commas in a multiline context makes diffs nicer.
@@ -77,4 +77,16 @@ Metrics/PerceivedComplexity:
   Enabled: false
 
 Metrics/ParameterLists:
+  Enabled: false
+
+# The following cops were added to RuboCop 2.4
+Lint/RaiseException:
+  Enabled: false
+Lint/StructNewOverride:
+  Enabled: false
+Style/HashEachMethods:
+  Enabled: false
+Style/HashTransformKeys:
+  Enabled: false
+Style/HashTransformValues:
   Enabled: false

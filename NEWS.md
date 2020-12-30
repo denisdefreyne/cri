@@ -6,6 +6,11 @@ Features:
 
 - Adds support for Ruby 3.0 to match requirement in README `Cri requires Ruby 2.3 or newer.`
 
+Fixes: 
+
+- Fixed rubocop warning TargetRubyVersion 2.3 no loner supported.
+- Drop support for Ruby 2.3
+
 ## 2.15.10
 
 Fixes:
