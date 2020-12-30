@@ -10,5 +10,5 @@ gem 'minitest'
 gem 'rake'
 gem 'yard'
 
-# Don’t use Rubocop 0.82 or newer, because we need to support Ruby 2.3.
+# TODO: Upgrade Rubocop
 gem 'rubocop', '~> 0.81.0'

@@ -12,14 +12,14 @@ nested commands.
 
 ## Requirements
 
-Cri requires Ruby 2.3 or newer.
+Cri requires Ruby 2.5 or newer.
 
 ## Compatibility policy
 
 Cri is guaranteed to be supported on any [officially supported Ruby version](https://www.ruby-lang.org/en/downloads/branches/), as well as the version of Ruby that comes by default on
 
-* the last two [Ubuntu LTS releases](https://wiki.ubuntu.com/Releases)
-* the last two major [macOS releases](https://en.wikipedia.org/wiki/MacOS_version_history)
+- the last two [Ubuntu LTS releases](https://wiki.ubuntu.com/Releases)
+- the last two major [macOS releases](https://en.wikipedia.org/wiki/MacOS_version_history)
 
 ## Usage
 
@@ -119,101 +119,101 @@ The most generic way of definition an option is using either `#option` or `#opt`
 2. a long option name
 3. a description
 4. optional extra parameters
-    * `argument:` (default: `:forbidden`)
-    * `transform:`
-    * `default:`
-    * `multiple:` (default: `false`)
+   - `argument:` (default: `:forbidden`)
+   - `transform:`
+   - `default:`
+   - `multiple:` (default: `false`)
 5. optionally, a block
 
 In more detail:
 
-* The short option name is a symbol containing one character, to be used in single-dash options, e.g. `:f` (corresponds to `-f`). The long option name is a symbol containing a string, to be used in double-dash options, e.g. `:force` (corresponds to `--force`). Either the short or the long option name can be nil, but not both.
+- The short option name is a symbol containing one character, to be used in single-dash options, e.g. `:f` (corresponds to `-f`). The long option name is a symbol containing a string, to be used in double-dash options, e.g. `:force` (corresponds to `--force`). Either the short or the long option name can be nil, but not both.
 
-* The description is a short, one-line text that shows up in the command’s help. For example, the `-v`/`--version` option might have the description `show version information and quit`.
+- The description is a short, one-line text that shows up in the command’s help. For example, the `-v`/`--version` option might have the description `show version information and quit`.
 
-* The extra parameters, `argument:`, `multiple:`, `default:`, and `transform:`, are described in the sections below.
+- The extra parameters, `argument:`, `multiple:`, `default:`, and `transform:`, are described in the sections below.
 
-* The block, if given, will be executed when the option is found. The arguments to the block are the option value (`true` in case the option does not have an argument) and the command.
+- The block, if given, will be executed when the option is found. The arguments to the block are the option value (`true` in case the option does not have an argument) and the command.
 
 There are several convenience methods that are alternatives to `#option`/`#opt`:
 
-* `#flag` sets `argument:` to `:forbidden`
-* (**deprecated**) `#required` sets `argument:` to `:required` -- deprecated because `#required` suggests that the option is required, wich is incorrect; the _argument_ is required.)
-* (**deprecated**) `#optional` sets `argument:` to `:optional` -- deprecated because `#optional` looks too similar to `#option`.
+- `#flag` sets `argument:` to `:forbidden`
+- (**deprecated**) `#required` sets `argument:` to `:required` -- deprecated because `#required` suggests that the option is required, wich is incorrect; the _argument_ is required.)
+- (**deprecated**) `#optional` sets `argument:` to `:optional` -- deprecated because `#optional` looks too similar to `#option`.
 
 #### Forbidden, required, and optional arguments (`argument:`)
 
 The `:argument` parameter can be set to `:forbidden`, `:required`, or `:optional`.
 
-*   `:forbidden` means that when the option is present, the value will be set to `true`, and `false` otherwise. For example:
+- `:forbidden` means that when the option is present, the value will be set to `true`, and `false` otherwise. For example:
 
-    ```ruby
-    option :f, :force, 'push with force', argument: :forbidden
+  ```ruby
+  option :f, :force, 'push with force', argument: :forbidden
 
-    run do |opts, args, cmd|
-      puts "Force? #{opts[:force]}"
-    end
-    ```
+  run do |opts, args, cmd|
+    puts "Force? #{opts[:force]}"
+  end
+  ```
 
-    ```sh
-    % ./push mypackage.zip
-    Force? false
+  ```sh
+  % ./push mypackage.zip
+  Force? false
 
-    % ./push --force mypackage.zip
-    Force? true
-    ```
+  % ./push --force mypackage.zip
+  Force? true
+  ```
 
-    `:argument` is set to `:forbidden` by default.
+  `:argument` is set to `:forbidden` by default.
 
-*   `:required` means that the option must be followed by an argument, which will then be treated as the value for the option. It does not mean that the option itself is required. For example:
+- `:required` means that the option must be followed by an argument, which will then be treated as the value for the option. It does not mean that the option itself is required. For example:
 
-    ```ruby
-    option :o, :output, 'specify output file', argument: :required
-    option :f, :fast, 'fetch faster', argument: :forbidden
+  ```ruby
+  option :o, :output, 'specify output file', argument: :required
+  option :f, :fast, 'fetch faster', argument: :forbidden
 
-    run do |opts, args, cmd|
-      puts "Output file: #{opts[:output]}"
-    end
-    ```
+  run do |opts, args, cmd|
+    puts "Output file: #{opts[:output]}"
+  end
+  ```
 
-    ```sh
-    % ./fetch http://example.com/source.zip
-    Output file: nil
+  ```sh
+  % ./fetch http://example.com/source.zip
+  Output file: nil
 
-    % ./fetch --output example.zip http://example.com/source.zip
-    Output file: example.zip
+  % ./fetch --output example.zip http://example.com/source.zip
+  Output file: example.zip
 
-    % ./fetch http://example.com/source.zip --output
-    fetch: option requires an argument -- output
+  % ./fetch http://example.com/source.zip --output
+  fetch: option requires an argument -- output
 
-    % ./fetch --output --fast http://example.com/source.zip
-    fetch: option requires an argument -- output
-    ```
+  % ./fetch --output --fast http://example.com/source.zip
+  fetch: option requires an argument -- output
+  ```
 
-*   `:optional` means that the option can be followed by an argument. If it is, then the argument is treated as the value for the option; if it isn’t, the value for the option will be `true`. For example:
+- `:optional` means that the option can be followed by an argument. If it is, then the argument is treated as the value for the option; if it isn’t, the value for the option will be `true`. For example:
 
-    ```ruby
-    option :o, :output, 'specify output file', argument: :optional
-    option :f, :fast, 'fetch faster', argument: :forbidden
+  ```ruby
+  option :o, :output, 'specify output file', argument: :optional
+  option :f, :fast, 'fetch faster', argument: :forbidden
 
-    run do |opts, args, cmd|
-      puts "Output file: #{opts[:output]}"
-    end
-    ```
+  run do |opts, args, cmd|
+    puts "Output file: #{opts[:output]}"
+  end
+  ```
 
-    ```sh
-    % ./fetch http://example.com/source.zip
-    Output file: nil
+  ```sh
+  % ./fetch http://example.com/source.zip
+  Output file: nil
 
-    % ./fetch --output example.zip http://example.com/source.zip
-    Output file: example.zip
+  % ./fetch --output example.zip http://example.com/source.zip
+  Output file: example.zip
 
-    % ./fetch http://example.com/source.zip --output
-    Output file: true
+  % ./fetch http://example.com/source.zip --output
+  Output file: true
 
-    % ./fetch --output --fast http://example.com/source.zip
-    Output file: true
-    ```
+  % ./fetch --output --fast http://example.com/source.zip
+  Output file: true
+  ```
 
 #### Transforming options (`transform:`)
 
@@ -374,7 +374,7 @@ As with options, parameter definitions take `transform:`, which can be used for 
 param :port, transform: method(:Integer)
 ```
 
-(*Why the distinction between argument and parameter?* A parameter is a name, e.g. `filename`, while an argument is a value for a parameter, e.g. `kitten.jpg`.)
+(_Why the distinction between argument and parameter?_ A parameter is a name, e.g. `filename`, while an argument is a value for a parameter, e.g. `kitten.jpg`.)
 
 ### Allowing arbitrary arguments
 
@@ -584,10 +584,10 @@ cmd = Cri::Command.load_file('commands/check.rb', infer_name: true)
 
 ## Contributors
 
-* Bart Mesuere
-* Ken Coar
-* Tim Sharpe
-* Toon Willems
+- Bart Mesuere
+- Ken Coar
+- Tim Sharpe
+- Toon Willems
 
 Thanks for Lee “injekt” Jarvis for [Slop](https://github.com/injekt/slop),
 which has inspired the design of Cri 2.0.
