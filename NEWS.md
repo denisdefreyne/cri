@@ -1,5 +1,11 @@
 # Cri News
 
+## Upcoming
+
+Features: 
+
+- Adds support for Ruby 3.0 to match requirement in README `Cri requires Ruby 2.3 or newer.`
+
 ## 2.15.10
 
 Fixes:
