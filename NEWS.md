@@ -1,5 +1,15 @@
 # Cri News
 
+## 2.15.11
+
+Fixes:
+
+- Added support for Ruby 3.0 (#111)
+
+Changes:
+
+- Dropped support for Ruby 2.3 and 2.4 (#112)
+
 ## 2.15.10
 
 Fixes:
