@@ -19,14 +19,6 @@ Lint/EmptyBlock:
     - 'test/test_command.rb'
     - 'test/test_command_dsl.rb'
 
-# Offense count: 5
-Lint/MissingSuper:
-  Exclude:
-    - 'lib/cri/argument_list.rb'
-    - 'lib/cri/command.rb'
-    - 'lib/cri/command_dsl.rb'
-    - 'lib/cri/parser.rb'
-
 # Offense count: 2
 # Cop supports --auto-correct.
 Minitest/AssertEmpty:

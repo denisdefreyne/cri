@@ -46,6 +46,8 @@ module Cri
     # @api private
     class CriExitException < StandardError
       def initialize(is_error:)
+        super('exit requested')
+
         @is_error = is_error
       end
 

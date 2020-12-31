@@ -14,12 +14,10 @@ module Cri
       attr_reader :value
 
       def initialize(definition, value)
-        @definition = definition
-        @value      = value
-      end
+        super("invalid value #{value.inspect} for #{definition.formatted_name} option")
 
-      def message
-        "invalid value #{value.inspect} for #{@definition.formatted_name} option"
+        @value = value
+        @definition = definition
       end
     end
 

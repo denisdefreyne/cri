@@ -6,12 +6,7 @@ module Cri
     # Error that will be raised when an incorrect number of arguments is given.
     class ArgumentCountMismatchError < Cri::Error
       def initialize(expected_count, actual_count)
-        @expected_count = expected_count
-        @actual_count = actual_count
-      end
-
-      def message
-        "incorrect number of arguments given: expected #{@expected_count}, but got #{@actual_count}"
+        super("incorrect number of arguments given: expected #{expected_count}, but got #{actual_count}")
       end
     end
 

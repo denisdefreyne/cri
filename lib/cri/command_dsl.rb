@@ -8,12 +8,7 @@ module Cri
     # already declared as taken no params.
     class AlreadySpecifiedAsNoParams < Cri::Error
       def initialize(param, command)
-        @param = param
-        @command = command
-      end
-
-      def message
-        "Attempted to specify a parameter #{@param.inspect} to the command #{@command.name.inspect}, which is already specified as taking no params. Suggestion: remove the #no_params call."
+        super("Attempted to specify a parameter #{param.inspect} to the command #{command.name.inspect}, which is already specified as taking no params. Suggestion: remove the #no_params call.")
       end
     end
 
@@ -21,11 +16,7 @@ module Cri
     # parameters, when the command is already declared with parameters.
     class AlreadySpecifiedWithParams < Cri::Error
       def initialize(command)
-        @command = command
-      end
-
-      def message
-        "Attempted to declare the command #{@command.name.inspect} as taking no parameters, but some parameters are already declared for this command. Suggestion: remove the #no_params call."
+        super("Attempted to declare the command #{command.name.inspect} as taking no parameters, but some parameters are already declared for this command. Suggestion: remove the #no_params call.")
       end
     end
 
