@@ -78,7 +78,7 @@ module Cri
 
       text << "\n"
       text << fmt.format_as_title('description', @io) << "\n"
-      text << fmt.wrap_and_indent(@cmd.description, LINE_WIDTH, DESC_INDENT) + "\n"
+      text << (fmt.wrap_and_indent(@cmd.description, LINE_WIDTH, DESC_INDENT) + "\n")
     end
 
     def append_subcommands(text)
@@ -120,7 +120,7 @@ module Cri
         string << '-X'
 
         if opt_defn.long
-          string << ' --' + opt_defn.long
+          string << (' --' + opt_defn.long)
         end
 
         case opt_defn.argument
@@ -213,7 +213,7 @@ module Cri
       opt_text_len += 2 + opt_defn.long.size if opt_defn.long
       opt_text_len += long_value_postfix.size
 
-      '    ' + opt_text + ' ' * (length + OPT_DESC_SPACING - opt_text_len)
+      '    ' + opt_text + (' ' * (length + OPT_DESC_SPACING - opt_text_len))
     end
   end
 end
