@@ -52,4 +52,4 @@ module Cri
 end
 
 # Unexpected system exit is unexpected
-::MiniTest::Unit::TestCase::PASSTHROUGH_EXCEPTIONS.delete(SystemExit)
+::Minitest::Test::PASSTHROUGH_EXCEPTIONS.delete(SystemExit)
