@@ -950,7 +950,7 @@ module Cri
     def test_required_option_defaults_to_given_value_with_transform
       cmd = Cri::Command.define do
         name 'a'
-        option :a, :animal, 'specify animal', argument: :required, transform: ->(a) { a.upcase }, default: 'cow'
+        option :a, :animal, 'specify animal', argument: :required, transform: lambda(&:upcase), default: 'cow'
 
         run do |opts, _args, _cmd|
           puts "Animal = #{opts[:animal]}"

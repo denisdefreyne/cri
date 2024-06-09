@@ -98,7 +98,7 @@ module Cri
     end
 
     def test_transform
-      param_defns = [Cri::ParamDefinition.new(name: 'filename', transform: ->(a) { a.upcase })]
+      param_defns = [Cri::ParamDefinition.new(name: 'filename', transform: lambda(&:upcase))]
       args = Cri::ArgumentList.new(%w[notbad.jpg], false, param_defns)
 
       assert_equal(['NOTBAD.JPG'], args.to_a)

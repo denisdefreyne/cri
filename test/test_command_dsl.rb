@@ -286,7 +286,7 @@ module Cri
         summary     'does stuff'
         description 'This command does a lot of stuff.'
 
-        param :foo, transform: ->(a) { a.upcase }
+        param :foo, transform: lambda(&:upcase)
 
         run do |_opts, args|
           $args_num = { foo: args[0] }
