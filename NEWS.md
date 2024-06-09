@@ -1,5 +1,11 @@
 # Cri News
 
+## 2.15.12
+
+Changes:
+
+- Dropped support for Ruby 2.5
+
 ## 2.15.11
 
 Fixes:
