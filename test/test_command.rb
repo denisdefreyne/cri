@@ -695,7 +695,8 @@ module Cri
         super_cmd.run(['--aaa', 'test', 'sub', '--test', 'value'])
       end
 
-      assert_equal "opts={:aaa=>\"test\"} args=--test,value\n", out
+      expected_aaa_test = { aaa: 'test' }.inspect
+      assert_equal "opts=#{expected_aaa_test} args=--test,value\n", out
     end
 
     def test_wrong_number_of_args
